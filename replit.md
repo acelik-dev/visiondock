@@ -29,4 +29,4 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
 ## Mockups
 
 - VisionDock SPA mockup lives at `artifacts/mockup-sandbox/src/components/mockups/visiondock/VisionDockSPA.tsx`.
-- The mockup is a self-contained React/Tailwind component for a dark-mode no-code computer vision training platform with sidebar navigation, task/dataset/recommend workflow simulation, model library, project dashboard, GPU cost confirmation, and inference deployment options.
+- The mockup is a self-contained React/Tailwind component for a white-background professional business no-code computer vision training platform with sidebar navigation, task/dataset/recommend workflow simulation, model library, project dashboard, GPU cost confirmation, and inference deployment options.
