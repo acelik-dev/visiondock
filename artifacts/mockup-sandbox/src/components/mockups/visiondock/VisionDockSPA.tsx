@@ -9,6 +9,7 @@ import {
   CircleDollarSign,
   Clock,
   Cloud,
+  CreditCard,
   Cpu,
   Database,
   Download,
@@ -24,6 +25,7 @@ import {
   MoreVertical,
   Play,
   Plus,
+  ReceiptText,
   Search,
   Server,
   Settings,
@@ -32,9 +34,10 @@ import {
   Trash2,
   UploadCloud,
   User,
+  WalletCards,
 } from 'lucide-react';
 
-type ViewState = 'home' | 'projects' | 'models' | 'inference';
+type ViewState = 'home' | 'projects' | 'models' | 'inference' | 'billing';
 type WorkflowStep = 1 | 2 | 3;
 type EventTone = 'blue' | 'green' | 'amber' | 'red' | 'slate';
 
@@ -116,6 +119,7 @@ const Sidebar = ({ currentView, navigateTo, workflowStep }: { currentView: ViewS
     { id: 'projects' as ViewState, label: 'Projeler', icon: FolderGit2 },
     { id: 'models' as ViewState, label: 'Model Kütüphanesi', icon: Library },
     { id: 'inference' as ViewState, label: 'Çıkarım', icon: Cpu },
+    { id: 'billing' as ViewState, label: 'Ödeme ve Planlar', icon: CreditCard },
   ];
 
   return (
@@ -182,6 +186,7 @@ const Header = ({ currentView, notice, onNotify }: { currentView: ViewState; not
     projects: 'Projeler',
     models: 'Model Kütüphanesi',
     inference: 'Çıkarım',
+    billing: 'Ödeme ve Planlar',
   };
 
   return (
@@ -604,6 +609,151 @@ const HomeView = ({ navigateTo, events, onAction }: any) => (
   </div>
 );
 
+const BillingView = ({ selectedPlan, setSelectedPlan, paymentVerified, setPaymentVerified, invoiceCreated, setInvoiceCreated, onAction }: any) => {
+  const plans = [
+    { name: 'Başlangıç', price: '$249', gpu: '20 GPU saat/ay', storage: '250 GB veri saklama', support: 'E-posta destek', tone: 'slate' as EventTone },
+    { name: 'Profesyonel', price: '$890', gpu: '120 GPU saat/ay', storage: '2 TB veri saklama', support: 'Öncelikli destek', tone: 'blue' as EventTone },
+    { name: 'Kurumsal', price: 'Özel', gpu: 'Sınırsız ölçek', storage: 'Özel veri bölgesi', support: 'SLA ve hesap yöneticisi', tone: 'green' as EventTone },
+  ];
+
+  const selectPlan = (plan: string) => {
+    setSelectedPlan(plan);
+    onAction('Plan seçildi', `${plan} planı ödeme ekranında seçildi.`, 'blue');
+  };
+
+  const verifyPayment = () => {
+    setPaymentVerified(true);
+    onAction('Ödeme yöntemi doğrulandı', 'Kurumsal Visa kartı UI içinde doğrulanmış olarak işaretlendi.', 'green');
+  };
+
+  const createInvoice = () => {
+    setInvoiceCreated(true);
+    onAction('Fatura oluşturuldu', `${selectedPlan} planı için örnek fatura oluşturuldu ve ödeme geçmişine eklendi.`, 'green');
+  };
+
+  return (
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="mb-2 text-2xl font-bold tracking-tight text-slate-950">Ödeme ve Planlar</h2>
+          <p className="text-sm text-slate-600">Plan seçimi, ödeme yöntemi, kullanım maliyeti ve fatura geçmişi için UI akışı.</p>
+        </div>
+        <StatusPill tone={paymentVerified ? 'green' : 'amber'}>{paymentVerified ? 'Ödeme yöntemi doğrulandı' : 'Ödeme bekliyor'}</StatusPill>
+      </div>
+
+      <div className="grid grid-cols-3 gap-5">
+        <Card className="p-5">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Bu ay GPU maliyeti</div>
+          <div className="mt-3 text-2xl font-bold text-slate-950">$184.20</div>
+          <div className="mt-2 text-sm text-slate-500">Eğitim ve çıkarım tüketimi</div>
+        </Card>
+        <Card className="p-5">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Kullanılan GPU saati</div>
+          <div className="mt-3 text-2xl font-bold text-slate-950">42.8 saat</div>
+          <div className="mt-2 text-sm text-slate-500">120 saatlik paketin %36’sı</div>
+        </Card>
+        <Card className="p-5">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Sonraki fatura</div>
+          <div className="mt-3 text-2xl font-bold text-slate-950">15 Mayıs</div>
+          <div className="mt-2 text-sm text-slate-500">Tahmini toplam $1,074.20</div>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-3 gap-6">
+        {plans.map((plan) => (
+          <Card key={plan.name} className={`p-6 transition-all hover:-translate-y-0.5 hover:shadow-md ${selectedPlan === plan.name ? 'border-blue-400 ring-4 ring-blue-100' : ''}`}>
+            <div className="mb-5 flex items-center justify-between">
+              <h3 className="text-lg font-bold text-slate-950">{plan.name}</h3>
+              <StatusPill tone={plan.tone}>{selectedPlan === plan.name ? 'Seçili' : 'Plan'}</StatusPill>
+            </div>
+            <div className="mb-6 text-3xl font-bold text-slate-950">{plan.price}<span className="text-sm font-semibold text-slate-500">{plan.price !== 'Özel' ? '/ay' : ''}</span></div>
+            <div className="mb-6 space-y-3 text-sm font-medium text-slate-600">
+              <div className="flex items-center gap-3"><CheckCircle2 className="h-4 w-4 text-emerald-700" /> {plan.gpu}</div>
+              <div className="flex items-center gap-3"><CheckCircle2 className="h-4 w-4 text-emerald-700" /> {plan.storage}</div>
+              <div className="flex items-center gap-3"><CheckCircle2 className="h-4 w-4 text-emerald-700" /> {plan.support}</div>
+            </div>
+            <Button variant={selectedPlan === plan.name ? 'success' : 'outline'} className="w-full" onClick={() => selectPlan(plan.name)}>
+              {selectedPlan === plan.name ? 'Plan Seçildi' : 'Planı Seç'}
+            </Button>
+          </Card>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-[0.9fr_1.1fr] gap-6">
+        <Card className="p-6">
+          <div className="mb-5 flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-900 text-white">
+              <WalletCards className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-slate-950">Ödeme Yöntemi</h3>
+              <p className="text-sm text-slate-500">UI-only kart doğrulama ekranı</p>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-500">Kart üzerindeki isim</label>
+              <input className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" value="VisionDock Sanayi A.Ş." readOnly />
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-500">Kart numarası</label>
+              <input className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" value="4242 4242 4242 4242" readOnly />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <input className="rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" value="12/29" readOnly />
+              <input className="rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" value="123" readOnly />
+            </div>
+            <Button variant={paymentVerified ? 'success' : 'secondary'} className="w-full" onClick={verifyPayment}>
+              <CreditCard className="mr-2 h-4 w-4" /> {paymentVerified ? 'Kart Doğrulandı' : 'Ödeme Yöntemini Doğrula'}
+            </Button>
+          </div>
+        </Card>
+
+        <Card className="p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-bold text-slate-950">Fatura Geçmişi</h3>
+              <p className="text-sm text-slate-500">Ödeme ve kullanım faturaları</p>
+            </div>
+            <Button onClick={createInvoice} disabled={!paymentVerified} className="disabled:cursor-not-allowed">
+              <ReceiptText className="mr-2 h-4 w-4" /> Fatura Oluştur
+            </Button>
+          </div>
+          <div className="overflow-hidden rounded-xl border border-slate-200">
+            <div className="grid grid-cols-4 bg-slate-50 px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">
+              <span>Fatura</span>
+              <span>Plan</span>
+              <span>Tutar</span>
+              <span>Durum</span>
+            </div>
+            {invoiceCreated && (
+              <div className="grid grid-cols-4 border-t border-slate-200 px-4 py-3 text-sm">
+                <span className="font-mono font-semibold text-slate-900">INV-2026-041</span>
+                <span>{selectedPlan}</span>
+                <span className="font-bold">$1,074.20</span>
+                <StatusPill tone="green">Ödendi</StatusPill>
+              </div>
+            )}
+            <div className="grid grid-cols-4 border-t border-slate-200 px-4 py-3 text-sm">
+              <span className="font-mono font-semibold text-slate-900">INV-2026-040</span>
+              <span>Profesyonel</span>
+              <span className="font-bold">$890.00</span>
+              <StatusPill tone="green">Ödendi</StatusPill>
+            </div>
+            <div className="grid grid-cols-4 border-t border-slate-200 px-4 py-3 text-sm">
+              <span className="font-mono font-semibold text-slate-900">INV-2026-039</span>
+              <span>Başlangıç</span>
+              <span className="font-bold">$249.00</span>
+              <StatusPill tone="slate">Arşiv</StatusPill>
+            </div>
+          </div>
+          {!paymentVerified && <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm font-semibold text-amber-800">Fatura oluşturmak için önce ödeme yöntemini doğrulayın.</div>}
+        </Card>
+      </div>
+    </div>
+  );
+};
+
 const MainContent = (props: any) => (
   <main className="flex-1 overflow-y-auto bg-slate-50 p-8">
     <div className="mx-auto max-w-6xl space-y-8 pb-12">
@@ -611,6 +761,7 @@ const MainContent = (props: any) => (
       {props.currentView === 'projects' && <ProjectsView {...props} />}
       {props.currentView === 'models' && <ModelsView {...props} />}
       {props.currentView === 'inference' && <InferenceView {...props} />}
+      {props.currentView === 'billing' && <BillingView {...props} />}
     </div>
   </main>
 );
