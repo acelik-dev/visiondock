@@ -30,3 +30,7 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
 
 - VisionDock SPA mockup lives at `artifacts/mockup-sandbox/src/components/mockups/visiondock/VisionDockSPA.tsx`.
 - The mockup is a self-contained React/Tailwind component for a white-background professional business no-code computer vision training platform. The UI is fully Turkish and includes simulated active interactions for navigation, task examples, dataset upload, synthetic data generation, model view/edit/delete/import, GPU cost approval, training start, inference deployment, and an enterprise audit log.
+
+## Artifacts
+
+- VisionDock web implementation lives at `artifacts/visiondock`. It is a React + Vite single-page app built from the selected canvas mockup, using client-side state only. The Turkish UI includes interactive views for Ana Sayfa, Projeler, Model Kütüphanesi, Çıkarım, and Ödeme ve Planlar, with visible audit log updates for key actions.
