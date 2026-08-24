@@ -61,56 +61,54 @@
 }
 
 :root {
-  --background: 210 40% 98%;
-  --foreground: 222.2 84% 4.9%;
+  --background: 240 20% 98%;
+  --foreground: 240 10% 8%;
 
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 221.2 83.2% 53.3%;
+  --border: 240 12% 90%;
+  --input: 240 12% 88%;
+  --ring: 262 83% 58%;
 
   --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --card-border: 214.3 31.8% 91.4%;
+  --card-foreground: 240 10% 8%;
+  --card-border: 240 12% 92%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --popover-border: 214.3 31.8% 91.4%;
+  --popover-foreground: 240 10% 8%;
+  --popover-border: 240 12% 92%;
 
-  --primary: 221.2 83.2% 53.3%;
-  --primary-foreground: 210 40% 98%;
-  --primary-border: 221.2 83.2% 53.3%;
+  --primary: 262 83% 58%;
+  --primary-foreground: 0 0% 100%;
+  --primary-border: 262 83% 52%;
 
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --secondary-border: 214.3 31.8% 91.4%;
+  --secondary: 240 14% 96%;
+  --secondary-foreground: 240 10% 20%;
+  --secondary-border: 240 12% 90%;
 
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --muted-border: 214.3 31.8% 91.4%;
+  --muted: 240 14% 96%;
+  --muted-foreground: 240 6% 46%;
+  --muted-border: 240 12% 90%;
 
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
-  --accent-border: 214.3 31.8% 91.4%;
+  --accent: 262 60% 96%;
+  --accent-foreground: 262 50% 30%;
+  --accent-border: 262 40% 88%;
 
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --destructive-border: 0 84.2% 60.2%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --destructive-border: 0 72% 45%;
 
-  --sidebar: 0 0% 100%;
-  --sidebar-foreground: 222.2 84% 4.9%;
-  --sidebar-border: 214.3 31.8% 91.4%;
-  --sidebar-primary: 221.2 83.2% 53.3%;
-  --sidebar-primary-foreground: 210 40% 98%;
-  --sidebar-accent: 210 40% 96.1%;
-  --sidebar-accent-foreground: 222.2 47.4% 11.2%;
-  --sidebar-ring: 221.2 83.2% 53.3%;
+  --sidebar: 240 8% 7%;
+  --sidebar-foreground: 240 5% 92%;
+  --sidebar-border: 240 6% 14%;
+  --sidebar-primary: 262 83% 58%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 240 6% 12%;
+  --sidebar-accent-foreground: 240 5% 88%;
+  --sidebar-ring: 262 83% 58%;
 
-  --app-font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --app-font-sans: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --app-font-serif: Georgia, serif;
-  --app-font-mono: "JetBrains Mono", Menlo, monospace;
-  --radius: 0.75rem;
-
-  --opaque-button-border-intensity: -8;
+  --app-font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --radius: 0.625rem;
 }
 
 @layer base {
@@ -119,5 +117,63 @@
   }
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    font-feature-settings: "cv11", "ss01";
+  }
+}
+
+@layer components {
+  .vd-shell-bg {
+    @apply min-h-screen bg-background;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, hsl(262 83% 58% / 0.06), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 0%, hsl(240 80% 60% / 0.04), transparent);
+  }
+
+  .vd-panel {
+    @apply rounded-xl border border-border/50 bg-card shadow-sm;
+  }
+
+  .vd-panel-elevated {
+    @apply rounded-xl border border-border/40 bg-card/95 shadow-md shadow-black/[0.04] backdrop-blur-sm;
+  }
+
+  .vd-hero {
+    @apply rounded-xl border border-primary/15 bg-gradient-to-br from-primary/[0.07] via-card to-card p-6 shadow-sm;
+  }
+
+  .vd-stat {
+    @apply rounded-xl border border-border/50 bg-card/90 p-5 shadow-sm backdrop-blur-sm transition-shadow hover:shadow-md;
+  }
+
+  .vd-empty {
+    @apply rounded-xl border border-dashed border-border/70 bg-muted/30 px-6 py-14 text-center;
+  }
+
+  .vd-sidebar {
+    @apply flex w-[17.5rem] flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground;
+  }
+
+  .vd-nav-item {
+    @apply flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-all;
+  }
+
+  .vd-nav-item-active {
+    @apply bg-sidebar-primary/15 text-sidebar-primary-foreground ring-1 ring-sidebar-primary/30;
+  }
+
+  .vd-nav-item-idle {
+    @apply text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground;
+  }
+
+  .vd-header {
+    @apply sticky top-0 z-10 flex h-14 items-center justify-between border-b border-border/60 bg-background/75 px-6 backdrop-blur-xl;
+  }
+
+  .vd-label {
+    @apply text-[11px] font-semibold uppercase tracking-widest text-muted-foreground;
+  }
+
+  .vd-marketplace-card {
+    @apply flex h-full cursor-default flex-col rounded-xl border border-border/50 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5;
   }
 }

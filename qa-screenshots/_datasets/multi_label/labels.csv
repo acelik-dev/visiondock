@@ -1,0 +1,11 @@
+image,labels
+img_01.jpg,dent
+img_02.jpg,rust;scratch
+img_03.jpg,scratch
+img_04.jpg,dent;rust
+img_05.jpg,rust
+img_06.jpg,scratch;dent
+img_07.jpg,rust
+img_08.jpg,dent
+img_09.jpg,scratch
+img_10.jpg,rust;dent;scratch

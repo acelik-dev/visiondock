@@ -47,3 +47,29 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Local API secrets (Azure OpenAI, etc.)
+api/.env
+
+# Local blob fallback
+api/data/
+
+# local secrets & build artifacts
+artifacts/visiondock/.env
+api/.env
+**/.env
+**/__pycache__/
+*.pyc
+artifacts/visiondock/frontend.zip
+backend.zip
+DEPLOYMENT-NEW-AZURE.md
+.cursor/
+
+# secrets / local deploy notes
+api/.env
+artifacts/visiondock/.env
+**/.env
+!.env.example
+!**/.env.example
+DEPLOYMENT-NEW-AZURE.md
+deneme.py

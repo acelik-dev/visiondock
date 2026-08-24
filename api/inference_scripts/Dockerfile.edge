@@ -1,0 +1,17 @@
+# x86 edge inference — CPU ONNX/YOLO via Ultralytics
+FROM python:3.10-slim-bookworm
+
+RUN apt-get update && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+RUN pip install --no-cache-dir ultralytics pillow numpy fastapi uvicorn python-multipart
+
+COPY model/ /app/model/
+COPY score_server.py /app/score_server.py
+
+ENV MODEL_PATH=/app/model/best.onnx
+ENV PORT=8080
+EXPOSE 8080
+
+CMD ["uvicorn", "score_server:app", "--host", "0.0.0.0", "--port", "8080"]

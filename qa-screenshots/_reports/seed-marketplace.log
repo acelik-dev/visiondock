@@ -1,0 +1,30 @@
+Storage backend: azure (container=visiondock)
+
+=== Seeding datasets ===
+Dataset: imagenette-160
+  Using synthetic classification folders (5/class)
+  -> 50 images uploaded as classification.zip
+Dataset: cifar-10
+  Using synthetic classification folders (5/class)
+  -> 50 images uploaded as classification.zip
+Dataset: voc-2012-detection
+  -> 12 images in ZIP
+Dataset: voc-single-object
+  -> 12 images in ZIP
+Dataset: voc-multilabel
+  -> 12 images + manifest
+Dataset: utkface-age
+  -> 12 images + targets CSV
+
+=== Seeding models ===
+torch/torchvision not installed — EfficientNet checkpoints will use placeholders
+Model: efficientnet-imagenette
+  -> uploaded to marketplace/models/efficientnet-imagenette/
+Model: efficientnet-cifar10
+  -> uploaded to marketplace/models/efficientnet-cifar10/
+Model: efficientnet-voc-multilabel
+  -> uploaded to marketplace/models/efficientnet-voc-multilabel/
+Model: efficientnet-age-regression
+  -> uploaded to marketplace/models/efficientnet-age-regression/
+Model: yolov8n-voc-detection
+  Downloading YOLOv8n weights…

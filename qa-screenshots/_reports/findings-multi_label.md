@@ -1,0 +1,198 @@
+# VisionDock comprehensive CV-task QA findings
+
+Base URL: https://visiondock-api-ataha.azurewebsites.net
+Run finished (UTC): 20260811T165054Z
+Worker: multi_label
+Scope: VLM chat → dataset upload → training review (Step 3). **Training was not started.**
+Screenshots: `qa-screenshots/<task>/<stage>/`
+
+## Results summary
+
+- **multi_label**: PASS (project `prj-e6eb9f1c`)
+
+## Findings (detail)
+
+### multi_label
+
+- **[NOTE]** `01-login-home` — Mixed dash styles (em dash and spaced hyphen)
+  - Both '—' and ' - ' appear on page
+- **[PASS]** `02-new-workspace` — Copy present: 'Upload sample images (10 required)'
+  - Observed exact string
+  - Exact UI: `Upload sample images (10 required)`
+- **[PASS]** `02-new-workspace` — Copy present: 'Define Your Vision Task'
+  - Observed exact string
+  - Exact UI: `Define Your Vision Task`
+- **[PASS]** `02-new-workspace` — Chat placeholder
+  - Upload 10 sample images to enable chat (0/10)…
+  - Exact UI: `Upload 10 sample images to enable chat (0/10)…`
+- **[PASS]** `02-new-workspace` — Project created
+  - project_id=prj-e6eb9f1c
+- **[PASS]** `03-sample-upload` — Copy present: 'Define Your Vision Task'
+  - Observed exact string
+  - Exact UI: `Define Your Vision Task`
+- **[PASS]** `03-sample-upload` — Copy present: 'Generate Config'
+  - Observed exact string
+  - Exact UI: `Generate Config`
+- **[PASS]** `03-sample-upload` — Copy present: 'Attached images:'
+  - Observed exact string
+  - Exact UI: `Attached images:`
+- **[PASS]** `03-sample-upload` — Copy present: 'Send −'
+  - Observed exact string
+  - Exact UI: `Send −`
+- **[PASS]** `03-sample-upload` — Copy present: 'Config −'
+  - Observed exact string
+  - Exact UI: `Config −`
+- **[PASS]** `03-sample-upload` — Sample counter shows 10/10
+  - Samples complete
+  - Exact UI: `10/10`
+- **[PASS]** `03-sample-upload` — Label uses colon after Attached images
+  - Exact: 'Attached images:'
+  - Exact UI: `Attached images:`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Define Your Vision Task'
+  - Observed exact string
+  - Exact UI: `Define Your Vision Task`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Generate Config'
+  - Observed exact string
+  - Exact UI: `Generate Config`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Attached images:'
+  - Observed exact string
+  - Exact UI: `Attached images:`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Understanding your project'
+  - Observed exact string
+  - Exact UI: `Understanding your project`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Send −'
+  - Observed exact string
+  - Exact UI: `Send −`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Config −'
+  - Observed exact string
+  - Exact UI: `Config −`
+- **[NOTE]** `04-vlm-chat` — Generate Config mentioned in UI after turn
+  - turn=1
+- **[PASS]** `04-vlm-chat` — Copy present: 'Define Your Vision Task'
+  - Observed exact string
+  - Exact UI: `Define Your Vision Task`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Generate Config'
+  - Observed exact string
+  - Exact UI: `Generate Config`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Attached images:'
+  - Observed exact string
+  - Exact UI: `Attached images:`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Understanding your project'
+  - Observed exact string
+  - Exact UI: `Understanding your project`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Send −'
+  - Observed exact string
+  - Exact UI: `Send −`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Config −'
+  - Observed exact string
+  - Exact UI: `Config −`
+- **[NOTE]** `04-vlm-chat` — Generate Config mentioned in UI after turn
+  - turn=2
+- **[PASS]** `04-vlm-chat` — Copy present: 'Define Your Vision Task'
+  - Observed exact string
+  - Exact UI: `Define Your Vision Task`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Generate Config'
+  - Observed exact string
+  - Exact UI: `Generate Config`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Attached images:'
+  - Observed exact string
+  - Exact UI: `Attached images:`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Understanding your project'
+  - Observed exact string
+  - Exact UI: `Understanding your project`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Send −'
+  - Observed exact string
+  - Exact UI: `Send −`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Config −'
+  - Observed exact string
+  - Exact UI: `Config −`
+- **[NOTE]** `04-vlm-chat` — Mixed dash styles (em dash and spaced hyphen)
+  - Both '—' and ' - ' appear on page
+- **[NOTE]** `04-vlm-chat` — Generate Config mentioned in UI after turn
+  - turn=3
+- **[PASS]** `04-vlm-chat` — Copy present: 'Define Your Vision Task'
+  - Observed exact string
+  - Exact UI: `Define Your Vision Task`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Generate Config'
+  - Observed exact string
+  - Exact UI: `Generate Config`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Attached images:'
+  - Observed exact string
+  - Exact UI: `Attached images:`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Ready to build your plan'
+  - Observed exact string
+  - Exact UI: `Ready to build your plan`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Send −'
+  - Observed exact string
+  - Exact UI: `Send −`
+- **[PASS]** `04-vlm-chat` — Copy present: 'Config −'
+  - Observed exact string
+  - Exact UI: `Config −`
+- **[NOTE]** `04-vlm-chat` — Mixed dash styles (em dash and spaced hyphen)
+  - Both '—' and ' - ' appear on page
+- **[NOTE]** `04-vlm-chat` — Generate Config mentioned in UI after turn
+  - turn=4
+- **[PASS]** `05-generate-config` — Copy present: 'Define Your Vision Task'
+  - Observed exact string
+  - Exact UI: `Define Your Vision Task`
+- **[PASS]** `05-generate-config` — Copy present: 'Generate Config'
+  - Observed exact string
+  - Exact UI: `Generate Config`
+- **[PASS]** `05-generate-config` — Copy present: 'Several tags per photo'
+  - Observed exact string
+  - Exact UI: `Several tags per photo`
+- **[PASS]** `05-generate-config` — Copy present: 'Attached images:'
+  - Observed exact string
+  - Exact UI: `Attached images:`
+- **[PASS]** `05-generate-config` — Copy present: 'Send −'
+  - Observed exact string
+  - Exact UI: `Send −`
+- **[PASS]** `05-generate-config` — Copy present: 'Config −'
+  - Observed exact string
+  - Exact UI: `Config −`
+- **[NOTE]** `05-generate-config` — Mixed dash styles (em dash and spaced hyphen)
+  - Both '—' and ' - ' appear on page
+- **[PASS]** `05-generate-config` — Task badge shows 'Several tags per photo'
+  - Exact match
+  - Exact UI: `Several tags per photo`
+- **[PASS]** `06-dataset-step` — Copy present: 'Review setup'
+  - Observed exact string
+  - Exact UI: `Review setup`
+- **[PASS]** `06-dataset-step` — Copy present: 'Still missing steps'
+  - Observed exact string
+  - Exact UI: `Still missing steps`
+- **[PASS]** `06-dataset-step` — Copy present: 'Several tags per photo'
+  - Observed exact string
+  - Exact UI: `Several tags per photo`
+- **[PASS]** `06-dataset-step` — Copy present: 'Review setup'
+  - Observed exact string
+  - Exact UI: `Review setup`
+- **[PASS]** `06-dataset-step` — Copy present: 'Several tags per photo'
+  - Observed exact string
+  - Exact UI: `Several tags per photo`
+- **[PASS]** `06-dataset-step` — Status shows Ready
+  - Dataset ready indicator
+  - Exact UI: `Ready`
+- **[PASS]** `07-training-review` — Copy present: 'Start training'
+  - Observed exact string
+  - Exact UI: `Start training`
+- **[PASS]** `07-training-review` — Copy present: 'Several tags per photo'
+  - Observed exact string
+  - Exact UI: `Several tags per photo`
+- **[PASS]** `07-training-review` — Reached Step 3 without starting training
+  - CTA candidates left unclicked: []
+- **[NOTE]** `07-training-review` — Step 3 H3 is 'Start training' while CTA may also start training
+  - Header copy: 'Start training' — may confuse with the action button.
+  - Exact UI: `Start training`
+- **[PASS]** `08-ui-details` — Copy present: 'Start training'
+  - Observed exact string
+  - Exact UI: `Start training`
+- **[PASS]** `08-ui-details` — Copy present: 'Several tags per photo'
+  - Observed exact string
+  - Exact UI: `Several tags per photo`
+- **[PASS]** `08-ui-details` — Exact sentence match
+  - Pipeline settings are chosen automatically from your dataset images — review below, then start training.
+  - Exact UI: `Pipeline settings are chosen automatically from your dataset images — review below, then start training.`
+- **[PASS]** `07-training-review` — Flow complete (no training started)
+  - project_id=prj-e6eb9f1c
+

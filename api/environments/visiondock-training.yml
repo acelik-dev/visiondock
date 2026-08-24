@@ -1,0 +1,59 @@
+$schema: https://azuremlschemas.azureedge.net/latest/environment.schema.json
+name: visiondock-training-env
+description: VisionDock YOLOv8 training environment with CUDA support
+tags:
+  purpose: training
+  framework: yolov8
+
+os_type: linux
+
+# Docker build context
+docker:
+  # Dockerfile content
+  dockerfile: |
+    FROM mcr.microsoft.com/azureml/openmpi4.1.0-cuda11.8-cudnn8-ubuntu22.04:latest
+    
+    # Install system dependencies
+    RUN apt-get update && apt-get install -y --no-install-recommends \
+        libgl1-mesa-glx \
+        libglib2.0-0 \
+        libsm6 \
+        libxext6 \
+        libxrender-dev \
+        libgomp1 \
+        wget \
+        curl \
+        && rm -rf /var/lib/apt/lists/*
+    
+    # Install Python packages
+    RUN pip install --no-cache-dir \
+        ultralytics==8.3.0 \
+        torch==2.4.0 \
+        torchvision==0.19.0 \
+        opencv-python==4.10.0 \
+        pyyaml==6.0.3 \
+        azure-storage-blob==12.23.1 \
+        mlflow==2.16.0 \
+        azureml-mlflow==1.56.0 \
+        azure-ai-ml==1.20.0 \
+        azure-identity==1.19.0 \
+        numpy==1.26.4 \
+        pillow==10.4.0 \
+        matplotlib==3.9.0 \
+        seaborn==0.13.2 \
+        pandas==2.2.2 \
+        psutil==6.0.0
+    
+    # Create workspace directory
+    WORKDIR /workspace
+    
+    # Set environment variables
+    ENV PYTHONUNBUFFERED=1
+    ENV CUDA_VISIBLE_DEVICES=0
+    ENV OMP_NUM_THREADS=1
+
+# Use pre-built image for faster deployment
+# Alternative: image: mcr.microsoft.com/azureml/openmpi4.1.0-cuda11.8-cudnn8-ubuntu22.04:latest
+
+# Inference and training tags
+inference_enabled: true

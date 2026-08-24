@@ -1,79 +1,272 @@
+import { useCallback, useEffect, useState } from "react";
+import { useLocation } from "wouter";
 import { useStore } from "@/lib/store";
-import { Cloud, Copy, Cpu, Download } from "lucide-react";
+import { inferencePath, parseInferenceProjectId } from "@/lib/navigation";
+import { InferenceCredentialsPanel } from "@/components/inference-credentials-panel";
+import { InferenceProjectPicker } from "@/components/inference-project-picker";
+import { InferenceTestPanel } from "@/components/inference-test-panel";
+import {
+  deployInference,
+  edgeBundleUrl,
+  fetchInferenceStatus,
+  rotateInferenceApiKey,
+  type InferenceStatusResponse,
+} from "@/lib/inference-api";
+import {
+  fetchProject,
+  listProjects,
+  projectListTitle,
+  setStoredProjectId,
+  type ProjectListItem,
+} from "@/lib/projects-api";
+import { Cloud, Cpu, Download, RefreshCw, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { announceCreditSpend, useCredits } from "@/hooks/use-credits";
 
 export default function InferenceView() {
-  const { addEvent, notify } = useStore();
+  const [location, navigate] = useLocation();
+  const inferenceProjectId = parseInferenceProjectId(location);
+  const { activeProjectId, addEvent, notify, setActiveProject } = useStore();
+  const { account, canAfford, cost } = useCredits();
+  const deployCost = cost("inference_deploy");
+  const [projects, setProjects] = useState<ProjectListItem[]>([]);
+  const [projectsLoading, setProjectsLoading] = useState(true);
+  const [selected, setSelected] = useState<ProjectListItem | null>(null);
+  const [status, setStatus] = useState<InferenceStatusResponse | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [deploying, setDeploying] = useState(false);
 
-  const handleCopyEndpoint = () => {
-    addEvent('API Uç noktası kopyalandı', 'Canlı çıkarım uç noktası panoya kopyalandı.', 'slate');
-    notify("API adresi panoya kopyalandı");
+  const loadProjects = useCallback(async () => {
+    setProjectsLoading(true);
+    try {
+      const data = await listProjects();
+      setProjects(data.projects);
+    } catch (e) {
+      notify(e instanceof Error ? e.message : "Failed to load projects");
+    } finally {
+      setProjectsLoading(false);
+    }
+  }, [notify]);
+
+  useEffect(() => {
+    void loadProjects();
+  }, [loadProjects]);
+
+  const handleSelectProject = useCallback(async (project: ProjectListItem) => {
+    navigate(inferencePath(project.id));
+    setSelected(project);
+    setStatus(null);
+    setStoredProjectId(project.id);
+    setActiveProject(project.id, projectListTitle(project));
+    try {
+      await fetchProject(project.id);
+    } catch {
+      /* sidebar sync only */
+    }
+  }, [navigate, setActiveProject]);
+
+  useEffect(() => {
+    if (!inferenceProjectId) {
+      setSelected(null);
+      setStatus(null);
+      return;
+    }
+    if (selected?.id === inferenceProjectId) return;
+    if (projectsLoading) return;
+    const match = projects.find((p) => p.id === inferenceProjectId);
+    if (match) void handleSelectProject(match);
+  }, [inferenceProjectId, projects, projectsLoading, selected?.id, handleSelectProject]);
+
+  const loadStatus = useCallback(async () => {
+    if (!selected) return;
+    setLoading(true);
+    try {
+      const data = await fetchInferenceStatus(selected.id);
+      setStatus(data);
+    } catch (e) {
+      notify(e instanceof Error ? e.message : "Failed to load inference");
+    } finally {
+      setLoading(false);
+    }
+  }, [selected, notify]);
+
+  useEffect(() => {
+    void loadStatus();
+  }, [loadStatus]);
+
+  useEffect(() => {
+    if (!selected || status?.inference?.status !== "deploying") return;
+    const t = setInterval(() => void loadStatus(), 15000);
+    return () => clearInterval(t);
+  }, [selected, status?.inference?.status, loadStatus]);
+
+  const handleBackToList = () => {
+    navigate(inferencePath());
+    setSelected(null);
+    setStatus(null);
+    void loadProjects();
   };
 
-  const handleDownloadDocker = () => {
-    addEvent('Docker imajı oluşturuldu', 'Edge cihazlar için optimize edilmiş konteyner dışa aktarıldı.', 'green');
-    notify("Docker imajı indirme başlatıldı");
+  const handleDeploy = async () => {
+    if (!selected) return;
+    setDeploying(true);
+    try {
+      const res = await deployInference(selected.id);
+      if (res?.credits) announceCreditSpend(res.credits, notify);
+      addEvent("Inference deploy started", "Azure ML endpoint provisioning", "blue");
+      notify("Deploying inference endpoint on Azure ML…");
+      await loadStatus();
+      await loadProjects();
+    } catch (e) {
+      notify(e instanceof Error ? e.message : "Deploy failed");
+    } finally {
+      setDeploying(false);
+    }
   };
+
+  const handleRotateKey = async () => {
+    if (!selected) return;
+    const res = await rotateInferenceApiKey(selected.id);
+    setStatus((s) => (s ? { ...s, inference: res.inference } : s));
+    notify("VisionDock API key updated");
+  };
+
+  const handleEdgeDownload = () => {
+    if (!selected) return;
+    window.open(edgeBundleUrl(selected.id), "_blank");
+    addEvent("Edge bundle download", selected.id, "green");
+    notify("Edge Docker bundle download started");
+  };
+
+  if (!inferenceProjectId || !selected) {
+    return (
+      <InferenceProjectPicker
+        projects={projects}
+        loading={projectsLoading}
+        onSelect={(p) => void handleSelectProject(p)}
+      />
+    );
+  }
+
+  const inference = status?.inference;
+  const canDeploy = status?.can_deploy ?? false;
+  const isDeployed = inference?.status === "deployed";
+  const isDeploying = inference?.status === "deploying" || deploying;
+  const hasModel = status?.model || selected.has_model;
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-xl font-bold text-slate-900 mb-2">Modeli Dağıt</h2>
-        <p className="text-slate-600 mb-8">Eğittiğiniz modeli bulut tabanlı API olarak veya edge cihazlarınızda yerel olarak çalıştırın.</p>
+      <div className="vd-panel p-6 shadow-sm">
+        <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
+          <div className="min-w-0">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="mb-2 -ml-2 text-muted-foreground hover:text-foreground"
+              onClick={handleBackToList}
+            >
+              <ChevronLeft className="mr-1 h-4 w-4" />
+              All projects
+            </Button>
+            <h2 className="text-xl font-bold text-foreground mb-1">{projectListTitle(selected)}</h2>
+            {selected.subtitle && (
+              <p className="text-sm text-muted-foreground mb-1">{selected.subtitle}</p>
+            )}
+            <p className="text-muted-foreground font-mono text-xs">{selected.id}</p>
+          </div>
+          <Button variant="outline" size="sm" onClick={() => void loadStatus()} disabled={loading}>
+            <RefreshCw className={`mr-1.5 h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+            Refresh
+          </Button>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="rounded-xl border border-blue-200 bg-blue-50/50 p-6 relative overflow-hidden">
+          <div className="vd-panel relative overflow-hidden border-primary/20 bg-primary/5 p-6">
             <div className="absolute top-0 right-0 p-6 opacity-10">
-              <Cloud className="w-32 h-32 text-blue-700" />
+              <Cloud className="w-32 h-32 text-primary" />
             </div>
-            <div className="relative z-10">
-              <div className="h-12 w-12 bg-white rounded-lg border border-blue-200 flex items-center justify-center mb-4 shadow-sm">
-                <Cloud className="h-6 w-6 text-blue-700" />
+            <div className="relative z-10 space-y-4">
+              <div className="h-12 w-12 bg-card rounded-lg border border-primary/20 flex items-center justify-center shadow-sm">
+                <Cloud className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Bulut API (REST)</h3>
-              <p className="text-sm text-slate-600 mb-6">Yüksek erişilebilirlik ve otomatik ölçeklenen çıkarım uç noktası. İnternete bağlı herhangi bir cihazdan istek atın.</p>
-              
-              <div className="bg-slate-900 rounded-lg p-4 font-mono text-xs text-slate-300 mb-4 flex items-center justify-between">
-                <span className="truncate mr-4">https://api.visiondock.ai/v1/infer/prj-8821</span>
-                <button onClick={handleCopyEndpoint} className="text-slate-400 hover:text-white transition-colors shrink-0">
-                  <Copy className="h-4 w-4" />
-                </button>
-              </div>
-              
-              <Button onClick={handleCopyEndpoint} className="w-full bg-blue-700 text-white hover:bg-blue-800">API Anahtarı Oluştur</Button>
+              <h3 className="text-lg font-bold text-foreground">Cloud API (Azure ML)</h3>
+              <p className="text-sm text-muted-foreground">
+                Managed online endpoint for image recognition. Auto-deploy starts when training completes.
+              </p>
+
+              <InferenceCredentialsPanel
+                projectId={selected.id}
+                inference={inference}
+                onRotateKey={handleRotateKey}
+              />
+
+              {canDeploy && !isDeployed && !isDeploying && (
+                <div className="space-y-2">
+                  <Button
+                    onClick={() => void handleDeploy()}
+                    disabled={!canAfford("inference_deploy")}
+                    className="w-full"
+                  >
+                    Deploy to Azure ML
+                  </Button>
+                  <p className="text-xs text-muted-foreground text-center">
+                    ~{deployCost} credits (final cost depends on your model size) · balance{" "}
+                    {(account?.balance ?? 0).toLocaleString()}
+                    {!canAfford("inference_deploy") ? ` · need ${deployCost} more` : ""}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50/50 p-6 relative overflow-hidden">
+          <div className="vd-panel relative overflow-hidden border-emerald-500/20 bg-emerald-500/5 p-6">
             <div className="absolute top-0 right-0 p-6 opacity-10">
               <Cpu className="w-32 h-32 text-emerald-700" />
             </div>
-            <div className="relative z-10">
-              <div className="h-12 w-12 bg-white rounded-lg border border-emerald-200 flex items-center justify-center mb-4 shadow-sm">
+            <div className="relative z-10 space-y-4">
+              <div className="h-12 w-12 bg-card rounded-lg border border-emerald-200 flex items-center justify-center shadow-sm">
                 <Cpu className="h-6 w-6 text-emerald-700" />
               </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Edge (Yerel) Dağıtım</h3>
-              <p className="text-sm text-slate-600 mb-6">Fabrika zemininde, internet olmadan sıfır gecikme ile çalışmak için Docker konteyneri olarak indirin (NVIDIA Jetson, x86 IPC).</p>
-              
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                <div className="bg-white border border-slate-200 rounded-lg p-3 flex flex-col items-center justify-center text-center shadow-sm">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Format</span>
-                  <span className="font-mono text-sm font-bold text-slate-900">TensorRT</span>
+              <h3 className="text-lg font-bold text-foreground">Edge (x86 Docker)</h3>
+              <p className="text-sm text-muted-foreground">
+                PyTorch model + legacy FastAPI server for factory floor IPC (CPU). Prefer cloud API for image recognition.
+              </p>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-card border border-border/60 rounded-lg p-3 text-center shadow-sm">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block mb-1">
+                    Format
+                  </span>
+                  <span className="font-mono text-sm font-bold text-foreground">ONNX / PT</span>
                 </div>
-                <div className="bg-white border border-slate-200 rounded-lg p-3 flex flex-col items-center justify-center text-center shadow-sm">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Boyut</span>
-                  <span className="font-mono text-sm font-bold text-slate-900">1.2 GB</span>
+                <div className="bg-card border border-border/60 rounded-lg p-3 text-center shadow-sm">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block mb-1">
+                    Auth
+                  </span>
+                  <span className="font-mono text-sm font-bold text-foreground">X-API-Key</span>
                 </div>
               </div>
-              
-              <Button onClick={handleDownloadDocker} className="w-full bg-emerald-700 text-white hover:bg-emerald-800">
+
+              <Button
+                onClick={handleEdgeDownload}
+                disabled={!isDeployed && !hasModel}
+                className="w-full bg-emerald-700 text-white hover:bg-emerald-800 disabled:opacity-50"
+              >
                 <Download className="mr-2 h-4 w-4" />
-                Docker İmajını İndir
+                Download edge bundle
               </Button>
             </div>
           </div>
         </div>
       </div>
+
+      {isDeployed && (
+        <InferenceTestPanel
+          projectId={selected.id}
+          inference={inference}
+          onNotify={notify}
+        />
+      )}
     </div>
   );
 }

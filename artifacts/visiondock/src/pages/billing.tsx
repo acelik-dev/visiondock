@@ -1,122 +1,189 @@
-import { useStore } from "@/lib/store";
-import { CheckCircle2, CircleDollarSign, ReceiptText, ShieldCheck } from "lucide-react";
+import { CheckCircle2, Coins } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useCredits } from "@/hooks/use-credits";
+import { activatePlan, type CreditPlan } from "@/lib/credits-api";
+import { useStore } from "@/lib/store";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+
+const FALLBACK_PLANS: CreditPlan[] = [
+  { id: "free", name: "Free", credits: 100, description: "Starter credits for pilots and demos." },
+  { id: "starter", name: "Starter", credits: 500, description: "For small teams and pilot projects." },
+  { id: "pro", name: "Professional", credits: 2000, description: "For production workloads and heavier usage." },
+];
+
+const REASON_LABELS: Record<string, string> = {
+  signup_grant: "Signup grant",
+  plan_activate: "Plan activated",
+  vlm_analyze: "VLM chat",
+  generate_config: "Generate config",
+  pipeline_tune: "Pipeline tune",
+  training_submit: "Training accepted",
+  training_compute: "Training (Azure VM time)",
+  inference_deploy: "Inference deploy",
+  inference_predict: "Inference predict",
+};
 
 export default function BillingView() {
-  const { activePlan, setActivePlan, addEvent, notify } = useStore();
+  const { addEvent, notify, setActivePlan } = useStore();
+  const { account, loading, refresh, cost } = useCredits();
+  const [busyPlan, setBusyPlan] = useState<string | null>(null);
 
-  const handlePlanChange = (plan: string) => {
-    setActivePlan(plan);
-    addEvent('Plan güncellendi', `${plan.toUpperCase()} planına geçiş yapıldı.`, 'blue');
-    notify(`Plan ${plan} olarak güncellendi`);
+  const plans = account?.plans?.length ? account.plans : FALLBACK_PLANS;
+  const activePlan = account?.plan || "free";
+  const balance = account?.balance ?? 0;
+
+  const handleActivate = async (planId: string) => {
+    if (planId === activePlan) return;
+    setBusyPlan(planId);
+    try {
+      const result = await activatePlan(planId);
+      setActivePlan(planId);
+      addEvent("Plan activated", `Switched to ${planId.toUpperCase()} (+${result.granted} credits).`, "blue");
+      notify(`+${result.granted} credits added · balance ${result.balance}`);
+      await refresh();
+    } catch (err) {
+      notify(err instanceof Error ? err.message : "Could not activate plan");
+    } finally {
+      setBusyPlan(null);
+    }
   };
 
-  const handleInvoice = () => {
-    addEvent('Fatura oluşturuldu', 'Aylık kullanım faturası indirildi.', 'slate');
-    notify("Fatura indiriliyor...");
-  };
+  const costRows = [
+    { key: "vlm_analyze" as const, label: "VLM discovery chat" },
+    { key: "generate_config" as const, label: "Generate project config" },
+    { key: "pipeline_tune" as const, label: "Pipeline auto-tune" },
+    { key: "training_submit" as const, label: "Training (Azure VM reserve / settle)" },
+    { key: "inference_deploy" as const, label: "Deploy inference endpoint" },
+    { key: "inference_predict" as const, label: "Run inference predict" },
+  ];
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm relative overflow-hidden">
-          {activePlan === 'starter' && <div className="absolute top-0 right-0 bg-blue-100 text-blue-700 text-[10px] font-bold px-3 py-1 uppercase tracking-wider rounded-bl-lg">Aktif</div>}
-          <h3 className="text-lg font-bold text-slate-900 mb-1">Başlangıç</h3>
-          <p className="text-sm text-slate-500 mb-4">Küçük ekipler ve test projeleri için.</p>
-          <div className="text-3xl font-bold text-slate-900 mb-6">$49<span className="text-sm font-medium text-slate-500">/ay</span></div>
-          
-          <ul className="space-y-3 mb-6 text-sm text-slate-600">
-            <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> 2 Aktif Proje</li>
-            <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> Aylık 10 Saat GPU</li>
-            <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> 10K API İsteği</li>
-          </ul>
-          
-          <Button 
-            variant={activePlan === 'starter' ? 'outline' : 'default'} 
-            className="w-full"
-            disabled={activePlan === 'starter'}
-            onClick={() => handlePlanChange('starter')}
-          >
-            {activePlan === 'starter' ? 'Mevcut Plan' : 'Plana Geç'}
-          </Button>
-        </div>
-
-        <div className="rounded-2xl border-2 border-blue-500 bg-white p-6 shadow-md relative overflow-hidden scale-105 z-10">
-          {activePlan === 'pro' && <div className="absolute top-0 right-0 bg-blue-500 text-white text-[10px] font-bold px-3 py-1 uppercase tracking-wider rounded-bl-lg">Aktif</div>}
-          <h3 className="text-lg font-bold text-slate-900 mb-1">Profesyonel</h3>
-          <p className="text-sm text-slate-500 mb-4">Üretim ortamı ve yoğun kullanım için.</p>
-          <div className="text-3xl font-bold text-slate-900 mb-6">$199<span className="text-sm font-medium text-slate-500">/ay</span></div>
-          
-          <ul className="space-y-3 mb-6 text-sm text-slate-600">
-            <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> Sınırsız Proje</li>
-            <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> Aylık 50 Saat GPU</li>
-            <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> 100K API İsteği</li>
-            <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> Edge Cihaz İndirme</li>
-          </ul>
-          
-          <Button 
-            className="w-full bg-blue-700 hover:bg-blue-800 text-white"
-            disabled={activePlan === 'pro'}
-            onClick={() => handlePlanChange('pro')}
-          >
-            {activePlan === 'pro' ? 'Mevcut Plan' : 'Plana Geç'}
-          </Button>
-        </div>
-
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm relative overflow-hidden">
-          {activePlan === 'enterprise' && <div className="absolute top-0 right-0 bg-blue-100 text-blue-700 text-[10px] font-bold px-3 py-1 uppercase tracking-wider rounded-bl-lg">Aktif</div>}
-          <h3 className="text-lg font-bold text-slate-900 mb-1">Kurumsal</h3>
-          <p className="text-sm text-slate-500 mb-4">Özel gereksinimleri olan şirketler için.</p>
-          <div className="text-3xl font-bold text-slate-900 mb-6">Özel</div>
-          
-          <ul className="space-y-3 mb-6 text-sm text-slate-600">
-            <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> Dedicated A100 GPU</li>
-            <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> SLA & 7/24 Destek</li>
-            <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> Özel On-Prem Dağıtım</li>
-          </ul>
-          
-          <Button 
-            variant="outline"
-            className="w-full"
-            onClick={() => {
-              addEvent('Kurumsal satış talebi', 'Satış ekibiyle iletişime geçildi.', 'slate');
-              notify("Satış ekibi yönlendiriliyor");
-            }}
-          >
-            İletişime Geç
+    <div className="space-y-8">
+      <div className="vd-hero relative overflow-hidden p-6">
+        <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-amber-500/15 blur-2xl" />
+        <div className="relative flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div className="vd-label mb-2 text-amber-800/70">Credit balance</div>
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500/15 text-amber-700">
+                <Coins className="h-6 w-6" />
+              </div>
+              <div className="text-4xl font-semibold tracking-tight text-foreground">
+                {loading && !account ? "—" : balance.toLocaleString()}
+              </div>
+              <span className="text-sm font-medium text-muted-foreground">credits</span>
+            </div>
+            <p className="mt-3 max-w-xl text-sm text-muted-foreground">
+              Active plan: <span className="font-semibold capitalize text-foreground">{activePlan}</span>
+              {" · "}Membership prices TBD — activate a default package to add credits.
+              {account?.pricing?.credit_usd != null && (
+                <>{" · "}1 credit ≈ ${Number(account.pricing.credit_usd).toFixed(2)} Azure cost</>
+              )}
+            </p>
+          </div>
+          <Button variant="outline" onClick={() => void refresh()} disabled={loading}>
+            Refresh
           </Button>
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 className="text-lg font-bold text-slate-900 mb-4">Ödeme Yöntemi ve Geçmişi</h3>
-        
-        <div className="flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-slate-50 mb-6">
-          <div className="flex items-center gap-4">
-            <div className="h-10 w-14 bg-white border border-slate-200 rounded shadow-sm flex items-center justify-center font-bold text-slate-800 italic">
-              VISA
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+        {plans.map((plan) => {
+          const isActive = activePlan === plan.id;
+          const highlight = plan.id === "pro";
+          return (
+            <div
+              key={plan.id}
+              className={cn(
+                "vd-panel relative overflow-hidden p-6 transition-all",
+                highlight && "border-primary/30 shadow-lg shadow-primary/5 ring-1 ring-primary/10",
+              )}
+            >
+              {isActive && (
+                <div
+                  className={cn(
+                    "absolute right-0 top-0 rounded-bl-lg px-3 py-1 text-[10px] font-bold uppercase tracking-wider",
+                    highlight ? "bg-primary text-primary-foreground" : "bg-primary/10 text-primary",
+                  )}
+                >
+                  Active
+                </div>
+              )}
+              <h3 className="mb-1 text-lg font-semibold text-foreground">{plan.name}</h3>
+              <p className="mb-4 text-sm text-muted-foreground">{plan.description}</p>
+              <div className="mb-1 text-3xl font-semibold tracking-tight text-foreground">
+                {plan.credits.toLocaleString()}
+                <span className="text-sm font-medium text-muted-foreground"> credits</span>
+              </div>
+              <p className="mb-6 text-xs text-muted-foreground/70">Payment step skipped for now</p>
+              <ul className="mb-6 space-y-3 text-sm text-muted-foreground">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                  Adds {plan.credits.toLocaleString()} credits when activated
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                  Same plan cannot be activated twice
+                </li>
+              </ul>
+              <Button variant={isActive ? "outline" : "default"} className="w-full" disabled={isActive || busyPlan === plan.id} onClick={() => void handleActivate(plan.id)}>
+                {isActive ? "Current plan" : busyPlan === plan.id ? "Activating…" : `Activate ${plan.name}`}
+              </Button>
             </div>
-            <div>
-              <div className="font-bold text-slate-900">•••• •••• •••• 4242</div>
-              <div className="text-xs text-slate-500">Son Kullanma: 12/25</div>
-            </div>
+          );
+        })}
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="vd-panel p-6">
+          <h3 className="mb-1 text-lg font-semibold text-foreground">Usage costs</h3>
+          <p className="mb-4 text-xs text-muted-foreground">
+            Mapped from Azure list rates
+            {account?.pricing?.vm_size
+              ? ` · train on ${account.pricing.vm_size} @ $${Number(account.pricing.vm_hourly_usd ?? 0).toFixed(3)}/hr`
+              : ""}
+            . Training is reserved at start and settled from real job duration.
+          </p>
+          <div className="space-y-2">
+            {costRows.map((row) => (
+              <div key={row.key} className="flex items-center justify-between rounded-xl border border-border/40 bg-muted/30 px-4 py-3">
+                <div className="min-w-0 pr-3">
+                  <span className="text-sm font-medium text-foreground/80">{row.label}</span>
+                  {account?.pricing?.cost_notes?.[row.key] && (
+                    <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground">{account.pricing.cost_notes[row.key]}</p>
+                  )}
+                </div>
+                <span className="shrink-0 text-sm font-semibold text-foreground">
+                  {row.key === "training_submit" ? "~" : ""}
+                  {cost(row.key)} credits
+                </span>
+              </div>
+            ))}
           </div>
-          <Button variant="ghost" onClick={() => notify("Kart güncelleme açıldı")}>Güncelle</Button>
         </div>
 
-        <div className="space-y-3">
-          <div className="flex items-center justify-between p-3 border-b border-slate-100 last:border-0">
-            <div className="flex items-center gap-3">
-              <ReceiptText className="h-5 w-5 text-slate-400" />
-              <div>
-                <div className="font-semibold text-slate-900 text-sm">Ekim 2023 - Profesyonel Plan</div>
-                <div className="text-xs text-slate-500">12 Eki 2023 • Başarılı</div>
+        <div className="vd-panel p-6">
+          <h3 className="mb-4 text-lg font-semibold text-foreground">Recent activity</h3>
+          <div className="max-h-80 space-y-2 overflow-y-auto">
+            {(account?.ledger || []).length === 0 && (
+              <p className="text-sm text-muted-foreground">No credit activity yet.</p>
+            )}
+            {(account?.ledger || []).map((row) => (
+              <div key={row.id} className="flex items-start justify-between gap-3 rounded-xl border border-border/40 px-3 py-2.5">
+                <div className="min-w-0">
+                  <div className="truncate text-sm font-semibold text-foreground">{REASON_LABELS[row.reason] || row.reason}</div>
+                  <div className="truncate text-xs text-muted-foreground">
+                    {row.note || row.ref || row.created_at || ""}
+                    {row.azure_cost_usd != null ? ` · ~$${Number(row.azure_cost_usd).toFixed(4)} Azure` : ""}
+                  </div>
+                </div>
+                <div className={cn("shrink-0 text-sm font-semibold", row.delta >= 0 ? "text-emerald-600" : "text-foreground")}>
+                  {row.delta >= 0 ? "+" : ""}
+                  {row.delta}
+                </div>
               </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="font-bold text-slate-900">$199.00</div>
-              <Button variant="ghost" size="sm" onClick={handleInvoice}>İndir</Button>
-            </div>
+            ))}
           </div>
         </div>
       </div>

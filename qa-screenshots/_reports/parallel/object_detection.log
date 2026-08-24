@@ -1,0 +1,99 @@
+  SS → object_detection/01-login-home/00-after-login.png
+
+======== TASK: object_detection ========
+  SS → object_detection/01-login-home/01-home.png
+[NOTE] object_detection/01-login-home: Mixed dash styles (em dash and spaced hyphen) — Both '—' and ' - ' appear on page
+  SS → object_detection/02-new-workspace/01-empty-discovery.png
+[PASS] object_detection/02-new-workspace: Copy present: 'Upload sample images (10 required)' — Observed exact string
+[PASS] object_detection/02-new-workspace: Copy present: 'Define Your Vision Task' — Observed exact string
+[PASS] object_detection/02-new-workspace: Chat placeholder — Upload 10 sample images to enable chat (0/10)…
+[PASS] object_detection/02-new-workspace: Project created — project_id=prj-03a8ace7
+  SS → object_detection/03-sample-upload/01-samples-10-of-10.png
+[PASS] object_detection/03-sample-upload: Copy present: 'Define Your Vision Task' — Observed exact string
+[PASS] object_detection/03-sample-upload: Copy present: 'Generate Config' — Observed exact string
+[PASS] object_detection/03-sample-upload: Copy present: 'Attached images:' — Observed exact string
+[PASS] object_detection/03-sample-upload: Copy present: 'Send −' — Observed exact string
+[PASS] object_detection/03-sample-upload: Copy present: 'Config −' — Observed exact string
+[PASS] object_detection/03-sample-upload: Sample counter shows 10/10 — Samples complete
+[PASS] object_detection/03-sample-upload: Label uses colon after Attached images — Exact: 'Attached images:'
+  SS → object_detection/04-vlm-chat/01-after-turn-1.png
+[PASS] object_detection/04-vlm-chat: Copy present: 'Define Your Vision Task' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Generate Config' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Find several objects' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Attached images:' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Understanding your project' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Send −' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Config −' — Observed exact string
+[NOTE] object_detection/04-vlm-chat: Generate Config mentioned in UI after turn — turn=1
+  SS → object_detection/04-vlm-chat/02-after-turn-2.png
+[PASS] object_detection/04-vlm-chat: Copy present: 'Define Your Vision Task' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Generate Config' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Find several objects' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Attached images:' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Ready to build your plan' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Send −' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Config −' — Observed exact string
+[NOTE] object_detection/04-vlm-chat: Mixed dash styles (em dash and spaced hyphen) — Both '—' and ' - ' appear on page
+[NOTE] object_detection/04-vlm-chat: Generate Config mentioned in UI after turn — turn=2
+  SS → object_detection/04-vlm-chat/03-after-turn-3.png
+[PASS] object_detection/04-vlm-chat: Copy present: 'Define Your Vision Task' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Generate Config' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Find several objects' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Attached images:' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Ready to build your plan' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Send −' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Config −' — Observed exact string
+[NOTE] object_detection/04-vlm-chat: Mixed dash styles (em dash and spaced hyphen) — Both '—' and ' - ' appear on page
+[NOTE] object_detection/04-vlm-chat: Generate Config mentioned in UI after turn — turn=3
+  SS → object_detection/04-vlm-chat/04-after-turn-4.png
+[PASS] object_detection/04-vlm-chat: Copy present: 'Define Your Vision Task' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Generate Config' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Find several objects' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Attached images:' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Ready to build your plan' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Send −' — Observed exact string
+[PASS] object_detection/04-vlm-chat: Copy present: 'Config −' — Observed exact string
+[NOTE] object_detection/04-vlm-chat: Mixed dash styles (em dash and spaced hyphen) — Both '—' and ' - ' appear on page
+[NOTE] object_detection/04-vlm-chat: Generate Config mentioned in UI after turn — turn=4
+  SS → object_detection/05-generate-config/01-before-click.png
+  SS → object_detection/05-generate-config/02-config-ready.png
+[PASS] object_detection/05-generate-config: Copy present: 'Define Your Vision Task' — Observed exact string
+[PASS] object_detection/05-generate-config: Copy present: 'Generate Config' — Observed exact string
+[PASS] object_detection/05-generate-config: Copy present: 'Find several objects' — Observed exact string
+[PASS] object_detection/05-generate-config: Copy present: 'Attached images:' — Observed exact string
+[PASS] object_detection/05-generate-config: Copy present: 'Send −' — Observed exact string
+[PASS] object_detection/05-generate-config: Copy present: 'Config −' — Observed exact string
+[NOTE] object_detection/05-generate-config: Mixed dash styles (em dash and spaced hyphen) — Both '—' and ' - ' appear on page
+[PASS] object_detection/05-generate-config: Task badge shows 'Find several objects' — Exact match
+  SS → object_detection/06-dataset-step/01-dataset-empty.png
+[PASS] object_detection/06-dataset-step: Copy present: 'Review setup' — Observed exact string
+[PASS] object_detection/06-dataset-step: Copy present: 'Still missing steps' — Observed exact string
+[PASS] object_detection/06-dataset-step: Copy present: 'Why a ZIP (not per-group photo upload)?' — Observed exact string
+[PASS] object_detection/06-dataset-step: Copy present: 'This task is object detection' — Observed exact string
+[PASS] object_detection/06-dataset-step: Copy present: 'Find several objects' — Observed exact string
+[NOTE] object_detection/06-dataset-step: Mixed dash styles (em dash and spaced hyphen) — Both '—' and ' - ' appear on page
+  SS → object_detection/06-dataset-step/02-zip-uploaded.png
+  SS → object_detection/06-dataset-step/04-dataset-ready.png
+[PASS] object_detection/06-dataset-step: Copy present: 'Review setup' — Observed exact string
+[PASS] object_detection/06-dataset-step: Copy present: 'Why a ZIP (not per-group photo upload)?' — Observed exact string
+[PASS] object_detection/06-dataset-step: Copy present: 'This task is object detection' — Observed exact string
+[PASS] object_detection/06-dataset-step: Copy present: 'Find several objects' — Observed exact string
+[NOTE] object_detection/06-dataset-step: Mixed dash styles (em dash and spaced hyphen) — Both '—' and ' - ' appear on page
+[PASS] object_detection/06-dataset-step: Status shows Ready — Dataset ready indicator
+  SS → object_detection/07-training-review/01-training-review-initial.png
+  SS → object_detection/07-training-review/01-training-review.png
+[PASS] object_detection/07-training-review: Copy present: 'Start training' — Observed exact string
+[PASS] object_detection/07-training-review: Copy present: 'Find several objects' — Observed exact string
+[NOTE] object_detection/07-training-review: Mixed dash styles (em dash and spaced hyphen) — Both '—' and ' - ' appear on page
+[PASS] object_detection/07-training-review: Reached Step 3 without starting training — CTA candidates left unclicked: []
+[NOTE] object_detection/07-training-review: Step 3 H3 is 'Start training' while CTA may also start training — Header copy: 'Start training' — may confuse with the action button.
+  SS → object_detection/08-ui-details/01-bottom.png
+  SS → object_detection/08-ui-details/02-top.png
+[PASS] object_detection/08-ui-details: Copy present: 'Start training' — Observed exact string
+[PASS] object_detection/08-ui-details: Copy present: 'Find several objects' — Observed exact string
+[NOTE] object_detection/08-ui-details: Mixed dash styles (em dash and spaced hyphen) — Both '—' and ' - ' appear on page
+[PASS] object_detection/08-ui-details: Exact sentence match — Pipeline settings are chosen automatically from your dataset images — review below, then start training.
+[PASS] object_detection/07-training-review: Flow complete (no training started) — project_id=prj-03a8ace7
+
+Report → /Users/ahmetahacelik/Downloads/AI-Model-Builder/qa-screenshots/_reports/findings-object_detection.md
+EXIT:0

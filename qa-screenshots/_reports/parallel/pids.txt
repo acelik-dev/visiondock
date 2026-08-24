@@ -1,0 +1,4 @@
+[4]    56945 running    ( echo "[$(date -u +%H:%M:%S)] START $task"; QA_WORKER_TAG="$task" =1 python3)
+[5]    56946 running    ( echo "[$(date -u +%H:%M:%S)] START $task"; QA_WORKER_TAG="$task" =1 python3)
+[6]  - 56949 running    ( echo "[$(date -u +%H:%M:%S)] START $task"; QA_WORKER_TAG="$task" =1 python3)
+[7]  + 56951 running    ( echo "[$(date -u +%H:%M:%S)] START $task"; QA_WORKER_TAG="$task" =1 python3)

@@ -1,68 +1,136 @@
+import { useState } from "react";
 import { useStore } from "@/lib/store";
 import { ViewState } from "@/lib/store";
-import { Activity, Bell, ChevronRight, Cpu, CreditCard, FolderGit2, Home, Library, Search, User } from "lucide-react";
+import { pathToView, projectsPath } from "@/lib/navigation";
+import type { WorkflowStep } from "@/lib/store";
+import { CommandPalette, useCommandPalette } from "@/components/premium/command-palette";
+import {
+  Activity,
+  Bell,
+  ChevronRight,
+  Coins,
+  Cpu,
+  CreditCard,
+  Database,
+  FolderGit2,
+  Home,
+  Library,
+  LogOut,
+  Search,
+  Sparkles,
+} from "lucide-react";
+import { logout } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Link, useLocation } from "wouter";
+import { useCredits } from "@/hooks/use-credits";
+import { cn } from "@/lib/utils";
 
 export function Sidebar() {
-  const { currentView, setCurrentView, workflowStep } = useStore();
-  
+  const { workflowStep, activeProjectId, activeProjectName, datasetUploaded } = useStore();
+  const [location] = useLocation();
+
   const items = [
-    { id: 'home' as ViewState, label: 'Ana Sayfa', icon: Home },
-    { id: 'projects' as ViewState, label: 'Projeler', icon: FolderGit2 },
-    { id: 'models' as ViewState, label: 'Model Kütüphanesi', icon: Library },
-    { id: 'inference' as ViewState, label: 'Çıkarım', icon: Cpu },
-    { id: 'billing' as ViewState, label: 'Ödeme ve Planlar', icon: CreditCard },
+    { id: "home" as ViewState, label: "Home", icon: Home },
+    { id: "projects" as ViewState, label: "Discovery & Projects", icon: FolderGit2 },
+    { id: "models" as ViewState, label: "Model Library", icon: Library },
+    { id: "datasets" as ViewState, label: "Dataset Library", icon: Database },
+    { id: "inference" as ViewState, label: "Inference", icon: Cpu },
+    { id: "billing" as ViewState, label: "Billing & Plans", icon: CreditCard },
   ];
 
   return (
-    <aside className="flex w-72 flex-col border-r border-slate-200 bg-white shadow-sm fixed inset-y-0 left-0 z-20">
-      <div className="flex items-center gap-3 border-b border-slate-200 px-6 py-5">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 shadow-sm">
+    <aside className="vd-sidebar fixed inset-y-0 left-0 z-20 shadow-2xl shadow-black/20">
+      <div className="flex items-center gap-3 border-b border-sidebar-border px-5 py-5">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-violet-600 shadow-lg shadow-primary/30">
           <Activity className="h-5 w-5 text-white" />
         </div>
         <div>
-          <div className="text-lg font-bold tracking-tight text-slate-950">VisionDock</div>
-          <div className="text-xs font-medium text-slate-500">Görsel Yapay Zeka Platformu</div>
+          <div className="text-base font-semibold tracking-tight text-sidebar-foreground">VisionDock</div>
+          <div className="text-[11px] font-medium text-sidebar-foreground/50">Computer Vision Platform</div>
         </div>
       </div>
 
-      <nav className="flex-1 space-y-1 px-4 py-6 overflow-y-auto">
-        <div className="mb-3 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">Çalışma Alanı</div>
+      <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-5">
+        <div className="vd-label mb-3 px-3 text-sidebar-foreground/40">Workspace</div>
         {items.map((item) => {
           const Icon = item.icon;
-          const active = currentView === item.id;
+          const href =
+            item.id === "projects"
+              ? projectsPath(workflowStep, activeProjectId)
+              : item.id === "inference" && activeProjectId
+                ? `/inference/${activeProjectId}`
+                : `/${item.id === "home" ? "home" : item.id}`;
+          const active = pathToView(location) === item.id;
           return (
-            <button
+            <Link
               key={item.id}
-              onClick={() => setCurrentView(item.id)}
-              className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition-all ${active ? 'bg-blue-50 text-blue-800 ring-1 ring-blue-200' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-950'}`}
+              href={href}
+              className={cn("vd-nav-item", active ? "vd-nav-item-active" : "vd-nav-item-idle")}
             >
-              <Icon className="h-4 w-4" />
+              <Icon className={cn("h-4 w-4", active && "text-primary")} />
               {item.label}
-            </button>
+            </Link>
           );
         })}
       </nav>
 
-      <div className="border-t border-slate-200 bg-slate-50 p-4">
-        <div className="mb-3 px-1 text-[11px] font-bold uppercase tracking-widest text-slate-400">Aktif Proje</div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-          <div className="mb-1 text-sm font-bold text-slate-950">Hata Tespiti</div>
-          <div className="mb-5 font-mono text-xs font-semibold text-blue-700">PRJ-8821</div>
+      <div className="border-t border-sidebar-border p-4">
+        <div className="vd-label mb-3 px-1 text-sidebar-foreground/40">Active project</div>
+        <div className="rounded-xl border border-sidebar-border bg-sidebar-accent/80 p-4">
+          <div className="mb-1 truncate text-sm font-semibold text-sidebar-foreground">
+            {activeProjectName ?? "No project loaded"}
+          </div>
+          <div className="mb-4 truncate font-mono text-[11px] font-medium text-primary">
+            {activeProjectId ?? "—"}
+          </div>
 
-          <div className="space-y-4">
-            {[1, 2, 3].map((step) => {
-              const labels = ['Görev', 'Veri Seti', 'Öneri'];
-              const active = workflowStep >= step;
-              const completed = workflowStep > step;
+          <div className="space-y-3">
+            {([1, 2, 3] as WorkflowStep[]).map((step) => {
+              const labels = ["Task", "Dataset", "Training"];
+              const completed =
+                step === 1
+                  ? workflowStep > 1
+                  : step === 2
+                    ? datasetUploaded
+                    : workflowStep > step;
+              const active =
+                step === 2 ? workflowStep >= 2 || datasetUploaded : workflowStep >= step;
+              const href = projectsPath(step, activeProjectId);
+              const stepActive = workflowStep === step;
               return (
-                <div key={step} className="relative flex items-center gap-3">
-                  {step > 1 && <div className={`absolute -top-4 left-3 h-4 w-px ${active ? 'bg-blue-500' : 'bg-slate-200'}`} />}
-                  <div className={`flex h-6 w-6 items-center justify-center rounded-full border text-[11px] font-bold z-10 ${active ? 'border-blue-600 bg-blue-600 text-white' : 'border-slate-300 bg-white text-slate-400'}`}>
+                <Link
+                  key={step}
+                  href={href}
+                  className={cn(
+                    "relative flex items-center gap-3 rounded-lg px-1 py-0.5 transition-colors",
+                    stepActive ? "text-sidebar-foreground" : "text-sidebar-foreground/50 hover:text-sidebar-foreground/80",
+                  )}
+                >
+                  {step > 1 && (
+                    <div
+                      className={cn(
+                        "absolute -top-3 left-3 h-3 w-px",
+                        active ? "bg-primary/60" : "bg-sidebar-border",
+                      )}
+                    />
+                  )}
+                  <div
+                    className={cn(
+                      "z-10 flex h-6 w-6 items-center justify-center rounded-full border text-[10px] font-bold",
+                      stepActive
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : completed || (active && !stepActive)
+                          ? "border-primary/50 bg-primary/15 text-primary"
+                          : "border-sidebar-border bg-sidebar-accent text-sidebar-foreground/40",
+                    )}
+                  >
                     {completed ? "✓" : step}
                   </div>
-                  <span className={`text-xs font-semibold ${active ? 'text-slate-900' : 'text-slate-400'}`}>Adım {step} {labels[step - 1]}</span>
-                </div>
+                  <span className="text-xs font-medium">
+                    Step {step} · {labels[step - 1]}
+                  </span>
+                </Link>
               );
             })}
           </div>
@@ -72,102 +140,146 @@ export function Sidebar() {
   );
 }
 
-export function Header() {
-  const { currentView, notify } = useStore();
+export function Header({
+  username,
+  onLogout,
+  onOpenCommand,
+}: {
+  username?: string | null;
+  onLogout?: () => void;
+  onOpenCommand?: () => void;
+}) {
+  const { currentView, notify, activeProjectId } = useStore();
+  const { account } = useCredits();
+  const balance = account?.balance;
+  const [, navigate] = useLocation();
+
+  const handleLogout = async () => {
+    await logout();
+    onLogout?.();
+  };
 
   const titles: Record<string, string> = {
-    home: 'Ana Sayfa',
-    projects: 'Projeler',
-    models: 'Model Kütüphanesi',
-    inference: 'Çıkarım',
-    billing: 'Ödeme ve Planlar',
+    home: "Home",
+    projects: "Projects",
+    models: "Model Library",
+    datasets: "Dataset Library",
+    inference: "Inference",
+    billing: "Billing & Plans",
   };
 
   return (
-    <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-slate-200 bg-white/95 px-8 backdrop-blur">
-      <div className="flex items-center gap-4">
-        <h1 className="text-lg font-bold text-slate-950">{titles[currentView] || "VisionDock"}</h1>
-        {currentView === 'projects' && (
+    <header className="vd-header">
+      <div className="flex items-center gap-3">
+        <h1 className="text-base font-semibold tracking-tight text-foreground">{titles[currentView] || "VisionDock"}</h1>
+        {(currentView === "projects" || currentView === "inference") && activeProjectId && (
           <div className="flex items-center gap-2 text-sm">
-            <ChevronRight className="h-4 w-4 text-slate-400" />
-            <span className="rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-xs font-semibold text-slate-700">PRJ-8821</span>
+            <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
+            <span className="rounded-md border border-border/60 bg-muted/50 px-2 py-0.5 font-mono text-[11px] font-medium text-muted-foreground">
+              {activeProjectId}
+            </span>
           </div>
         )}
       </div>
 
-      <div className="flex items-center gap-4">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-          <input
+      <div className="flex items-center gap-2">
+        <div className="relative hidden md:block">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
             type="text"
-            placeholder="Kaynaklarda ara..."
-            className="w-72 rounded-lg border border-slate-300 bg-white py-2 pl-9 pr-4 text-sm text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            readOnly
+            placeholder="Search… ⌘K"
+            onClick={onOpenCommand}
+            onFocus={onOpenCommand}
+            className="h-9 w-64 cursor-pointer border-border/60 bg-background/80 pl-9 text-sm shadow-sm"
           />
         </div>
-        <button onClick={() => notify("Bildirimler açıldı")} className="relative rounded-lg border border-slate-200 bg-white p-2 text-slate-500 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-900">
-          <Bell className="h-5 w-5" />
-          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
-        </button>
-        <button onClick={() => notify("Profil menüsü açıldı")} className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-700 shadow-sm hover:bg-white">
-          <User className="h-4 w-4" />
-        </button>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => notify("Notifications opened")}
+          className="relative h-9 w-9 text-muted-foreground"
+        >
+          <Bell className="h-4 w-4" />
+          <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-destructive ring-2 ring-background" />
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => navigate("/billing")}
+          className="h-9 gap-2 border-amber-500/25 bg-amber-500/8 text-amber-900 hover:bg-amber-500/12"
+        >
+          <Coins className="h-4 w-4" />
+          <span className="font-semibold">{typeof balance === "number" ? balance.toLocaleString() : "—"}</span>
+          <span className="hidden font-medium text-amber-800/70 sm:inline">credits</span>
+        </Button>
+        {username && (
+          <span className="hidden max-w-[140px] truncate text-sm font-medium text-muted-foreground lg:block">
+            {username}
+          </span>
+        )}
+        <Button variant="ghost" size="sm" onClick={handleLogout} className="h-9 gap-2 text-muted-foreground">
+          <LogOut className="h-4 w-4" />
+          <span className="hidden sm:inline">Sign out</span>
+        </Button>
       </div>
     </header>
   );
 }
 
-export function StatusPill({ children, tone = 'blue' }: { children: React.ReactNode; tone?: 'blue' | 'green' | 'amber' | 'red' | 'slate' }) {
+export function StatusPill({
+  children,
+  tone = "primary",
+}: {
+  children: React.ReactNode;
+  tone?: "primary" | "green" | "amber" | "red" | "muted";
+}) {
   const tones = {
-    blue: 'bg-blue-50 text-blue-700 border-blue-200',
-    green: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    amber: 'bg-amber-50 text-amber-700 border-amber-200',
-    red: 'bg-red-50 text-red-700 border-red-200',
-    slate: 'bg-slate-100 text-slate-700 border-slate-200',
+    primary: "bg-primary/10 text-primary border-primary/20",
+    green: "bg-emerald-500/10 text-emerald-700 border-emerald-500/20",
+    amber: "bg-amber-500/10 text-amber-800 border-amber-500/20",
+    red: "bg-destructive/10 text-destructive border-destructive/20",
+    muted: "bg-muted text-muted-foreground border-border",
   };
 
-  return <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${tones[tone]}`}>{children}</span>;
-}
-
-export function AuditLog() {
-  const { events } = useStore();
-
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm w-80 fixed right-0 inset-y-0 overflow-y-auto hidden xl:block">
-      <div className="mb-5 flex items-center justify-between">
-        <div>
-          <h3 className="text-lg font-bold text-slate-950">Denetim Günlüğü</h3>
-        </div>
-        <StatusPill tone="slate">Canlı</StatusPill>
-      </div>
-      <div className="space-y-3">
-        {events.map((event) => (
-          <div key={event.id} className="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
-            <span className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${event.tone === 'green' ? 'bg-emerald-600' : event.tone === 'amber' ? 'bg-amber-500' : event.tone === 'red' ? 'bg-red-600' : event.tone === 'blue' ? 'bg-blue-600' : 'bg-slate-500'}`} />
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center justify-between gap-2">
-                <div className="font-semibold text-slate-950 text-sm truncate">{event.title}</div>
-                <div className="font-mono text-[10px] text-slate-400 shrink-0">{event.time}</div>
-              </div>
-              <div className="mt-1 text-xs text-slate-600 leading-relaxed">{event.detail}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    <span className={cn("inline-flex rounded-full border px-2.5 py-0.5 text-xs font-medium", tones[tone])}>
+      {children}
+    </span>
   );
 }
 
-export function Shell({ children }: { children: React.ReactNode }) {
+export function Shell({
+  children,
+  username,
+  onLogout,
+}: {
+  children: React.ReactNode;
+  username?: string | null;
+  onLogout?: () => void;
+}) {
+  const { open, setOpen } = useCommandPalette();
+  const currentView = useStore((state) => state.currentView);
+  const fullBleed = currentView === "projects";
+
   return (
-    <div className="flex min-h-screen w-full bg-slate-50">
+    <div className="vd-shell-bg flex min-h-screen w-full">
+      <CommandPalette open={open} onOpenChange={setOpen} />
       <Sidebar />
-      <div className="flex-1 pl-72 xl:pr-80">
-        <Header />
-        <main className="p-8">
-          {children}
+      <div className="flex min-h-screen flex-1 flex-col pl-[17.5rem]">
+        <Header username={username} onLogout={onLogout} onOpenCommand={() => setOpen(true)} />
+        <main className={cn("flex-1", fullBleed ? "p-4 lg:p-5" : "p-6 lg:p-8")}>
+          <div
+            className={cn(
+              "animate-in fade-in duration-300",
+              fullBleed ? "w-full max-w-none" : "mx-auto max-w-[1400px]",
+            )}
+          >
+            {children}
+          </div>
         </main>
       </div>
-      <AuditLog />
     </div>
   );
 }

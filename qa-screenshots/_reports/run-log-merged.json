@@ -1,0 +1,4902 @@
+{
+  "results": [
+    {
+      "task": "classification",
+      "ok": true,
+      "project_id": null,
+      "error": null,
+      "screenshots": [],
+      "ui_snippets": []
+    },
+    {
+      "task": "multi_label",
+      "ok": true,
+      "project_id": "prj-e6eb9f1c",
+      "error": null,
+      "screenshots": [],
+      "ui_snippets": []
+    },
+    {
+      "task": "regression",
+      "ok": true,
+      "project_id": "prj-6ac540fd",
+      "error": null,
+      "screenshots": [],
+      "ui_snippets": []
+    },
+    {
+      "task": "object_detection",
+      "ok": true,
+      "project_id": "prj-03a8ace7",
+      "error": null,
+      "screenshots": [],
+      "ui_snippets": []
+    },
+    {
+      "task": "object_localization",
+      "ok": true,
+      "project_id": "prj-24a7a46f",
+      "error": null,
+      "screenshots": [],
+      "ui_snippets": []
+    }
+  ],
+  "findings": [
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "01-login-home",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Upload sample images (10 required)'",
+      "detail": "Observed exact string",
+      "exact_ui": "Upload sample images (10 required)"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Chat placeholder",
+      "detail": "Upload 10 sample images to enable chat (0/10)\u2026",
+      "exact_ui": "Upload 10 sample images to enable chat (0/10)\u2026"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Project created",
+      "detail": "project_id=prj-c8cc6c9e",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Sample counter shows 10/10",
+      "detail": "Samples complete",
+      "exact_ui": "10/10"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Label uses colon after Attached images",
+      "detail": "Exact: 'Attached images:'",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=1",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=2",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=3",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=4",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "FAIL",
+      "stage": "05-generate-config",
+      "title": "Config generation timed out",
+      "detail": "Continue stayed disabled",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "BLOCKED",
+      "stage": "error",
+      "title": "Task aborted",
+      "detail": "Page.wait_for_function: Timeout 120000ms exceeded.",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "01-login-home",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Upload sample images (10 required)'",
+      "detail": "Observed exact string",
+      "exact_ui": "Upload sample images (10 required)"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Chat placeholder",
+      "detail": "Upload 10 sample images to enable chat (0/10)\u2026",
+      "exact_ui": "Upload 10 sample images to enable chat (0/10)\u2026"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Project created",
+      "detail": "project_id=prj-03a8ace7",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Sample counter shows 10/10",
+      "detail": "Samples complete",
+      "exact_ui": "10/10"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Label uses colon after Attached images",
+      "detail": "Exact: 'Attached images:'",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=1",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=2",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=3",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=4",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "05-generate-config",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Task badge shows 'Find several objects'",
+      "detail": "Exact match",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Still missing steps'",
+      "detail": "Observed exact string",
+      "exact_ui": "Still missing steps"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Why a ZIP (not per-group photo upload)?'",
+      "detail": "Observed exact string",
+      "exact_ui": "Why a ZIP (not per-group photo upload)?"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'This task is object detection'",
+      "detail": "Observed exact string",
+      "exact_ui": "This task is object detection"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "06-dataset-step",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Why a ZIP (not per-group photo upload)?'",
+      "detail": "Observed exact string",
+      "exact_ui": "Why a ZIP (not per-group photo upload)?"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'This task is object detection'",
+      "detail": "Observed exact string",
+      "exact_ui": "This task is object detection"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "06-dataset-step",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Status shows Ready",
+      "detail": "Dataset ready indicator",
+      "exact_ui": "Ready"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Reached Step 3 without starting training",
+      "detail": "CTA candidates left unclicked: []",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Step 3 H3 is 'Start training' while CTA may also start training",
+      "detail": "Header copy: 'Start training' \u2014 may confuse with the action button.",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "08-ui-details",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Exact sentence match",
+      "detail": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training.",
+      "exact_ui": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training."
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Flow complete (no training started)",
+      "detail": "project_id=prj-03a8ace7",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "01-login-home",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Upload sample images (10 required)'",
+      "detail": "Observed exact string",
+      "exact_ui": "Upload sample images (10 required)"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Chat placeholder",
+      "detail": "Upload 10 sample images to enable chat (0/10)\u2026",
+      "exact_ui": "Upload 10 sample images to enable chat (0/10)\u2026"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Project created",
+      "detail": "project_id=prj-24a7a46f",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Sample counter shows 10/10",
+      "detail": "Samples complete",
+      "exact_ui": "10/10"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Label uses colon after Attached images",
+      "detail": "Exact: 'Attached images:'",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=1",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=2",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=3",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=4",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Find one object'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find one object"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "05-generate-config",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Task badge shows 'Find one object'",
+      "detail": "Exact match",
+      "exact_ui": "Find one object"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Still missing steps'",
+      "detail": "Observed exact string",
+      "exact_ui": "Still missing steps"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Why a ZIP (not per-group photo upload)?'",
+      "detail": "Observed exact string",
+      "exact_ui": "Why a ZIP (not per-group photo upload)?"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'This task is object detection'",
+      "detail": "Observed exact string",
+      "exact_ui": "This task is object detection"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Find one object'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find one object"
+    },
+    {
+      "task": "object_localization",
+      "severity": "FAIL",
+      "stage": "06-dataset-step",
+      "title": "Localization ZIP explainer hardcodes 'object detection'",
+      "detail": "Step 2 note says 'This task is object detection' even when task is Find one object.",
+      "exact_ui": "This task is object detection"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "06-dataset-step",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Why a ZIP (not per-group photo upload)?'",
+      "detail": "Observed exact string",
+      "exact_ui": "Why a ZIP (not per-group photo upload)?"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'This task is object detection'",
+      "detail": "Observed exact string",
+      "exact_ui": "This task is object detection"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Find one object'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find one object"
+    },
+    {
+      "task": "object_localization",
+      "severity": "FAIL",
+      "stage": "06-dataset-step",
+      "title": "Localization ZIP explainer hardcodes 'object detection'",
+      "detail": "Step 2 note says 'This task is object detection' even when task is Find one object.",
+      "exact_ui": "This task is object detection"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "06-dataset-step",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Status shows Ready",
+      "detail": "Dataset ready indicator",
+      "exact_ui": "Ready"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Find one object'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find one object"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Reached Step 3 without starting training",
+      "detail": "CTA candidates left unclicked: []",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Step 3 H3 is 'Start training' while CTA may also start training",
+      "detail": "Header copy: 'Start training' \u2014 may confuse with the action button.",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Find one object'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find one object"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "08-ui-details",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Exact sentence match",
+      "detail": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training.",
+      "exact_ui": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training."
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Flow complete (no training started)",
+      "detail": "project_id=prj-24a7a46f",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "01-login-home",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Upload sample images (10 required)'",
+      "detail": "Observed exact string",
+      "exact_ui": "Upload sample images (10 required)"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Chat placeholder",
+      "detail": "Upload 10 sample images to enable chat (0/10)\u2026",
+      "exact_ui": "Upload 10 sample images to enable chat (0/10)\u2026"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Project created",
+      "detail": "project_id=prj-6ac540fd",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Sample counter shows 10/10",
+      "detail": "Samples complete",
+      "exact_ui": "10/10"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Label uses colon after Attached images",
+      "detail": "Exact: 'Attached images:'",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=1",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=2",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=3",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=4",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Predict a number'",
+      "detail": "Observed exact string",
+      "exact_ui": "Predict a number"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "05-generate-config",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Task badge shows 'Predict a number'",
+      "detail": "Exact match",
+      "exact_ui": "Predict a number"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Still missing steps'",
+      "detail": "Observed exact string",
+      "exact_ui": "Still missing steps"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Predict a number'",
+      "detail": "Observed exact string",
+      "exact_ui": "Predict a number"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Predict a number'",
+      "detail": "Observed exact string",
+      "exact_ui": "Predict a number"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Status shows Ready",
+      "detail": "Dataset ready indicator",
+      "exact_ui": "Ready"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Predict a number'",
+      "detail": "Observed exact string",
+      "exact_ui": "Predict a number"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Reached Step 3 without starting training",
+      "detail": "CTA candidates left unclicked: []",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Step 3 H3 is 'Start training' while CTA may also start training",
+      "detail": "Header copy: 'Start training' \u2014 may confuse with the action button.",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Predict a number'",
+      "detail": "Observed exact string",
+      "exact_ui": "Predict a number"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Exact sentence match",
+      "detail": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training.",
+      "exact_ui": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training."
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Flow complete (no training started)",
+      "detail": "project_id=prj-6ac540fd",
+      "exact_ui": ""
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "01-login-home",
+      "title": "Copy present: 'Loading your projects\u2026'",
+      "detail": "Observed exact string",
+      "exact_ui": "Loading your projects\u2026"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Upload sample images (10 required)'",
+      "detail": "Observed exact string",
+      "exact_ui": "Upload sample images (10 required)"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Chat placeholder",
+      "detail": "Upload 10 sample images to enable chat (0/10)\u2026",
+      "exact_ui": "Upload 10 sample images to enable chat (0/10)\u2026"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Project created",
+      "detail": "project_id=None",
+      "exact_ui": ""
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Sample counter shows 10/10",
+      "detail": "Samples complete",
+      "exact_ui": "10/10"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Label uses colon after Attached images",
+      "detail": "Exact: 'Attached images:'",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "classification",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=1",
+      "exact_ui": ""
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "classification",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=2",
+      "exact_ui": ""
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "classification",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "classification",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=3",
+      "exact_ui": ""
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Sort into one group'",
+      "detail": "Observed exact string",
+      "exact_ui": "Sort into one group"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "classification",
+      "severity": "NOTE",
+      "stage": "05-generate-config",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Task badge shows 'Sort into one group'",
+      "detail": "Exact match",
+      "exact_ui": "Sort into one group"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Still missing steps'",
+      "detail": "Observed exact string",
+      "exact_ui": "Still missing steps"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Sort into one group'",
+      "detail": "Observed exact string",
+      "exact_ui": "Sort into one group"
+    },
+    {
+      "task": "classification",
+      "severity": "NOTE",
+      "stage": "06-dataset-step",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Sort into one group'",
+      "detail": "Observed exact string",
+      "exact_ui": "Sort into one group"
+    },
+    {
+      "task": "classification",
+      "severity": "NOTE",
+      "stage": "06-dataset-step",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Status shows Ready",
+      "detail": "Dataset ready indicator",
+      "exact_ui": "Ready"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Sort into one group'",
+      "detail": "Observed exact string",
+      "exact_ui": "Sort into one group"
+    },
+    {
+      "task": "classification",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Reached Step 3 without starting training",
+      "detail": "Start-related buttons visible: 0",
+      "exact_ui": ""
+    },
+    {
+      "task": "classification",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Step 3 H3 is 'Start training' while CTA may also start training",
+      "detail": "Header copy: 'Start training' \u2014 may confuse with the action button.",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Sort into one group'",
+      "detail": "Observed exact string",
+      "exact_ui": "Sort into one group"
+    },
+    {
+      "task": "classification",
+      "severity": "NOTE",
+      "stage": "08-ui-details",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Exact sentence match",
+      "detail": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training.",
+      "exact_ui": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training."
+    },
+    {
+      "task": "classification",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Flow complete (no training started)",
+      "detail": "project_id=None",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "01-login-home",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Upload sample images (10 required)'",
+      "detail": "Observed exact string",
+      "exact_ui": "Upload sample images (10 required)"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Chat placeholder",
+      "detail": "Upload 10 sample images to enable chat (0/10)\u2026",
+      "exact_ui": "Upload 10 sample images to enable chat (0/10)\u2026"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Project created",
+      "detail": "project_id=prj-e6eb9f1c",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Sample counter shows 10/10",
+      "detail": "Samples complete",
+      "exact_ui": "10/10"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Label uses colon after Attached images",
+      "detail": "Exact: 'Attached images:'",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=1",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=2",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=3",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=4",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Several tags per photo'",
+      "detail": "Observed exact string",
+      "exact_ui": "Several tags per photo"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "05-generate-config",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Task badge shows 'Several tags per photo'",
+      "detail": "Exact match",
+      "exact_ui": "Several tags per photo"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Still missing steps'",
+      "detail": "Observed exact string",
+      "exact_ui": "Still missing steps"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Several tags per photo'",
+      "detail": "Observed exact string",
+      "exact_ui": "Several tags per photo"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Several tags per photo'",
+      "detail": "Observed exact string",
+      "exact_ui": "Several tags per photo"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Status shows Ready",
+      "detail": "Dataset ready indicator",
+      "exact_ui": "Ready"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Several tags per photo'",
+      "detail": "Observed exact string",
+      "exact_ui": "Several tags per photo"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Reached Step 3 without starting training",
+      "detail": "CTA candidates left unclicked: []",
+      "exact_ui": ""
+    },
+    {
+      "task": "multi_label",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Step 3 H3 is 'Start training' while CTA may also start training",
+      "detail": "Header copy: 'Start training' \u2014 may confuse with the action button.",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Several tags per photo'",
+      "detail": "Observed exact string",
+      "exact_ui": "Several tags per photo"
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Exact sentence match",
+      "detail": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training.",
+      "exact_ui": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training."
+    },
+    {
+      "task": "multi_label",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Flow complete (no training started)",
+      "detail": "project_id=prj-e6eb9f1c",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "01-login-home",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Upload sample images (10 required)'",
+      "detail": "Observed exact string",
+      "exact_ui": "Upload sample images (10 required)"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Chat placeholder",
+      "detail": "Upload 10 sample images to enable chat (0/10)\u2026",
+      "exact_ui": "Upload 10 sample images to enable chat (0/10)\u2026"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Project created",
+      "detail": "project_id=prj-03a8ace7",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Sample counter shows 10/10",
+      "detail": "Samples complete",
+      "exact_ui": "10/10"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Label uses colon after Attached images",
+      "detail": "Exact: 'Attached images:'",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=1",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=2",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=3",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=4",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "05-generate-config",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Task badge shows 'Find several objects'",
+      "detail": "Exact match",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Still missing steps'",
+      "detail": "Observed exact string",
+      "exact_ui": "Still missing steps"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Why a ZIP (not per-group photo upload)?'",
+      "detail": "Observed exact string",
+      "exact_ui": "Why a ZIP (not per-group photo upload)?"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'This task is object detection'",
+      "detail": "Observed exact string",
+      "exact_ui": "This task is object detection"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "06-dataset-step",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Why a ZIP (not per-group photo upload)?'",
+      "detail": "Observed exact string",
+      "exact_ui": "Why a ZIP (not per-group photo upload)?"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'This task is object detection'",
+      "detail": "Observed exact string",
+      "exact_ui": "This task is object detection"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "06-dataset-step",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Status shows Ready",
+      "detail": "Dataset ready indicator",
+      "exact_ui": "Ready"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Reached Step 3 without starting training",
+      "detail": "CTA candidates left unclicked: []",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Step 3 H3 is 'Start training' while CTA may also start training",
+      "detail": "Header copy: 'Start training' \u2014 may confuse with the action button.",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Find several objects'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find several objects"
+    },
+    {
+      "task": "object_detection",
+      "severity": "NOTE",
+      "stage": "08-ui-details",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Exact sentence match",
+      "detail": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training.",
+      "exact_ui": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training."
+    },
+    {
+      "task": "object_detection",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Flow complete (no training started)",
+      "detail": "project_id=prj-03a8ace7",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "01-login-home",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Upload sample images (10 required)'",
+      "detail": "Observed exact string",
+      "exact_ui": "Upload sample images (10 required)"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Chat placeholder",
+      "detail": "Upload 10 sample images to enable chat (0/10)\u2026",
+      "exact_ui": "Upload 10 sample images to enable chat (0/10)\u2026"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Project created",
+      "detail": "project_id=prj-24a7a46f",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Sample counter shows 10/10",
+      "detail": "Samples complete",
+      "exact_ui": "10/10"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Label uses colon after Attached images",
+      "detail": "Exact: 'Attached images:'",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=1",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=2",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=3",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=4",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Find one object'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find one object"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "05-generate-config",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Task badge shows 'Find one object'",
+      "detail": "Exact match",
+      "exact_ui": "Find one object"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Still missing steps'",
+      "detail": "Observed exact string",
+      "exact_ui": "Still missing steps"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Why a ZIP (not per-group photo upload)?'",
+      "detail": "Observed exact string",
+      "exact_ui": "Why a ZIP (not per-group photo upload)?"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'This task is object detection'",
+      "detail": "Observed exact string",
+      "exact_ui": "This task is object detection"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Find one object'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find one object"
+    },
+    {
+      "task": "object_localization",
+      "severity": "FAIL",
+      "stage": "06-dataset-step",
+      "title": "Localization ZIP explainer hardcodes 'object detection'",
+      "detail": "Step 2 note says 'This task is object detection' even when task is Find one object.",
+      "exact_ui": "This task is object detection"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "06-dataset-step",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Why a ZIP (not per-group photo upload)?'",
+      "detail": "Observed exact string",
+      "exact_ui": "Why a ZIP (not per-group photo upload)?"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'This task is object detection'",
+      "detail": "Observed exact string",
+      "exact_ui": "This task is object detection"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Find one object'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find one object"
+    },
+    {
+      "task": "object_localization",
+      "severity": "FAIL",
+      "stage": "06-dataset-step",
+      "title": "Localization ZIP explainer hardcodes 'object detection'",
+      "detail": "Step 2 note says 'This task is object detection' even when task is Find one object.",
+      "exact_ui": "This task is object detection"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "06-dataset-step",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Status shows Ready",
+      "detail": "Dataset ready indicator",
+      "exact_ui": "Ready"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Find one object'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find one object"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Reached Step 3 without starting training",
+      "detail": "CTA candidates left unclicked: []",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Step 3 H3 is 'Start training' while CTA may also start training",
+      "detail": "Header copy: 'Start training' \u2014 may confuse with the action button.",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Find one object'",
+      "detail": "Observed exact string",
+      "exact_ui": "Find one object"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "08-ui-details",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Exact sentence match",
+      "detail": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training.",
+      "exact_ui": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training."
+    },
+    {
+      "task": "object_localization",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Flow complete (no training started)",
+      "detail": "project_id=prj-24a7a46f",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "01-login-home",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Upload sample images (10 required)'",
+      "detail": "Observed exact string",
+      "exact_ui": "Upload sample images (10 required)"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Chat placeholder",
+      "detail": "Upload 10 sample images to enable chat (0/10)\u2026",
+      "exact_ui": "Upload 10 sample images to enable chat (0/10)\u2026"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "02-new-workspace",
+      "title": "Project created",
+      "detail": "project_id=prj-6ac540fd",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Sample counter shows 10/10",
+      "detail": "Samples complete",
+      "exact_ui": "10/10"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "03-sample-upload",
+      "title": "Label uses colon after Attached images",
+      "detail": "Exact: 'Attached images:'",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=1",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Understanding your project'",
+      "detail": "Observed exact string",
+      "exact_ui": "Understanding your project"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=2",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=3",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Ready to build your plan'",
+      "detail": "Observed exact string",
+      "exact_ui": "Ready to build your plan"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "04-vlm-chat",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "04-vlm-chat",
+      "title": "Generate Config mentioned in UI after turn",
+      "detail": "turn=4",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Define Your Vision Task'",
+      "detail": "Observed exact string",
+      "exact_ui": "Define Your Vision Task"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Generate Config'",
+      "detail": "Observed exact string",
+      "exact_ui": "Generate Config"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Predict a number'",
+      "detail": "Observed exact string",
+      "exact_ui": "Predict a number"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Attached images:'",
+      "detail": "Observed exact string",
+      "exact_ui": "Attached images:"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Send \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Send \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Copy present: 'Config \u2212'",
+      "detail": "Observed exact string",
+      "exact_ui": "Config \u2212"
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "05-generate-config",
+      "title": "Mixed dash styles (em dash and spaced hyphen)",
+      "detail": "Both '\u2014' and ' - ' appear on page",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "05-generate-config",
+      "title": "Task badge shows 'Predict a number'",
+      "detail": "Exact match",
+      "exact_ui": "Predict a number"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Still missing steps'",
+      "detail": "Observed exact string",
+      "exact_ui": "Still missing steps"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Predict a number'",
+      "detail": "Observed exact string",
+      "exact_ui": "Predict a number"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Review setup'",
+      "detail": "Observed exact string",
+      "exact_ui": "Review setup"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Copy present: 'Predict a number'",
+      "detail": "Observed exact string",
+      "exact_ui": "Predict a number"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "06-dataset-step",
+      "title": "Status shows Ready",
+      "detail": "Dataset ready indicator",
+      "exact_ui": "Ready"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Copy present: 'Predict a number'",
+      "detail": "Observed exact string",
+      "exact_ui": "Predict a number"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Reached Step 3 without starting training",
+      "detail": "CTA candidates left unclicked: []",
+      "exact_ui": ""
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Step 3 H3 is 'Start training' while CTA may also start training",
+      "detail": "Header copy: 'Start training' \u2014 may confuse with the action button.",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Start training'",
+      "detail": "Observed exact string",
+      "exact_ui": "Start training"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Copy present: 'Predict a number'",
+      "detail": "Observed exact string",
+      "exact_ui": "Predict a number"
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "08-ui-details",
+      "title": "Exact sentence match",
+      "detail": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training.",
+      "exact_ui": "Pipeline settings are chosen automatically from your dataset images \u2014 review below, then start training."
+    },
+    {
+      "task": "regression",
+      "severity": "PASS",
+      "stage": "07-training-review",
+      "title": "Flow complete (no training started)",
+      "detail": "project_id=prj-6ac540fd",
+      "exact_ui": ""
+    },
+    {
+      "task": "classification",
+      "severity": "FAIL",
+      "stage": "07-training-review",
+      "title": "Double currency marker in cost estimate",
+      "detail": "Shows '$ $0.29-$0.41' (space + duplicated $).",
+      "exact_ui": "$ $0.29-$0.41"
+    },
+    {
+      "task": "classification",
+      "severity": "FAIL",
+      "stage": "07-training-review",
+      "title": "Confidence uses comma decimal",
+      "detail": "English UI shows 0,5 instead of 0.5.",
+      "exact_ui": "0,5"
+    },
+    {
+      "task": "classification",
+      "severity": "FAIL",
+      "stage": "07-training-review",
+      "title": "Classes(3) includes chat prose chip",
+      "detail": "Extra class chip like 'OK or Defect. These are top-down photos\u2026' merged from transcript.",
+      "exact_ui": "Classes (3)"
+    },
+    {
+      "task": "classification",
+      "severity": "FAIL",
+      "stage": "07-training-review",
+      "title": "Toast lowercases TASK_LABEL awkwardly",
+      "detail": "Toast: 'Step 2: Upload your pre-labeled sort into one group dataset.'",
+      "exact_ui": "sort into one group"
+    },
+    {
+      "task": "regression",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Cost formatting has spaced dollar",
+      "detail": "Shows '$ 0.22\u2013$0.31' (space after first $).",
+      "exact_ui": "$ 0.22\u2013$0.31"
+    },
+    {
+      "task": "object_localization",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Cost formatting has spaced dollar",
+      "detail": "Shows '$ 0.92\u2013$1.31'.",
+      "exact_ui": "$ 0.92\u2013$1.31"
+    },
+    {
+      "task": "all",
+      "severity": "NOTE",
+      "stage": "07-training-review",
+      "title": "Primary CTA is 'Complete setup' not Start training",
+      "detail": "Header says Start training; footer CTA is Complete setup >. Training was not clicked.",
+      "exact_ui": "Complete setup >"
+    },
+    {
+      "task": "all",
+      "severity": "NOTE",
+      "stage": "ui",
+      "title": "Search placeholder ellipsis",
+      "detail": "Header search: 'Search resources...'",
+      "exact_ui": "Search resources..."
+    }
+  ]
+}

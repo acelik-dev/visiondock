@@ -1,0 +1,88 @@
+  SS → regression/01-login-home/00-after-login.png
+
+======== TASK: regression ========
+  SS → regression/01-login-home/01-home.png
+[NOTE] regression/01-login-home: Mixed dash styles (em dash and spaced hyphen) — Both '—' and ' - ' appear on page
+  SS → regression/02-new-workspace/01-empty-discovery.png
+[PASS] regression/02-new-workspace: Copy present: 'Upload sample images (10 required)' — Observed exact string
+[PASS] regression/02-new-workspace: Copy present: 'Define Your Vision Task' — Observed exact string
+[PASS] regression/02-new-workspace: Chat placeholder — Upload 10 sample images to enable chat (0/10)…
+[PASS] regression/02-new-workspace: Project created — project_id=prj-6ac540fd
+  SS → regression/03-sample-upload/01-samples-10-of-10.png
+[PASS] regression/03-sample-upload: Copy present: 'Define Your Vision Task' — Observed exact string
+[PASS] regression/03-sample-upload: Copy present: 'Generate Config' — Observed exact string
+[PASS] regression/03-sample-upload: Copy present: 'Attached images:' — Observed exact string
+[PASS] regression/03-sample-upload: Copy present: 'Send −' — Observed exact string
+[PASS] regression/03-sample-upload: Copy present: 'Config −' — Observed exact string
+[PASS] regression/03-sample-upload: Sample counter shows 10/10 — Samples complete
+[PASS] regression/03-sample-upload: Label uses colon after Attached images — Exact: 'Attached images:'
+  SS → regression/04-vlm-chat/01-after-turn-1.png
+[PASS] regression/04-vlm-chat: Copy present: 'Define Your Vision Task' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Generate Config' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Attached images:' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Understanding your project' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Send −' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Config −' — Observed exact string
+[NOTE] regression/04-vlm-chat: Generate Config mentioned in UI after turn — turn=1
+  SS → regression/04-vlm-chat/02-after-turn-2.png
+[PASS] regression/04-vlm-chat: Copy present: 'Define Your Vision Task' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Generate Config' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Attached images:' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Understanding your project' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Send −' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Config −' — Observed exact string
+[NOTE] regression/04-vlm-chat: Mixed dash styles (em dash and spaced hyphen) — Both '—' and ' - ' appear on page
+[NOTE] regression/04-vlm-chat: Generate Config mentioned in UI after turn — turn=2
+  SS → regression/04-vlm-chat/03-after-turn-3.png
+[PASS] regression/04-vlm-chat: Copy present: 'Define Your Vision Task' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Generate Config' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Attached images:' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Ready to build your plan' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Send −' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Config −' — Observed exact string
+[NOTE] regression/04-vlm-chat: Mixed dash styles (em dash and spaced hyphen) — Both '—' and ' - ' appear on page
+[NOTE] regression/04-vlm-chat: Generate Config mentioned in UI after turn — turn=3
+  SS → regression/04-vlm-chat/04-after-turn-4.png
+[PASS] regression/04-vlm-chat: Copy present: 'Define Your Vision Task' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Generate Config' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Attached images:' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Ready to build your plan' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Send −' — Observed exact string
+[PASS] regression/04-vlm-chat: Copy present: 'Config −' — Observed exact string
+[NOTE] regression/04-vlm-chat: Mixed dash styles (em dash and spaced hyphen) — Both '—' and ' - ' appear on page
+[NOTE] regression/04-vlm-chat: Generate Config mentioned in UI after turn — turn=4
+  SS → regression/05-generate-config/01-before-click.png
+  SS → regression/05-generate-config/02-config-ready.png
+[PASS] regression/05-generate-config: Copy present: 'Define Your Vision Task' — Observed exact string
+[PASS] regression/05-generate-config: Copy present: 'Generate Config' — Observed exact string
+[PASS] regression/05-generate-config: Copy present: 'Predict a number' — Observed exact string
+[PASS] regression/05-generate-config: Copy present: 'Attached images:' — Observed exact string
+[PASS] regression/05-generate-config: Copy present: 'Send −' — Observed exact string
+[PASS] regression/05-generate-config: Copy present: 'Config −' — Observed exact string
+[NOTE] regression/05-generate-config: Mixed dash styles (em dash and spaced hyphen) — Both '—' and ' - ' appear on page
+[PASS] regression/05-generate-config: Task badge shows 'Predict a number' — Exact match
+  SS → regression/06-dataset-step/01-dataset-empty.png
+[PASS] regression/06-dataset-step: Copy present: 'Review setup' — Observed exact string
+[PASS] regression/06-dataset-step: Copy present: 'Still missing steps' — Observed exact string
+[PASS] regression/06-dataset-step: Copy present: 'Predict a number' — Observed exact string
+  SS → regression/06-dataset-step/02-images-uploaded.png
+  SS → regression/06-dataset-step/03-targets-uploaded.png
+  SS → regression/06-dataset-step/04-dataset-ready.png
+[PASS] regression/06-dataset-step: Copy present: 'Review setup' — Observed exact string
+[PASS] regression/06-dataset-step: Copy present: 'Predict a number' — Observed exact string
+[PASS] regression/06-dataset-step: Status shows Ready — Dataset ready indicator
+  SS → regression/07-training-review/01-training-review-initial.png
+  SS → regression/07-training-review/01-training-review.png
+[PASS] regression/07-training-review: Copy present: 'Start training' — Observed exact string
+[PASS] regression/07-training-review: Copy present: 'Predict a number' — Observed exact string
+[PASS] regression/07-training-review: Reached Step 3 without starting training — CTA candidates left unclicked: []
+[NOTE] regression/07-training-review: Step 3 H3 is 'Start training' while CTA may also start training — Header copy: 'Start training' — may confuse with the action button.
+  SS → regression/08-ui-details/01-bottom.png
+  SS → regression/08-ui-details/02-top.png
+[PASS] regression/08-ui-details: Copy present: 'Start training' — Observed exact string
+[PASS] regression/08-ui-details: Copy present: 'Predict a number' — Observed exact string
+[PASS] regression/08-ui-details: Exact sentence match — Pipeline settings are chosen automatically from your dataset images — review below, then start training.
+[PASS] regression/07-training-review: Flow complete (no training started) — project_id=prj-6ac540fd
+
+Report → /Users/ahmetahacelik/Downloads/AI-Model-Builder/qa-screenshots/_reports/findings-regression.md
+EXIT:0

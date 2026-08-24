@@ -1,0 +1,12 @@
+FROM mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04:latest
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+USER dockeruser
+RUN pip install --no-cache-dir \
+    opencv-python-headless>=4.8.0 \
+    ultralytics>=8.0.0 \
+    pillow>=10.0.0 \
+    numpy>=1.24.0 \
+    azureml-inference-server-http>=1.0.0
