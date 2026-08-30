@@ -460,6 +460,96 @@ def debit_for_user_id(
         db.close()
 
 
+def refund_debit_for_user_id(
+    user_id: int,
+    debit_usage_event_id: int,
+    session_id: int | None = None,
+    note: str | None = None,
+) -> dict[str, Any]:
+    """Idempotently refund a failed inference deploy debit in a fresh DB session."""
+    from db.database import get_session_factory
+
+    SessionLocal = get_session_factory()
+    db = SessionLocal()
+    try:
+        debit_event = (
+            db.query(UsageEvent)
+            .filter(UsageEvent.id == int(debit_usage_event_id))
+            .one_or_none()
+        )
+        if debit_event is None:
+            raise ValueError(f"Usage event {debit_usage_event_id} not found")
+        if debit_event.user_id != int(user_id):
+            raise ValueError("Debit usage event does not belong to the requested user")
+        if debit_event.action != "inference_deploy":
+            raise ValueError("Usage event is not an inference deployment debit")
+        if int(debit_event.credits_delta or 0) >= 0:
+            raise ValueError("Inference deployment usage event is not a debit")
+
+        refund_ref = f"usage_event:{debit_event.id}"
+        user = (
+            db.query(User)
+            .filter(User.id == int(user_id))
+            .with_for_update()
+            .one_or_none()
+        )
+        if user is None:
+            raise HTTPException(status_code=401, detail="User not found for credit refund")
+
+        existing_refund = (
+            db.query(UsageEvent)
+            .filter(
+                UsageEvent.user_id == int(user_id),
+                UsageEvent.action == "refund_inference_deploy",
+                UsageEvent.ref == refund_ref,
+            )
+            .one_or_none()
+        )
+        if existing_refund is not None:
+            return {
+                "balance": int(user.credits_balance or 0),
+                "refunded": 0,
+                "original_usage_event_id": debit_event.id,
+            }
+
+        amount = -int(debit_event.credits_delta)
+        refund_note = note or "Refund for failed inference deployment"
+        user.credits_balance = int(user.credits_balance or 0) + amount
+        refund_event = record_usage_event(
+            db,
+            user_id=user.id,
+            action="refund_inference_deploy",
+            status="refunded",
+            credits_delta=amount,
+            project_id=debit_event.project_id,
+            ref=refund_ref,
+            note=refund_note,
+            session_id=session_id,
+            meta={"original_usage_event_id": debit_event.id},
+        )
+        _append_ledger(
+            db,
+            user,
+            delta=amount,
+            reason="refund_inference_deploy",
+            ref=refund_ref,
+            note=refund_note,
+            usage_event_id=refund_event.id,
+        )
+        db.commit()
+        db.refresh(user)
+        return {
+            "balance": int(user.credits_balance),
+            "refunded": amount,
+            "original_usage_event_id": debit_event.id,
+        }
+    except Exception:
+        db.rollback()
+        raise
+    finally:
+        db.close()
+
+
 def settle_training_compute(
     *,
     user_id: int,

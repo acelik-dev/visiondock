@@ -14,7 +14,7 @@ import threading
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from services.project_store import ProjectStore
 
@@ -103,7 +103,13 @@ class InferenceService:
                 total += int(size)
         return total or None
 
-    def register_and_deploy(self, project_id: str, job_id: str) -> bool:
+    def register_and_deploy(
+        self,
+        project_id: str,
+        job_id: str,
+        *,
+        billing_factory: Callable[[], dict[str, Any]] | None = None,
+    ) -> bool:
         """Start a deploy in the background. Returns False if one is already running."""
         with _deploy_lock:
             if project_id in _deploy_inflight:
@@ -111,28 +117,68 @@ class InferenceService:
             _deploy_inflight.add(project_id)
             _deploy_errors.pop(project_id, None)
 
-        def _run() -> None:
             try:
-                self._register_and_deploy_sync(project_id, job_id)
-            except Exception as exc:
-                logger.exception("Inference deploy failed for %s", project_id)
-                _deploy_errors[project_id] = _friendly_deploy_error(exc)
-                self.store.update_meta(
-                    project_id,
-                    {
-                        "inference": {
-                            **self.get_inference_meta(project_id),
-                            "status": "failed",
-                            "error": _deploy_errors[project_id],
-                            "updated_at": _now(),
-                        }
-                    },
-                )
-            finally:
-                with _deploy_lock:
-                    _deploy_inflight.discard(project_id)
+                billing = billing_factory() if billing_factory is not None else None
+            except Exception:
+                _deploy_inflight.discard(project_id)
+                raise
 
-        threading.Thread(target=_run, name=f"inference-deploy-{project_id}", daemon=True).start()
+            def _refund_billing(note: str) -> None:
+                if billing is None:
+                    return
+                try:
+                    from services.credits import refund_debit_for_user_id
+
+                    refund_debit_for_user_id(
+                        user_id=int(billing["user_id"]),
+                        debit_usage_event_id=int(billing["debit_usage_event_id"]),
+                        session_id=(
+                            int(billing["session_id"])
+                            if billing.get("session_id") is not None
+                            else None
+                        ),
+                        note=note,
+                    )
+                except Exception:
+                    logger.exception("Inference deploy refund failed for %s", project_id)
+
+            def _run() -> None:
+                try:
+                    self._register_and_deploy_sync(project_id, job_id)
+                except Exception as exc:
+                    logger.exception("Inference deploy failed for %s", project_id)
+                    _deploy_errors[project_id] = _friendly_deploy_error(exc)
+                    try:
+                        self.store.update_meta(
+                            project_id,
+                            {
+                                "inference": {
+                                    **self.get_inference_meta(project_id),
+                                    "status": "failed",
+                                    "error": _deploy_errors[project_id],
+                                    "updated_at": _now(),
+                                }
+                            },
+                        )
+                    finally:
+                        _refund_billing(
+                            f"Refund for failed inference deployment: {_deploy_errors[project_id]}"
+                        )
+                finally:
+                    with _deploy_lock:
+                        _deploy_inflight.discard(project_id)
+
+            try:
+                thread = threading.Thread(
+                    target=_run,
+                    name=f"inference-deploy-{project_id}",
+                    daemon=True,
+                )
+                thread.start()
+            except Exception:
+                _deploy_inflight.discard(project_id)
+                _refund_billing("Refund because inference deployment thread failed to start")
+                raise
         return True
 
     def deploy_status(self, project_id: str) -> dict[str, Any]:

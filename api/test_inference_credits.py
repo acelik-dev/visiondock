@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import os
 import tempfile
+import time
 import unittest
 from pathlib import Path
 from typing import Any
+from unittest.mock import patch
 
 
 class _FakeResponse:
@@ -47,9 +49,19 @@ class _FakeInferenceService:
     def ensure_api_key(self, project_id: str, rotate: bool = False) -> str:
         return "vd_test_key"
 
-    def register_and_deploy(self, project_id: str, job_id: str) -> bool:
+    def register_and_deploy(
+        self,
+        project_id: str,
+        job_id: str,
+        *,
+        billing_factory=None,
+    ) -> bool:
         self.deploy_calls += 1
-        return not self.already_running
+        if self.already_running:
+            return False
+        if billing_factory is not None:
+            billing_factory()
+        return True
 
     def deploy_status(self, project_id: str) -> dict[str, Any]:
         return {"status": "deploying"}
@@ -128,6 +140,45 @@ class InferenceCreditsTests(unittest.TestCase):
     def _balance(self) -> int:
         return self.client.get("/api/credits/me").json()["data"]["balance"]
 
+    def _billing_context(
+        self,
+        ref: str,
+        project_id: str | None = None,
+    ) -> tuple[dict[str, Any], int]:
+        from db.database import get_session_factory
+        from db.models import User
+        from services.credits import debit_for_user_id
+
+        account = self.client.get("/api/credits/me").json()["data"]
+        session_factory = get_session_factory()
+        db = session_factory()
+        try:
+            user = db.query(User).filter(User.id == int(account["user_id"])).one()
+            user_id = int(user.id)
+        finally:
+            db.close()
+        debit = debit_for_user_id(
+            user_id,
+            "inference_deploy",
+            ref=ref,
+            amount=3,
+            project_id=project_id or self.project_id,
+            session_id=account.get("session_id"),
+        )
+        return {
+            "user_id": user_id,
+            "session_id": account.get("session_id"),
+            "debit_usage_event_id": int(debit["usage_event_id"]),
+        }, int(debit["usage_event_id"])
+
+    def _wait_for_deploy(self, project_id: str) -> None:
+        from services import inference_service
+
+        deadline = time.monotonic() + 3
+        while project_id in inference_service._deploy_inflight and time.monotonic() < deadline:
+            time.sleep(0.01)
+        self.assertNotIn(project_id, inference_service._deploy_inflight)
+
     def test_deploy_charges_from_model_size(self) -> None:
         from services.azure_pricing import inference_deploy_credits
 
@@ -153,6 +204,192 @@ class InferenceCreditsTests(unittest.TestCase):
         self.assertEqual(res.status_code, 200, res.text)
         self.assertIsNone(res.json()["credits"])
         self.assertEqual(self._balance(), before)
+
+    def test_debit_failure_prevents_thread_start_and_clears_inflight(self) -> None:
+        from services import inference_service
+        from services.inference_service import InferenceService
+
+        project_id = f"{self.project_id}-debit-failure"
+
+        def fail_billing() -> dict[str, Any]:
+            raise RuntimeError("debit failed")
+
+        with patch.object(inference_service.threading, "Thread") as thread:
+            with self.assertRaisesRegex(RuntimeError, "debit failed"):
+                InferenceService(self.store).register_and_deploy(
+                    project_id,
+                    self.job_id,
+                    billing_factory=fail_billing,
+                )
+        thread.assert_not_called()
+        self.assertNotIn(project_id, inference_service._deploy_inflight)
+
+    def test_background_failure_refunds_exact_debit_once(self) -> None:
+        from db.database import get_session_factory
+        from db.models import CreditLedger, UsageEvent
+        from services import inference_service
+        from services.credits import refund_debit_for_user_id
+        from services.inference_service import InferenceService
+
+        project_id = self.store.create(name="Failed inference deploy")["id"]
+        before = self._balance()
+        billing, debit_event_id = self._billing_context("background-failure", project_id)
+        service = InferenceService(self.store)
+
+        def fail_deploy(*args: Any, **kwargs: Any) -> dict[str, Any]:
+            raise RuntimeError("Azure deployment failed")
+
+        service._register_and_deploy_sync = fail_deploy  # type: ignore[method-assign]
+        self.assertTrue(
+            service.register_and_deploy(
+                project_id,
+                self.job_id,
+                billing_factory=lambda: billing,
+            )
+        )
+        self._wait_for_deploy(project_id)
+        self.assertEqual(self._balance(), before)
+
+        session_factory = get_session_factory()
+        db = session_factory()
+        try:
+            debit_event = db.query(UsageEvent).filter(UsageEvent.id == debit_event_id).one()
+            refunds = (
+                db.query(UsageEvent)
+                .filter(
+                    UsageEvent.action == "refund_inference_deploy",
+                    UsageEvent.ref == f"usage_event:{debit_event_id}",
+                )
+                .all()
+            )
+            self.assertEqual(debit_event.status, "success")
+            self.assertEqual(len(refunds), 1)
+            self.assertEqual(refunds[0].credits_delta, 3)
+            refund_ledger = (
+                db.query(CreditLedger)
+                .filter(
+                    CreditLedger.user_id == int(billing["user_id"]),
+                    CreditLedger.reason == "refund_inference_deploy",
+                    CreditLedger.ref == f"usage_event:{debit_event_id}",
+                )
+                .all()
+            )
+            self.assertEqual(len(refund_ledger), 1)
+            self.assertEqual(refund_ledger[0].delta, 3)
+            self.assertEqual(refund_ledger[0].reason, "refund_inference_deploy")
+            self.assertEqual(refund_ledger[0].ref, f"usage_event:{debit_event_id}")
+            self.assertEqual(refund_ledger[0].usage_event_id, refunds[0].id)
+            debit_ledger = (
+                db.query(CreditLedger)
+                .filter(CreditLedger.usage_event_id == debit_event_id)
+                .one()
+            )
+            self.assertEqual(debit_ledger.delta, -3)
+            self.assertEqual(debit_ledger.reason, "inference_deploy")
+            self.assertEqual(debit_ledger.ref, "background-failure")
+        finally:
+            db.close()
+
+        repeated = refund_debit_for_user_id(
+            user_id=int(billing["user_id"]),
+            debit_usage_event_id=debit_event_id,
+            session_id=billing.get("session_id"),
+        )
+        self.assertEqual(repeated["refunded"], 0)
+        self.assertEqual(self._balance(), before)
+
+    def test_successful_background_deployment_does_not_refund(self) -> None:
+        from db.database import get_session_factory
+        from db.models import UsageEvent
+        from services.inference_service import InferenceService
+
+        project_id = f"{self.project_id}-success"
+        before = self._balance()
+        billing, debit_event_id = self._billing_context("background-success")
+        service = InferenceService(self.store)
+        service._register_and_deploy_sync = lambda *args, **kwargs: {}  # type: ignore[method-assign]
+
+        self.assertTrue(
+            service.register_and_deploy(
+                project_id,
+                self.job_id,
+                billing_factory=lambda: billing,
+            )
+        )
+        self._wait_for_deploy(project_id)
+        self.assertEqual(self._balance(), before - 3)
+
+        session_factory = get_session_factory()
+        db = session_factory()
+        try:
+            refund = (
+                db.query(UsageEvent)
+                .filter(
+                    UsageEvent.action == "refund_inference_deploy",
+                    UsageEvent.ref == f"usage_event:{debit_event_id}",
+                )
+                .one_or_none()
+            )
+            self.assertIsNone(refund)
+        finally:
+            db.close()
+
+    def test_thread_start_failure_refunds_and_clears_inflight(self) -> None:
+        from db.database import get_session_factory
+        from db.models import UsageEvent
+        from services import inference_service
+        from services.inference_service import InferenceService
+
+        project_id = f"{self.project_id}-thread-failure"
+        before = self._balance()
+        captured: dict[str, Any] = {}
+
+        class FailingThread:
+            def __init__(self, *args: Any, **kwargs: Any) -> None:
+                pass
+
+            def start(self) -> None:
+                self_test.assertIn("debit_usage_event_id", captured)
+                captured["start_called"] = True
+                raise RuntimeError("thread failed to start")
+
+        def bill() -> dict[str, Any]:
+            billing, debit_event_id = self._billing_context("thread-start-failure")
+            captured["debit_usage_event_id"] = debit_event_id
+            return billing
+
+        self_test = self
+        with patch.object(inference_service.threading, "Thread", FailingThread):
+            with self.assertRaisesRegex(RuntimeError, "thread failed to start"):
+                InferenceService(self.store).register_and_deploy(
+                    project_id,
+                    self.job_id,
+                    billing_factory=bill,
+                )
+        self.assertTrue(captured.get("start_called"))
+        self.assertNotIn(project_id, inference_service._deploy_inflight)
+        self.assertEqual(self._balance(), before)
+
+        debit_event_id = int(captured["debit_usage_event_id"])
+        session_factory = get_session_factory()
+        db = session_factory()
+        try:
+            debit_event = db.query(UsageEvent).filter(UsageEvent.id == debit_event_id).one()
+            refunds = (
+                db.query(UsageEvent)
+                .filter(
+                    UsageEvent.action == "refund_inference_deploy",
+                    UsageEvent.ref == f"usage_event:{debit_event_id}",
+                )
+                .all()
+            )
+            self.assertEqual(debit_event.action, "inference_deploy")
+            self.assertEqual(debit_event.credits_delta, -3)
+            self.assertEqual(debit_event.status, "success")
+            self.assertEqual(len(refunds), 1)
+            self.assertEqual(refunds[0].credits_delta, 3)
+        finally:
+            db.close()
 
     def test_predict_debits_one_credit(self) -> None:
         from services.credits import cost_for

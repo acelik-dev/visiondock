@@ -61,10 +61,35 @@ def deploy_inference(request: Request, project_id: str, db: Session = Depends(ge
     model_bytes = svc.model_size_bytes(project_id, str(job_id))
     vm_size = configured_inference_vm()
     amount, usd = inference_deploy_credits(model_bytes=model_bytes, vm_size=vm_size)
-    check_from_request(request, db, "inference_deploy", amount=amount)
+    balance_check = check_from_request(request, db, "inference_deploy", amount=amount)
 
     svc.ensure_api_key(project_id)
-    started = svc.register_and_deploy(project_id, str(job_id))
+    credits: dict[str, Any] | None = None
+    size_note = f"{(model_bytes or 0) / (1024 * 1024):.1f} MB model" if model_bytes else "model"
+
+    def _bill_deployment() -> dict[str, Any]:
+        nonlocal credits
+        credits = debit_from_request(
+            request,
+            db,
+            "inference_deploy",
+            ref=project_id,
+            note=f"Endpoint provisioning on {vm_size} ({size_note}) ≈ ${usd:.4f}",
+            amount=amount,
+            azure_cost_usd=usd,
+            project_id=project_id,
+        )
+        return {
+            "user_id": int(balance_check["user_id"]),
+            "session_id": balance_check.get("session_id"),
+            "debit_usage_event_id": int(credits["usage_event_id"]),
+        }
+
+    started = svc.register_and_deploy(
+        project_id,
+        str(job_id),
+        billing_factory=_bill_deployment,
+    )
     if not started:
         # Already provisioning — the in-flight deploy was the one that got charged.
         return {
@@ -74,17 +99,6 @@ def deploy_inference(request: Request, project_id: str, db: Session = Depends(ge
             "credits": None,
         }
 
-    size_note = f"{(model_bytes or 0) / (1024 * 1024):.1f} MB model" if model_bytes else "model"
-    credits = debit_from_request(
-        request,
-        db,
-        "inference_deploy",
-        ref=project_id,
-        note=f"Endpoint provisioning on {vm_size} ({size_note}) ≈ ${usd:.4f}",
-        amount=amount,
-        azure_cost_usd=usd,
-        project_id=project_id,
-    )
     return {
         "success": True,
         "message": "Inference deployment started on Azure ML",
