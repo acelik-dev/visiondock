@@ -107,6 +107,46 @@ export const DATASET_COPY: Record<string, MarketplaceItemCopy> = {
     detailBlurb: "Portrait photos paired with age in years — no categories, just a number.",
     classHint: "Predicts age (years), not a category label.",
   },
+  "coco128-detection": {
+    headline: "Everyday scenes with COCO object boxes",
+    whatItIs: "128 real photos from COCO with YOLO bounding boxes across 80 everyday object types.",
+    goodFor: "Detection demos, YOLO pipeline testing, and multi-object counting prototypes.",
+    startProjectHint: "Opens a detection project with annotated images in a ZIP.",
+    detailBlurb: "Ultralytics COCO128 — compact but diverse street and indoor scenes.",
+    classHint: "80 COCO object categories — all listed below.",
+  },
+  "coco128-localization": {
+    headline: "COCO scenes with one box per photo",
+    whatItIs: "Same COCO128 images reformatted for single-object localization — one primary box each.",
+    goodFor: "Product picking, focused inspection, and single-target tracking demos.",
+    startProjectHint: "Opens a localization project with pre-drawn single boxes.",
+    detailBlurb: "One highlighted object per frame from COCO128.",
+    classHint: "Locates one of these COCO types per image:",
+  },
+  "coco128-multilabel": {
+    headline: "COCO scenes with multiple tags",
+    whatItIs: "COCO128 images paired with a CSV of all object categories present in each photo.",
+    goodFor: "Multi-tag search, scene understanding, and attribute filtering.",
+    startProjectHint: "Images plus a label manifest — ready for multi-label training.",
+    detailBlurb: "Real COCO categories as multiple tags per image.",
+    classHint: "Each image can have several of these COCO tags:",
+  },
+  "fashion-mnist": {
+    headline: "Clothing photos in 10 categories",
+    whatItIs: "Fashion-MNIST training images converted to RGB JPEGs across 10 apparel types.",
+    goodFor: "Retail sorting demos and fast classification benchmarks.",
+    startProjectHint: "Classification project with 10 pre-loaded clothing folders.",
+    detailBlurb: "Classic fashion benchmark — shirts, shoes, bags, and more.",
+    classHint: "Ten clothing and accessory types:",
+  },
+  "flowers-102": {
+    headline: "Colorful flower species photos",
+    whatItIs: "A subset of Oxford Flowers-102 — real flower photos across 10 species.",
+    goodFor: "Nature classification demos and visually rich prototypes.",
+    startProjectHint: "Classification project with flower folders ready to train.",
+    detailBlurb: "High-quality flower photos from the Oxford benchmark.",
+    classHint: "Ten flower species in this subset:",
+  },
 };
 
 export const MODEL_COPY: Record<string, MarketplaceItemCopy> = {
@@ -164,6 +204,46 @@ export const MODEL_COPY: Record<string, MarketplaceItemCopy> = {
     detailBlurb: "EfficientNet regressor head for scalar targets.",
     classHint: "No fixed categories — you define the numeric target column.",
   },
+  "yolov8n-coco128-detection": {
+    headline: "YOLOv8n for COCO-style detection",
+    whatItIs: "Fast multi-object detector tuned for COCO128 — 80 everyday object classes.",
+    goodFor: "Street monitoring, retail, and general object finding demos.",
+    startProjectHint: "Detection project — upload your YOLO ZIP in Step 2.",
+    detailBlurb: "YOLOv8 nano on COCO128 reference data.",
+    classHint: "Reference COCO classes (your data defines the real set):",
+  },
+  "yolov8n-coco128-localization": {
+    headline: "YOLOv8n for single-object localization",
+    whatItIs: "Finds one primary object per COCO128 scene with a bounding box.",
+    goodFor: "Single-target inspection and pick-and-place demos.",
+    startProjectHint: "Localization project — provide boxed images in Step 2.",
+    detailBlurb: "Single-box YOLO head on COCO128.",
+    classHint: "Reference COCO object types:",
+  },
+  "efficientnet-coco128-multilabel": {
+    headline: "EfficientNet for COCO multi-tag scenes",
+    whatItIs: "Predicts multiple COCO labels per photo instead of one winner.",
+    goodFor: "Scene tagging, search facets, and content attributes.",
+    startProjectHint: "Multi-label project — upload images and your tag CSV in Step 2.",
+    detailBlurb: "Sigmoid outputs for each COCO category.",
+    classHint: "Reference COCO tags (your CSV defines the real ones):",
+  },
+  "efficientnet-fashion-mnist": {
+    headline: "EfficientNet for clothing classification",
+    whatItIs: "Lightweight classifier for apparel categories — trained on Fashion-MNIST reference data.",
+    goodFor: "Retail sorting and fashion category demos.",
+    startProjectHint: "Classification project — name your groups and upload photos.",
+    detailBlurb: "EfficientNet-B0 for clothing types.",
+    classHint: "Reference apparel categories:",
+  },
+  "efficientnet-flowers102": {
+    headline: "EfficientNet for flower species",
+    whatItIs: "Image classifier for flower species from the Oxford Flowers benchmark subset.",
+    goodFor: "Nature apps, garden catalogs, and colorful classification demos.",
+    startProjectHint: "Classification project — add your own species names if needed.",
+    detailBlurb: "EfficientNet on real flower photos.",
+    classHint: "Reference flower species in this subset:",
+  },
 };
 
 export function getDatasetCopy(id: string, name: string): MarketplaceItemCopy {
@@ -217,6 +297,11 @@ const MODEL_DISPLAY_TITLES: Record<string, string> = {
   "efficientnet-age-regression": "EfficientNet · Numeric regression",
   "yolov8n-voc-detection": "YOLOv8n · Multi-object detection",
   "yolov8n-voc-localization": "YOLOv8n · Single-object localization",
+  "yolov8n-coco128-detection": "YOLOv8n · COCO detection",
+  "yolov8n-coco128-localization": "YOLOv8n · COCO localization",
+  "efficientnet-coco128-multilabel": "EfficientNet · COCO multi-label",
+  "efficientnet-fashion-mnist": "EfficientNet · Fashion classification",
+  "efficientnet-flowers102": "EfficientNet · Flower classification",
 };
 
 /** Unique card title — architecture + task, no benchmark dataset names. */

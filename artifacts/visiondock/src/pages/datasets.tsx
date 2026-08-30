@@ -190,7 +190,7 @@ export default function DatasetsView() {
     }
   };
 
-  const filterOptions = [{ id: "all" as const, label: "All tasks" }, ...MARKETPLACE_TASK_TYPES.map((t) => ({ id: t.id, label: t.label }))];
+  const filterOptions = MARKETPLACE_TASK_TYPES;
 
   return (
     <div className="space-y-6">

@@ -20,7 +20,7 @@ CATALOG_KEY = "marketplace/catalog.json"
 _IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp"}
 _MAX_PREVIEWS = 8
 _THUMB_MAX_PX = 320
-_catalog_cache: MarketplaceCatalog | None = None
+_catalog_cache: tuple[str | None, MarketplaceCatalog] | None = None
 
 
 def _local_catalog_path() -> Path:
@@ -42,16 +42,19 @@ class MarketplaceStore:
 
     def get_catalog(self, *, refresh: bool = False) -> MarketplaceCatalog:
         global _catalog_cache
-        if _catalog_cache is not None and not refresh:
-            return _catalog_cache
         raw = self._read_raw_catalog()
         if not raw:
-            _catalog_cache = MarketplaceCatalog()
-            return _catalog_cache
+            _catalog_cache = (None, MarketplaceCatalog())
+            return _catalog_cache[1]
+        updated_at = raw.get("updated_at")
+        if _catalog_cache is not None and not refresh:
+            cached_at, cached = _catalog_cache
+            if cached_at == updated_at:
+                return cached
         catalog = MarketplaceCatalog.model_validate(raw)
         catalog.datasets = [d for d in catalog.datasets if d.task_type in SUPPORTED_TASK_TYPES]
         catalog.models = [m for m in catalog.models if m.task_type in SUPPORTED_TASK_TYPES]
-        _catalog_cache = catalog
+        _catalog_cache = (updated_at, catalog)
         return catalog
 
     def list_datasets(self, task_type: str | None = None) -> list[MarketplaceDatasetItem]:
