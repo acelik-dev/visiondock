@@ -71,6 +71,11 @@ def _normalize_data_yaml(data_yaml: Path, root: Path) -> Path:
     return fixed
 
 
+def _prepare_yolo_dataset(root: Path) -> Path:
+    """Return a normalized YAML while preserving the extracted annotated dataset."""
+    return _normalize_data_yaml(_find_data_yaml(root), root)
+
+
 def _extract_metrics(results: object, epochs: int) -> dict[str, float]:
     """Pull final validation metrics from Ultralytics results."""
     rd: dict = getattr(results, "results_dict", None) or {}
@@ -311,13 +316,12 @@ def _upload_artifacts(
 
 
 def main() -> None:
-    from visiondock_preprocess import preprocess_config_from_env, preprocess_yolo_dataset
+    from visiondock_preprocess import preprocess_config_from_env
     from visiondock_postprocess import load_postprocess_config
 
     root = _download_dataset_zip()
-    data_yaml = _normalize_data_yaml(_find_data_yaml(root), root)
+    data_yaml = _prepare_yolo_dataset(root)
     preprocess_cfg = preprocess_config_from_env()
-    data_yaml = preprocess_yolo_dataset(data_yaml, preprocess_cfg)
     pipeline = {
         "preprocessing": preprocess_cfg.to_dict(),
         "postprocessing": load_postprocess_config().to_dict(),
