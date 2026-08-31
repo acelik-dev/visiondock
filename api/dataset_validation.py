@@ -5,14 +5,20 @@ from __future__ import annotations
 import csv
 import io
 import json
+import math
 import os
+import posixpath
 import re
 import zipfile
+from pathlib import PurePosixPath
 from typing import Any
 from xml.etree import ElementTree
 
+import yaml
+
 IMAGE_EXT = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 LABEL_HINTS = ("labels", "annotations", "coco", "yolo", "masks", "voc")
+YOLO_BBOX_TOLERANCE = 1e-6
 # Upload storage prefixes files as "{12-hex}_{original}" — match CSV rows by original name.
 _STORED_NAME_PREFIX = re.compile(r"^[0-9a-f]{12}_(.+)$", re.IGNORECASE)
 
@@ -412,6 +418,278 @@ def _detect_annotation_format(names: list[str]) -> str | None:
     return None
 
 
+def _zip_path(value: str) -> str:
+    normalized = posixpath.normpath(value.replace("\\", "/"))
+    return "" if normalized == "." else normalized
+
+
+def _resolve_yolo_split_path(
+    value: Any,
+    data_yaml_name: str,
+    zip_names: set[str],
+    zf: zipfile.ZipFile,
+    archive_names: dict[str, str],
+) -> set[str] | None:
+    values = value if isinstance(value, list) else [value]
+    if not values or not all(isinstance(item, str) and item.strip() for item in values):
+        return None
+
+    yaml_parent = str(PurePosixPath(data_yaml_name).parent)
+    yaml_grandparent = str(PurePosixPath(yaml_parent).parent)
+    bases = (yaml_parent, "", yaml_grandparent)
+    split_images: set[str] = set()
+    for item in values:
+        if item.startswith("/"):
+            return None
+        resolved_images: set[str] | None = None
+        for base in bases:
+            candidate = _zip_path(posixpath.join(base, item))
+            if candidate == ".." or candidate.startswith("../"):
+                continue
+            prefix = f"{candidate.rstrip('/')}/"
+            directory_images = {
+                name
+                for name in zip_names
+                if name.startswith(prefix) and PurePosixPath(name).suffix.lower() in IMAGE_EXT
+            }
+            if candidate in zip_names and PurePosixPath(candidate).suffix.lower() in IMAGE_EXT:
+                resolved_images = {candidate}
+                break
+            if candidate in zip_names and candidate.lower().endswith(".txt"):
+                try:
+                    listed_paths = zf.read(archive_names[candidate]).decode("utf-8").splitlines()
+                except (KeyError, UnicodeDecodeError):
+                    continue
+                listed_images: set[str] = set()
+                list_parent = str(PurePosixPath(candidate).parent)
+                for listed_path in (line.strip() for line in listed_paths if line.strip()):
+                    if listed_path.startswith("/"):
+                        listed_images = set()
+                        break
+                    image_candidates = (
+                        _zip_path(posixpath.join(list_parent, listed_path)),
+                        _zip_path(listed_path),
+                    )
+                    image_name = next(
+                        (
+                            name
+                            for name in image_candidates
+                            if name in zip_names and PurePosixPath(name).suffix.lower() in IMAGE_EXT
+                        ),
+                        None,
+                    )
+                    if image_name is None:
+                        listed_images = set()
+                        break
+                    listed_images.add(image_name)
+                if listed_images:
+                    resolved_images = listed_images
+                    break
+            if directory_images:
+                resolved_images = directory_images
+                break
+        if resolved_images is None:
+            return None
+        split_images.update(resolved_images)
+    return split_images
+
+
+def _normalize_yolo_names(raw: Any, errors: list[str]) -> list[str]:
+    if isinstance(raw, list):
+        names = [str(value).strip() for value in raw]
+        if not names or any(not value for value in names):
+            errors.append("data.yaml names must contain at least one non-empty class name.")
+            return []
+        return names
+
+    if isinstance(raw, dict):
+        normalized: dict[int, str] = {}
+        for raw_id, raw_name in raw.items():
+            if isinstance(raw_id, bool):
+                errors.append("data.yaml names dictionary keys must be non-negative integer class IDs.")
+                return []
+            if isinstance(raw_id, int):
+                class_id = raw_id
+            elif isinstance(raw_id, str) and raw_id.isdigit():
+                class_id = int(raw_id)
+            else:
+                errors.append("data.yaml names dictionary keys must be non-negative integer class IDs.")
+                return []
+            name = str(raw_name).strip()
+            if class_id < 0 or not name or class_id in normalized:
+                errors.append("data.yaml names dictionary must use unique non-negative IDs and non-empty names.")
+                return []
+            normalized[class_id] = name
+        expected = list(range(len(normalized)))
+        if not normalized or sorted(normalized) != expected:
+            errors.append("data.yaml names dictionary IDs must be contiguous starting at 0.")
+            return []
+        return [normalized[index] for index in expected]
+
+    errors.append("data.yaml must define non-empty names as a list or ID-to-name dictionary.")
+    return []
+
+
+def _image_for_yolo_label(label_name: str, zip_names: set[str]) -> str | None:
+    parts = list(PurePosixPath(label_name).parts)
+    try:
+        label_index = next(i for i, part in enumerate(parts) if part.lower() in ("labels", "label"))
+    except StopIteration:
+        return None
+    parts[label_index] = "images"
+    stem = str(PurePosixPath(*parts).with_suffix(""))
+    for ext in IMAGE_EXT:
+        candidate = f"{stem}{ext}"
+        if candidate in zip_names:
+            return candidate
+    return None
+
+
+def _validate_yolo_dataset(
+    zf: zipfile.ZipFile,
+    names: list[str],
+) -> tuple[int, int, dict[str, int], list[str], list[str], dict[str, Any]]:
+    errors: list[str] = []
+    warnings: list[str] = []
+    stats: dict[str, Any] = {}
+    archive_names = {_zip_path(name): name for name in names}
+    zip_names = set(archive_names)
+    yaml_files = [name for name in zip_names if PurePosixPath(name).name == "data.yaml"]
+    if not yaml_files:
+        if any(PurePosixPath(name).name == "data.yml" for name in zip_names):
+            errors.append("Current YOLO trainer requires a file named data.yaml; data.yml is not supported.")
+        else:
+            errors.append("YOLO dataset must include data.yaml required by the current trainer.")
+        return 0, 0, {}, errors, warnings, stats
+
+    data_yaml_name = sorted(yaml_files)[0]
+    try:
+        config = yaml.safe_load(zf.read(archive_names[data_yaml_name]).decode("utf-8"))
+    except (KeyError, UnicodeDecodeError, yaml.YAMLError) as exc:
+        errors.append(f"Could not parse {data_yaml_name}: {exc}")
+        return 0, 0, {}, errors, warnings, stats
+    if not isinstance(config, dict):
+        errors.append("data.yaml root must be a mapping/dictionary.")
+        return 0, 0, {}, errors, warnings, stats
+
+    train_value = config.get("train")
+    validation_key = "val" if "val" in config else "valid"
+    validation_value = config.get(validation_key)
+    scoped_images: set[str] = set()
+    if train_value is None:
+        errors.append("data.yaml must define train.")
+    else:
+        train_images = _resolve_yolo_split_path(
+            train_value, data_yaml_name, zip_names, zf, archive_names
+        )
+        if train_images is None:
+            errors.append("data.yaml train path does not resolve inside the ZIP.")
+        else:
+            scoped_images.update(train_images)
+    if validation_value is None:
+        errors.append("data.yaml must define val or valid.")
+    else:
+        validation_images = _resolve_yolo_split_path(
+            validation_value, data_yaml_name, zip_names, zf, archive_names
+        )
+        if validation_images is None:
+            errors.append(f"data.yaml {validation_key} path does not resolve inside the ZIP.")
+        else:
+            scoped_images.update(validation_images)
+
+    class_names = _normalize_yolo_names(config.get("names"), errors)
+    class_count = len(class_names)
+    if "nc" in config:
+        nc = config.get("nc")
+        if isinstance(nc, bool) or not isinstance(nc, int) or nc <= 0:
+            errors.append("data.yaml nc must be a positive integer when provided.")
+        elif class_count and nc != class_count:
+            errors.append(f"data.yaml nc ({nc}) must match names count ({class_count}).")
+
+    annotation_count = 0
+    labeled_images = 0
+    negative_labels = 0
+    orphan_labels = 0
+    class_counts: dict[str, int] = {}
+    label_files = [
+        name
+        for name in zip_names
+        if name.lower().endswith(".txt")
+        and any(part.lower() in ("labels", "label") for part in PurePosixPath(name).parts)
+    ]
+    for label_name in sorted(label_files):
+        image_name = _image_for_yolo_label(label_name, zip_names)
+        if image_name is None:
+            orphan_labels += 1
+            warnings.append(f"YOLO label has no matching image: {label_name}")
+            continue
+        if image_name not in scoped_images:
+            continue
+        try:
+            lines = zf.read(archive_names[label_name]).decode("utf-8").splitlines()
+        except (KeyError, UnicodeDecodeError) as exc:
+            errors.append(f"Could not read YOLO label {label_name}: {exc}")
+            continue
+        non_empty = [(line_no, line.strip()) for line_no, line in enumerate(lines, 1) if line.strip()]
+        if not non_empty:
+            negative_labels += 1
+            continue
+        if image_name is not None:
+            labeled_images += 1
+        for line_no, line in non_empty:
+            parts = line.split()
+            location = f"{label_name}:{line_no}"
+            if len(parts) != 5:
+                errors.append(f"{location} must contain exactly 5 tokens: class_id x_center y_center width height.")
+                continue
+            try:
+                class_id = int(parts[0])
+            except ValueError:
+                errors.append(f"{location} class_id must be an integer.")
+                continue
+            if class_id < 0 or class_id >= class_count:
+                errors.append(f"{location} class_id {class_id} is outside the valid range 0..{max(class_count - 1, 0)}.")
+                continue
+            try:
+                x_center, y_center, width, height = (float(value) for value in parts[1:])
+            except ValueError:
+                errors.append(f"{location} bbox coordinates must be numeric.")
+                continue
+            coords = (x_center, y_center, width, height)
+            if not all(math.isfinite(value) for value in coords):
+                errors.append(f"{location} bbox coordinates must be finite numbers.")
+                continue
+            if not (0.0 <= x_center <= 1.0 and 0.0 <= y_center <= 1.0):
+                errors.append(f"{location} x_center and y_center must be between 0 and 1.")
+                continue
+            if not (0.0 < width <= 1.0 and 0.0 < height <= 1.0):
+                errors.append(f"{location} width and height must be greater than 0 and at most 1.")
+                continue
+            left = x_center - width / 2.0
+            right = x_center + width / 2.0
+            top = y_center - height / 2.0
+            bottom = y_center + height / 2.0
+            tolerance = YOLO_BBOX_TOLERANCE
+            if left < -tolerance or top < -tolerance or right > 1.0 + tolerance or bottom > 1.0 + tolerance:
+                errors.append(f"{location} bbox extends outside normalized image bounds.")
+                continue
+            if image_name is not None:
+                annotation_count += 1
+                class_name = class_names[class_id]
+                class_counts[class_name] = class_counts.get(class_name, 0) + 1
+
+    if annotation_count == 0 and not errors:
+        errors.append("No valid positive YOLO bounding-box annotations found.")
+    stats.update(
+        {
+            "data_yaml": data_yaml_name,
+            "negative_label_files": negative_labels,
+            "orphan_label_files": orphan_labels,
+        }
+    )
+    return annotation_count, labeled_images, class_counts, errors, warnings, stats
+
+
 def _parse_yolo_class_names(zf: zipfile.ZipFile, names: list[str]) -> dict[str, str]:
     """Map class id -> name from data.yaml / data.yml / classes.txt when present."""
     id_to_name: dict[str, str] = {}
@@ -579,11 +857,22 @@ def validate_annotated_dataset(
                 }
 
             if fmt == "yolo":
-                ann_count, labeled, class_counts = _count_yolo_labels(zf, names)
+                (
+                    ann_count,
+                    labeled,
+                    class_counts,
+                    yolo_errors,
+                    yolo_warnings,
+                    yolo_stats,
+                ) = _validate_yolo_dataset(zf, names)
+                errors.extend(yolo_errors)
+                warnings.extend(yolo_warnings)
             elif fmt == "coco":
                 ann_count, labeled, class_counts = _count_coco_labels(zf, names)
+                yolo_stats = {}
             else:
                 ann_count, labeled, class_counts = _count_voc_labels(zf, names)
+                yolo_stats = {}
 
             if image_count == 0:
                 errors.append("No images found in annotated ZIP.")
@@ -627,6 +916,7 @@ def validate_annotated_dataset(
                     "class_counts": class_counts,
                     "class_count": len(class_counts),
                     "size_bytes": len(data),
+                    **yolo_stats,
                 },
             }
     except zipfile.BadZipFile:

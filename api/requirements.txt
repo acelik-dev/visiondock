@@ -16,3 +16,4 @@ marshmallow==3.23.2
 azure-ai-ml==1.26.3
 azure-identity==1.19.0
 azure-mgmt-resource==23.1.1
+PyYAML==6.0.3
