@@ -500,14 +500,7 @@ class AzureMLService:
         val_split = config.get("validation_split", 0.2)
         model_name = config.get("model_name", "efficientnet_b0")
 
-        pipeline_env = pipeline_env_from_spec(
-            {
-                "preprocessing": config.get("preprocessing"),
-                "postprocessing": config.get("postprocessing"),
-            },
-            config,
-            int(imgsz),
-        )
+        pipeline_env = pipeline_env_from_spec(config, config, int(imgsz))
 
         common_env = {
             "AZURE_STORAGE_CONNECTION_STRING": storage_conn,
@@ -524,9 +517,18 @@ class AzureMLService:
             "DEVICE": os.getenv("AZURE_ML_DEVICE", "0"),
             "MLFLOW_TRACKING_URI": os.getenv("MLFLOW_TRACKING_URI", ""),
             "PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION": "python",
-            "AUGMENTATION": "1" if config.get("augmentation", True) else "0",
-            "MIXUP_ENABLED": "1" if config.get("mixup") else "0",
-            "CUTMIX_ENABLED": "1" if config.get("cutmix") else "0",
+            "AUGMENTATION": pipeline_env.get(
+                "AUGMENTATION",
+                "1" if config.get("augmentation", True) else "0",
+            ),
+            "MIXUP_ENABLED": pipeline_env.get(
+                "MIXUP_ENABLED",
+                "1" if config.get("mixup") else "0",
+            ),
+            "CUTMIX_ENABLED": pipeline_env.get(
+                "CUTMIX_ENABLED",
+                "1" if config.get("cutmix") else "0",
+            ),
             "LABEL_SMOOTHING": str(config.get("label_smoothing", 0.0)),
             "AUTO_TUNE_THRESHOLDS": "1"
             if config.get("auto_tune_thresholds", True)
@@ -534,7 +536,8 @@ class AzureMLService:
             **pipeline_env,
         }
         pip_deps = (
-            "pip install -q 'protobuf==3.20.3' torchvision azure-storage-blob pillow mlflow && "
+            "pip install -q 'protobuf==3.20.1' 'azure-storage-blob==12.13.0' 'cloudpickle<3' "
+            "torchvision pillow mlflow && "
         )
 
         if task_type == "classification":
@@ -577,8 +580,10 @@ class AzureMLService:
                 "LOSS_TYPE": str(config.get("loss_type") or "mse"),
             }
         else:
+            # Pin deps that conflict with curated AML image packages (warnings → avoid hard fails).
             train_cmd = (
-                "pip install -q 'protobuf==3.20.3' ultralytics azure-storage-blob pyyaml mlflow onnx onnxruntime && "
+                "pip install -q 'protobuf==3.20.1' 'azure-storage-blob==12.13.0' 'cloudpickle<3' "
+                "ultralytics pyyaml mlflow onnx onnxruntime && "
                 "python aml_train_yolo.py"
             )
             yolo_weights = (

@@ -8,6 +8,15 @@ export const VIEW_TO_PATH: Record<ViewState, string> = {
   datasets: "/datasets",
   inference: "/inference",
   billing: "/billing",
+  admin: "/admin",
+  "admin-users": "/admin/users",
+  "admin-ledger": "/admin/ledger",
+  "admin-credits": "/admin/credits",
+  "admin-membership": "/admin/membership",
+  "admin-projects": "/admin/projects",
+  "admin-marketplace": "/admin/marketplace",
+  "admin-system": "/admin/system",
+  skills: "/skills",
 };
 
 const PATH_TO_VIEW: Record<string, ViewState> = {
@@ -16,6 +25,15 @@ const PATH_TO_VIEW: Record<string, ViewState> = {
   "/models": "models",
   "/datasets": "datasets",
   "/billing": "billing",
+  "/admin": "admin",
+  "/admin/users": "admin-users",
+  "/admin/ledger": "admin-ledger",
+  "/admin/credits": "admin-credits",
+  "/admin/membership": "admin-membership",
+  "/admin/projects": "admin-projects",
+  "/admin/marketplace": "admin-marketplace",
+  "/admin/system": "admin-system",
+  "/skills": "skills",
 };
 
 const PROJECT_ID_RE = "prj-[a-f0-9]+";
@@ -30,6 +48,7 @@ export function pathToView(path: string): ViewState {
   const clean = path.split("?")[0].split("#")[0].replace(/\/$/, "") || "/";
   if (clean.startsWith("/projects")) return "projects";
   if (clean.startsWith("/inference")) return "inference";
+  if (clean.startsWith("/admin")) return PATH_TO_VIEW[clean] ?? "admin";
   return PATH_TO_VIEW[clean] ?? "home";
 }
 
@@ -97,15 +116,15 @@ export function navigateToPath(path: string) {
 }
 
 /** Force Home after login/signup even if the browser still shows an old project URL. */
-export function resetToHomeAfterAuth() {
+export function resetToHomeAfterAuth(opts?: { isAdmin?: boolean }) {
+  const next = opts?.isAdmin ? "/admin" : "/home";
   if (typeof window !== "undefined") {
-    const next = "/home";
     if (window.location.pathname !== next || window.location.search || window.location.hash) {
       window.history.replaceState({}, "", next);
     }
   }
   useStore.setState({
-    currentView: "home",
+    currentView: opts?.isAdmin ? "admin" : "home",
     activeProjectId: null,
     activeProjectName: null,
     workflowStep: 1,
@@ -113,7 +132,7 @@ export function resetToHomeAfterAuth() {
     marketplaceSpecBootstrap: null,
   });
   if (navigateFn) {
-    navigateFn("/home");
+    navigateFn(next);
   }
 }
 

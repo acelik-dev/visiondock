@@ -18,6 +18,18 @@ SUPPORTED_TASK_TYPES: tuple[TaskType, ...] = (
     "object_detection",
 )
 
+# Roboflow Universe–style industry browse categories.
+MARKETPLACE_INDUSTRIES: tuple[str, ...] = (
+    "Manufacturing",
+    "Agriculture",
+    "Construction",
+    "Logistics",
+    "Sports",
+    "Self Driving",
+    "Gaming",
+    "Documents",
+)
+
 
 class MarketplaceDatasetItem(BaseModel):
     id: str
@@ -36,6 +48,7 @@ class MarketplaceDatasetItem(BaseModel):
     target_unit: str = ""
     year: int | None = None
     tags: list[str] = Field(default_factory=list)
+    industries: list[str] = Field(default_factory=list)
     source_url: str | None = None
 
 
@@ -53,6 +66,7 @@ class MarketplaceModelItem(BaseModel):
     target_name: str = ""
     target_unit: str = ""
     tags: list[str] = Field(default_factory=list)
+    industries: list[str] = Field(default_factory=list)
     trained_on: str | None = None
 
 

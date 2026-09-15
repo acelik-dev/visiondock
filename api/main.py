@@ -16,11 +16,13 @@ from discovery import (
     visible_user_turns,
 )
 from db.database import get_db
+from routers import admin as admin_router
 from routers import auth as auth_router
 from routers import credits as credits_router
 from routers import inference as inference_router
 from routers import marketplace as marketplace_router
 from routers import projects as projects_router
+from routers import skills as skills_router
 from routers import training as training_router
 from schemas.project_spec import (
     ProjectSpec,
@@ -147,6 +149,8 @@ app.include_router(projects_router.router)
 app.include_router(training_router.router)
 app.include_router(inference_router.router)
 app.include_router(marketplace_router.router)
+app.include_router(skills_router.router)
+app.include_router(admin_router.router)
 
 _project_store = ProjectStore()
 
@@ -652,6 +656,7 @@ Return ONLY a valid JSON object with this structure:
   "training_config": { "epochs": 50, "batch_size": 16, "image_size": "224x224", ... },
   "preprocessing": { "resize": "224x224", "grayscale": false, ... },
   "postprocessing": { "confidence_threshold": 0.5, "export_format": ["onnx"], ... },
+  "enabled_skills": ["pre.resize", "pre.normalize", "..."],
   "hardware_requirements": { ... }
 }
 
@@ -663,6 +668,7 @@ IMPORTANT field formats:
 - postprocessing.export_format MUST be an array like ["onnx","torchscript"] (NOT a single string)
 - hardware_requirements.gpu MUST be a string like "NVIDIA T4" (NOT an object)
 - hardware_requirements.vram_gb MUST be an integer like 16
+- enabled_skills MUST be an array of skill ids from the AVAILABLE PIPELINE SKILLS list below
 
 Rules by task_type:
 - classification: list categories in "classes"; EfficientNet-B0; image 224x224; nms_iou_threshold 0.0
@@ -707,7 +713,19 @@ Rules by task_type:
             if resolved_task
             else ""
         )
-        combined = f"{config_prompt}{label_hint}{task_lock}\n\nConversation transcript:\n{transcript_text}"
+        skills_section = ""
+        try:
+            from services.skills_store import get_skills_store
+
+            skills_section = get_skills_store().format_prompt_section(
+                str(resolved_task) if resolved_task else None
+            )
+        except Exception:
+            logger.exception("Failed to load skills prompt section")
+        combined = (
+            f"{config_prompt}{skills_section}{label_hint}{task_lock}"
+            f"\n\nConversation transcript:\n{transcript_text}"
+        )
 
         messages = [
             {

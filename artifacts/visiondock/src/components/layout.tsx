@@ -17,7 +17,11 @@ import {
   Library,
   LogOut,
   Search,
+  Server,
+  Shield,
   Sparkles,
+  Users,
+  Wand2,
 } from "lucide-react";
 import { logout } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
@@ -26,17 +30,30 @@ import { Link, useLocation } from "wouter";
 import { useCredits } from "@/hooks/use-credits";
 import { cn } from "@/lib/utils";
 
-export function Sidebar() {
+export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
   const { workflowStep, activeProjectId, activeProjectName, datasetUploaded } = useStore();
   const [location] = useLocation();
+  const view = pathToView(location);
 
-  const items = [
-    { id: "home" as ViewState, label: "Home", icon: Home },
-    { id: "projects" as ViewState, label: "Discovery & Projects", icon: FolderGit2 },
-    { id: "models" as ViewState, label: "Model Library", icon: Library },
-    { id: "datasets" as ViewState, label: "Dataset Library", icon: Database },
-    { id: "inference" as ViewState, label: "Inference", icon: Cpu },
-    { id: "billing" as ViewState, label: "Billing & Plans", icon: CreditCard },
+  const workspaceItems = [
+    { id: "home" as ViewState, label: "Home", icon: Home, href: "/home" },
+    { id: "projects" as ViewState, label: "Discovery & Projects", icon: FolderGit2, href: projectsPath(workflowStep, activeProjectId) },
+    { id: "models" as ViewState, label: "Model Library", icon: Library, href: "/models" },
+    { id: "datasets" as ViewState, label: "Dataset Library", icon: Database, href: "/datasets" },
+    { id: "inference" as ViewState, label: "Inference", icon: Cpu, href: activeProjectId ? `/inference/${activeProjectId}` : "/inference" },
+    { id: "billing" as ViewState, label: "Billing & Plans", icon: CreditCard, href: "/billing" },
+  ];
+
+  const adminItems = [
+    { id: "admin" as ViewState, label: "Overview", icon: Shield, href: "/admin" },
+    { id: "admin-users" as ViewState, label: "Users", icon: Users, href: "/admin/users" },
+    { id: "admin-ledger" as ViewState, label: "Credit ledger", icon: Coins, href: "/admin/ledger" },
+    { id: "admin-credits" as ViewState, label: "Credit settings", icon: CreditCard, href: "/admin/credits" },
+    { id: "admin-membership" as ViewState, label: "Membership", icon: Sparkles, href: "/admin/membership" },
+    { id: "admin-projects" as ViewState, label: "All projects", icon: FolderGit2, href: "/admin/projects" },
+    { id: "admin-marketplace" as ViewState, label: "Marketplace", icon: Database, href: "/admin/marketplace" },
+    { id: "skills" as ViewState, label: "Pipeline Skills", icon: Wand2, href: "/skills" },
+    { id: "admin-system" as ViewState, label: "System", icon: Server, href: "/admin/system" },
   ];
 
   return (
@@ -47,95 +64,115 @@ export function Sidebar() {
         </div>
         <div>
           <div className="text-base font-semibold tracking-tight text-sidebar-foreground">VisionDock</div>
-          <div className="text-[11px] font-medium text-sidebar-foreground/50">Computer Vision Platform</div>
+          <div className="text-[11px] font-medium text-sidebar-foreground/50">
+            {isAdmin ? "Admin · Computer Vision" : "Computer Vision Platform"}
+          </div>
         </div>
       </div>
 
       <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-5">
-        <div className="vd-label mb-3 px-3 text-sidebar-foreground/40">Workspace</div>
-        {items.map((item) => {
-          const Icon = item.icon;
-          const href =
-            item.id === "projects"
-              ? projectsPath(workflowStep, activeProjectId)
-              : item.id === "inference" && activeProjectId
-                ? `/inference/${activeProjectId}`
-                : `/${item.id === "home" ? "home" : item.id}`;
-          const active = pathToView(location) === item.id;
-          return (
-            <Link
-              key={item.id}
-              href={href}
-              className={cn("vd-nav-item", active ? "vd-nav-item-active" : "vd-nav-item-idle")}
-            >
-              <Icon className={cn("h-4 w-4", active && "text-primary")} />
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
-
-      <div className="border-t border-sidebar-border p-4">
-        <div className="vd-label mb-3 px-1 text-sidebar-foreground/40">Active project</div>
-        <div className="rounded-xl border border-sidebar-border bg-sidebar-accent/80 p-4">
-          <div className="mb-1 truncate text-sm font-semibold text-sidebar-foreground">
-            {activeProjectName ?? "No project loaded"}
-          </div>
-          <div className="mb-4 truncate font-mono text-[11px] font-medium text-primary">
-            {activeProjectId ?? "—"}
-          </div>
-
-          <div className="space-y-3">
-            {([1, 2, 3] as WorkflowStep[]).map((step) => {
-              const labels = ["Task", "Dataset", "Training"];
-              const completed =
-                step === 1
-                  ? workflowStep > 1
-                  : step === 2
-                    ? datasetUploaded
-                    : workflowStep > step;
-              const active =
-                step === 2 ? workflowStep >= 2 || datasetUploaded : workflowStep >= step;
-              const href = projectsPath(step, activeProjectId);
-              const stepActive = workflowStep === step;
+        {isAdmin ? (
+          <>
+            <div className="vd-label mb-3 px-3 text-emerald-400/80">Admin</div>
+            {adminItems.map((item) => {
+              const Icon = item.icon;
+              const active = view === item.id;
               return (
                 <Link
-                  key={step}
-                  href={href}
-                  className={cn(
-                    "relative flex items-center gap-3 rounded-lg px-1 py-0.5 transition-colors",
-                    stepActive ? "text-sidebar-foreground" : "text-sidebar-foreground/50 hover:text-sidebar-foreground/80",
-                  )}
+                  key={item.id}
+                  href={item.href}
+                  className={cn("vd-nav-item", active ? "vd-nav-item-active" : "vd-nav-item-idle")}
                 >
-                  {step > 1 && (
-                    <div
-                      className={cn(
-                        "absolute -top-3 left-3 h-3 w-px",
-                        active ? "bg-primary/60" : "bg-sidebar-border",
-                      )}
-                    />
-                  )}
-                  <div
-                    className={cn(
-                      "z-10 flex h-6 w-6 items-center justify-center rounded-full border text-[10px] font-bold",
-                      stepActive
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : completed || (active && !stepActive)
-                          ? "border-primary/50 bg-primary/15 text-primary"
-                          : "border-sidebar-border bg-sidebar-accent text-sidebar-foreground/40",
-                    )}
-                  >
-                    {completed ? "✓" : step}
-                  </div>
-                  <span className="text-xs font-medium">
-                    Step {step} · {labels[step - 1]}
-                  </span>
+                  <Icon className={cn("h-4 w-4", active && "text-primary")} />
+                  {item.label}
                 </Link>
               );
             })}
+          </>
+        ) : (
+          <>
+            <div className="vd-label mb-3 px-3 text-sidebar-foreground/40">Workspace</div>
+            {workspaceItems.map((item) => {
+              const Icon = item.icon;
+              const active = view === item.id;
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  className={cn("vd-nav-item", active ? "vd-nav-item-active" : "vd-nav-item-idle")}
+                >
+                  <Icon className={cn("h-4 w-4", active && "text-primary")} />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </>
+        )}
+      </nav>
+
+      {!isAdmin && (
+        <div className="border-t border-sidebar-border p-4">
+          <div className="vd-label mb-3 px-1 text-sidebar-foreground/40">Active project</div>
+          <div className="rounded-xl border border-sidebar-border bg-sidebar-accent/80 p-4">
+            <div className="mb-1 truncate text-sm font-semibold text-sidebar-foreground">
+              {activeProjectName ?? "No project loaded"}
+            </div>
+            <div className="mb-4 truncate font-mono text-[11px] font-medium text-primary">
+              {activeProjectId ?? "—"}
+            </div>
+
+            <div className="space-y-3">
+              {([1, 2, 3] as WorkflowStep[]).map((step) => {
+                const labels = ["Task", "Dataset", "Training"];
+                const completed =
+                  step === 1
+                    ? workflowStep > 1
+                    : step === 2
+                      ? datasetUploaded
+                      : workflowStep > step;
+                const active =
+                  step === 2 ? workflowStep >= 2 || datasetUploaded : workflowStep >= step;
+                const href = projectsPath(step, activeProjectId);
+                const stepActive = workflowStep === step;
+                return (
+                  <Link
+                    key={step}
+                    href={href}
+                    className={cn(
+                      "relative flex items-center gap-3 rounded-lg px-1 py-0.5 transition-colors",
+                      stepActive ? "text-sidebar-foreground" : "text-sidebar-foreground/50 hover:text-sidebar-foreground/80",
+                    )}
+                  >
+                    {step > 1 && (
+                      <div
+                        className={cn(
+                          "absolute -top-3 left-3 h-3 w-px",
+                          active ? "bg-primary/60" : "bg-sidebar-border",
+                        )}
+                      />
+                    )}
+                    <div
+                      className={cn(
+                        "z-10 flex h-6 w-6 items-center justify-center rounded-full border text-[10px] font-bold",
+                        stepActive
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : completed || (active && !stepActive)
+                            ? "border-primary/50 bg-primary/15 text-primary"
+                            : "border-sidebar-border bg-sidebar-accent text-sidebar-foreground/40",
+                      )}
+                    >
+                      {completed ? "✓" : step}
+                    </div>
+                    <span className="text-xs font-medium">
+                      Step {step} · {labels[step - 1]}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </aside>
   );
 }
@@ -144,15 +181,18 @@ export function Header({
   username,
   onLogout,
   onOpenCommand,
+  isAdmin = false,
 }: {
   username?: string | null;
   onLogout?: () => void;
   onOpenCommand?: () => void;
+  isAdmin?: boolean;
 }) {
   const { currentView, notify, activeProjectId } = useStore();
   const { account } = useCredits();
   const balance = account?.balance;
   const [, navigate] = useLocation();
+  const hideCustomerBilling = isAdmin;
 
   const handleLogout = async () => {
     await logout();
@@ -166,6 +206,15 @@ export function Header({
     datasets: "Dataset Library",
     inference: "Inference",
     billing: "Billing & Plans",
+    admin: "Admin Overview",
+    "admin-users": "Users",
+    "admin-ledger": "Credit Ledger",
+    "admin-credits": "Credit Settings",
+    "admin-membership": "Membership",
+    "admin-projects": "All Projects",
+    "admin-marketplace": "Marketplace",
+    "admin-system": "System",
+    skills: "Pipeline Skills",
   };
 
   return (
@@ -203,17 +252,19 @@ export function Header({
           <Bell className="h-4 w-4" />
           <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-destructive ring-2 ring-background" />
         </Button>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => navigate("/billing")}
-          className="h-9 gap-2 border-amber-500/25 bg-amber-500/8 text-amber-900 hover:bg-amber-500/12"
-        >
-          <Coins className="h-4 w-4" />
-          <span className="font-semibold">{typeof balance === "number" ? balance.toLocaleString() : "—"}</span>
-          <span className="hidden font-medium text-amber-800/70 sm:inline">credits</span>
-        </Button>
+        {!hideCustomerBilling && (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => navigate("/billing")}
+            className="h-9 gap-2 border-amber-500/25 bg-amber-500/8 text-amber-900 hover:bg-amber-500/12"
+          >
+            <Coins className="h-4 w-4" />
+            <span className="font-semibold">{typeof balance === "number" ? balance.toLocaleString() : "—"}</span>
+            <span className="hidden font-medium text-amber-800/70 sm:inline">credits</span>
+          </Button>
+        )}
         {username && (
           <span className="hidden max-w-[140px] truncate text-sm font-medium text-muted-foreground lg:block">
             {username}
@@ -254,10 +305,12 @@ export function Shell({
   children,
   username,
   onLogout,
+  isAdmin = false,
 }: {
   children: React.ReactNode;
   username?: string | null;
   onLogout?: () => void;
+  isAdmin?: boolean;
 }) {
   const { open, setOpen } = useCommandPalette();
   const currentView = useStore((state) => state.currentView);
@@ -265,10 +318,10 @@ export function Shell({
 
   return (
     <div className="vd-shell-bg flex min-h-screen w-full">
-      <CommandPalette open={open} onOpenChange={setOpen} />
-      <Sidebar />
+      <CommandPalette open={open} onOpenChange={setOpen} isAdmin={isAdmin} />
+      <Sidebar isAdmin={isAdmin} />
       <div className="flex min-h-screen flex-1 flex-col pl-[17.5rem]">
-        <Header username={username} onLogout={onLogout} onOpenCommand={() => setOpen(true)} />
+        <Header username={username} onLogout={onLogout} onOpenCommand={() => setOpen(true)} isAdmin={isAdmin} />
         <main className={cn("flex-1", fullBleed ? "p-4 lg:p-5" : "p-6 lg:p-8")}>
           <div
             className={cn(

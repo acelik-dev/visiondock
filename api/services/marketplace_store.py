@@ -57,16 +57,38 @@ class MarketplaceStore:
         _catalog_cache = (updated_at, catalog)
         return catalog
 
-    def list_datasets(self, task_type: str | None = None) -> list[MarketplaceDatasetItem]:
+    def list_datasets(
+        self,
+        task_type: str | None = None,
+        industry: str | None = None,
+    ) -> list[MarketplaceDatasetItem]:
         items = self.get_catalog().datasets
         if task_type:
-            return [d for d in items if d.task_type == task_type]
+            items = [d for d in items if d.task_type == task_type]
+        if industry:
+            want = industry.strip().lower()
+            items = [
+                d
+                for d in items
+                if any(str(x).strip().lower() == want for x in (d.industries or []))
+            ]
         return items
 
-    def list_models(self, task_type: str | None = None) -> list[MarketplaceModelItem]:
+    def list_models(
+        self,
+        task_type: str | None = None,
+        industry: str | None = None,
+    ) -> list[MarketplaceModelItem]:
         items = self.get_catalog().models
         if task_type:
-            return [m for m in items if m.task_type == task_type]
+            items = [m for m in items if m.task_type == task_type]
+        if industry:
+            want = industry.strip().lower()
+            items = [
+                m
+                for m in items
+                if any(str(x).strip().lower() == want for x in (m.industries or []))
+            ]
         return items
 
     def get_dataset(self, item_id: str) -> MarketplaceDatasetItem | None:

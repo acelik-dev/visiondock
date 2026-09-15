@@ -65,6 +65,7 @@ export type ProjectSpec = {
     estimated_training_time?: string;
     estimated_cost?: string;
   };
+  enabled_skills?: string[];
 };
 
 export const SLOT_LABELS: Record<string, string> = {

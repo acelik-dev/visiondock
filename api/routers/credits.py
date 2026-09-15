@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from db.database import get_db
 from services.azure_pricing import pricing_catalog
-from services.credits import PLANS, activate_plan, get_account
+from services.credits import activate_plan, get_account, get_plans
 from services.project_access import session_user
 
 router = APIRouter(prefix="/api/credits", tags=["credits"])
@@ -32,7 +32,7 @@ def credits_costs(request: Request):
         "success": True,
         "data": {
             "costs": catalog["costs"],
-            "plans": list(PLANS.values()),
+            "plans": list(get_plans().values()),
             "pricing": {
                 "credit_usd": catalog["credit_usd"],
                 "platform_markup": catalog["platform_markup"],

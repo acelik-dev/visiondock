@@ -349,6 +349,7 @@ class ProjectSpec(BaseModel):
     hardware_requirements: HardwareRequirementsSpec = Field(
         default_factory=HardwareRequirementsSpec
     )
+    enabled_skills: list[str] = Field(default_factory=list)
 
     @field_validator("task_type", mode="before")
     @classmethod
@@ -360,12 +361,54 @@ class ProjectSpec(BaseModel):
     def _coerce_classes_field(cls, value: Any) -> list[str]:
         return _coerce_classes(value)
 
+    @field_validator("enabled_skills", mode="before")
+    @classmethod
+    def _coerce_enabled_skills(cls, value: Any) -> list[str]:
+        if value is None:
+            return []
+        if isinstance(value, str):
+            text = value.strip()
+            if not text:
+                return []
+            if "," in text:
+                return [part.strip() for part in text.split(",") if part.strip()]
+            return [text]
+        if isinstance(value, (list, tuple, set)):
+            return [str(item).strip() for item in value if item is not None and str(item).strip()]
+        return []
+
 
 def coerce_spec_dict(data: dict[str, Any]) -> dict[str, Any]:
     """Normalize raw LLM JSON before ProjectSpec validation."""
     out = dict(data)
     out["task_type"] = _coerce_task_type(out.get("task_type"))
     out["classes"] = _coerce_classes(out.get("classes"))
+
+    skills_raw = out.get("enabled_skills")
+    if isinstance(skills_raw, str):
+        skills_raw = [p.strip() for p in skills_raw.split(",") if p.strip()]
+    elif isinstance(skills_raw, (list, tuple, set)):
+        skills_raw = [str(x).strip() for x in skills_raw if x is not None and str(x).strip()]
+    else:
+        skills_raw = []
+    out["enabled_skills"] = skills_raw
+
+    # Apply enabled_skills → pipeline buckets via skill_registry (best-effort).
+    try:
+        from services.skills_store import (
+            apply_skills_to_spec_dict,
+            get_skills_store,
+            skills_from_legacy_flags,
+        )
+
+        store = get_skills_store()
+        catalog_skills = store.list_skills(enabled_only=False)
+        if not out["enabled_skills"]:
+            out["enabled_skills"] = skills_from_legacy_flags(out, catalog_skills)
+        out = apply_skills_to_spec_dict(out, catalog_skills)
+    except Exception:
+        # Skills store may be unavailable during early boot / unit tests.
+        pass
 
     pre = out.get("preprocessing")
     pre = dict(pre) if isinstance(pre, dict) else {}

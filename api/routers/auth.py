@@ -99,6 +99,8 @@ def _session_user_payload(request: Request, *, email_verified: bool | None = Non
     user = request.session.get(SESSION_USER_KEY)
     if not user:
         return {"authenticated": False}
+    from services.admin_access import is_admin_request
+
     payload = {
         "authenticated": True,
         "username": user,
@@ -107,6 +109,7 @@ def _session_user_payload(request: Request, *, email_verified: bool | None = Non
         "user_id": request.session.get(SESSION_USER_ID_KEY),
         "session_id": request.session.get(SESSION_DB_ID_KEY),
         "auth_method": request.session.get("auth_method"),
+        "is_admin": is_admin_request(request),
     }
     if email_verified is not None:
         payload["email_verified"] = email_verified
@@ -310,7 +313,9 @@ async def auth_login(request: Request, body: LoginRequest, db: Session = Depends
 
     if verify_credentials(body.username, body.password):
         _set_session_user(request, email=body.username, auth_method="password")
-        return _session_user_payload(request)
+        # JSONResponse so SessionMiddleware reliably attaches the session cookie
+        # (same path as DB login); plain dicts can leave the browser without a session.
+        return JSONResponse(_session_user_payload(request))
 
     raise HTTPException(status_code=401, detail="Invalid email or password")
 

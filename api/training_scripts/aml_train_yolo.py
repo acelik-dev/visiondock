@@ -33,11 +33,125 @@ def _download_dataset_zip() -> Path:
     return root
 
 
-def _find_data_yaml(root: Path) -> Path:
+_IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
+
+
+def _read_class_names(root: Path) -> list[str]:
+    for classes_txt in root.rglob("classes.txt"):
+        names = [ln.strip() for ln in classes_txt.read_text(encoding="utf-8", errors="ignore").splitlines() if ln.strip()]
+        if names:
+            return names
+    # Infer max class id from label files
+    max_id = -1
+    for lbl in root.rglob("*.txt"):
+        if lbl.name.lower() == "classes.txt":
+            continue
+        try:
+            for line in lbl.read_text(encoding="utf-8", errors="ignore").splitlines():
+                parts = line.strip().split()
+                if parts:
+                    max_id = max(max_id, int(float(parts[0])))
+        except (ValueError, OSError):
+            continue
+    if max_id < 0:
+        return ["object"]
+    return [f"class_{i}" for i in range(max_id + 1)]
+
+
+def _find_flat_images_labels(root: Path) -> tuple[Path, Path] | None:
+    """Detect marketplace-style flat images/ + labels/ (no train/val split)."""
+    for images in root.rglob("images"):
+        if not images.is_dir():
+            continue
+        # Prefer the images dir that directly contains image files (flat layout)
+        has_imgs = any(p.is_file() and p.suffix.lower() in _IMAGE_EXTS for p in images.iterdir())
+        if not has_imgs:
+            continue
+        labels = images.parent / "labels"
+        if labels.is_dir():
+            return images, labels
+    return None
+
+
+def _split_flat_yolo_layout(images: Path, labels: Path, val_ratio: float = 0.2) -> None:
+    """Move flat images/labels into train|val subfolders for Ultralytics."""
+    imgs = sorted(p for p in images.iterdir() if p.is_file() and p.suffix.lower() in _IMAGE_EXTS)
+    if not imgs:
+        return
+    n_val = max(1, int(len(imgs) * val_ratio)) if len(imgs) >= 5 else max(1, len(imgs) // 5 or 1)
+    n_val = min(n_val, len(imgs) - 1) if len(imgs) > 1 else 0
+    val_set = set(imgs[:n_val]) if n_val else set()
+
+    for split in ("train", "val"):
+        (images / split).mkdir(parents=True, exist_ok=True)
+        (labels / split).mkdir(parents=True, exist_ok=True)
+
+    for img in imgs:
+        split = "val" if img in val_set else "train"
+        dest_img = images / split / img.name
+        if not dest_img.exists():
+            img.rename(dest_img)
+        lbl = labels / f"{img.stem}.txt"
+        if lbl.is_file():
+            dest_lbl = labels / split / f"{img.stem}.txt"
+            if not dest_lbl.exists():
+                lbl.rename(dest_lbl)
+
+
+def _ensure_data_yaml(root: Path) -> Path:
+    """Return existing data.yaml, or synthesize one for marketplace YOLO zips."""
     candidates = list(root.rglob("data.yaml"))
-    if not candidates:
-        raise FileNotFoundError(f"data.yaml not found under {root}")
-    return candidates[0]
+    if candidates:
+        return candidates[0]
+
+    # Already-split Ultralytics layout without yaml
+    for images in root.rglob("images"):
+        if (images / "train").is_dir() and any(
+            p.suffix.lower() in _IMAGE_EXTS for p in (images / "train").rglob("*") if p.is_file()
+        ):
+            names = _read_class_names(root)
+            data = {
+                "path": str(images.parent.resolve()),
+                "train": "images/train",
+                "val": "images/val" if (images / "val").is_dir() else "images/train",
+                "nc": len(names),
+                "names": names,
+            }
+            out = images.parent / "data.yaml"
+            import yaml
+
+            with out.open("w", encoding="utf-8") as f:
+                yaml.safe_dump(data, f, sort_keys=False)
+            print(f"Synthesized data.yaml at {out} (split layout, {len(names)} classes)", flush=True)
+            return out
+
+    flat = _find_flat_images_labels(root)
+    if flat is None:
+        raise FileNotFoundError(
+            f"data.yaml not found under {root} and no images/+labels/ layout to synthesize from"
+        )
+
+    images, labels = flat
+    _split_flat_yolo_layout(images, labels)
+    names = _read_class_names(root)
+    data = {
+        "path": str(images.parent.resolve()),
+        "train": "images/train",
+        "val": "images/val" if any((images / "val").iterdir()) else "images/train",
+        "nc": len(names),
+        "names": names,
+    }
+    out = images.parent / "data.yaml"
+    import yaml
+
+    with out.open("w", encoding="utf-8") as f:
+        yaml.safe_dump(data, f, sort_keys=False)
+    print(f"Synthesized data.yaml at {out} (flat→split, {len(names)} classes)", flush=True)
+    return out
+
+
+def _find_data_yaml(root: Path) -> Path:
+    return _ensure_data_yaml(root)
 
 
 def _normalize_data_yaml(data_yaml: Path, root: Path) -> Path:

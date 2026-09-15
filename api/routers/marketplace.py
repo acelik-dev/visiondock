@@ -8,7 +8,11 @@ from typing import Any
 from fastapi import APIRouter, HTTPException, Query, Request
 from fastapi.responses import Response
 
-from schemas.marketplace import MarketplaceImportBody, SUPPORTED_TASK_TYPES
+from schemas.marketplace import (
+    MARKETPLACE_INDUSTRIES,
+    MarketplaceImportBody,
+    SUPPORTED_TASK_TYPES,
+)
 from services.marketplace_import import _model_display_name, get_marketplace_import_service
 from services.marketplace_store import get_marketplace_store
 from services.project_access import owner_fields, require_project_access, session_user
@@ -31,20 +35,43 @@ def _model_dict(item: Any) -> dict[str, Any]:
 
 
 @router.get("/api/marketplace/datasets")
-def list_marketplace_datasets(task_type: str | None = Query(None)):
+def list_marketplace_datasets(
+    task_type: str | None = Query(None),
+    industry: str | None = Query(None),
+):
     if task_type and task_type not in SUPPORTED_TASK_TYPES:
         raise HTTPException(status_code=400, detail=f"Unsupported task_type. Use one of: {SUPPORTED_TASK_TYPES}")
-    items = marketplace.list_datasets(task_type)
-    return {"datasets": [_dataset_dict(d) for d in items], "task_types": list(SUPPORTED_TASK_TYPES)}
+    if industry and industry not in MARKETPLACE_INDUSTRIES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported industry. Use one of: {MARKETPLACE_INDUSTRIES}",
+        )
+    items = marketplace.list_datasets(task_type, industry)
+    return {
+        "datasets": [_dataset_dict(d) for d in items],
+        "task_types": list(SUPPORTED_TASK_TYPES),
+        "industries": list(MARKETPLACE_INDUSTRIES),
+    }
 
 
 @router.get("/api/marketplace/models")
-def list_marketplace_models(task_type: str | None = Query(None)):
+def list_marketplace_models(
+    task_type: str | None = Query(None),
+    industry: str | None = Query(None),
+):
     if task_type and task_type not in SUPPORTED_TASK_TYPES:
         raise HTTPException(status_code=400, detail=f"Unsupported task_type. Use one of: {SUPPORTED_TASK_TYPES}")
-    items = marketplace.list_models(task_type)
-    return {"models": [_model_dict(m) for m in items], "task_types": list(SUPPORTED_TASK_TYPES)}
-
+    if industry and industry not in MARKETPLACE_INDUSTRIES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported industry. Use one of: {MARKETPLACE_INDUSTRIES}",
+        )
+    items = marketplace.list_models(task_type, industry)
+    return {
+        "models": [_model_dict(m) for m in items],
+        "task_types": list(SUPPORTED_TASK_TYPES),
+        "industries": list(MARKETPLACE_INDUSTRIES),
+    }
 
 @router.get("/api/marketplace/datasets/{item_id}")
 def get_marketplace_dataset(item_id: str):

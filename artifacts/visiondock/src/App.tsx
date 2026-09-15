@@ -14,12 +14,33 @@ import ModelsView from "./pages/models";
 import DatasetsView from "./pages/datasets";
 import InferenceView from "./pages/inference";
 import BillingView from "./pages/billing";
+import SkillsView from "./pages/skills";
+import AdminOverviewPage from "./pages/admin";
+import AdminUsersPage from "./pages/admin-users";
+import AdminLedgerPage from "./pages/admin-ledger";
+import AdminCreditsPage from "./pages/admin-credits";
+import AdminMembershipPage from "./pages/admin-membership";
+import AdminProjectsPage from "./pages/admin-projects";
+import AdminMarketplacePage from "./pages/admin-marketplace";
+import AdminSystemPage from "./pages/admin-system";
 import LoginView from "./pages/login";
 import { Toaster } from "@/components/ui/sonner";
 import { RouteSync } from "@/components/route-sync";
 import { Loader2 } from "lucide-react";
 
 const LEGACY_PROJECT_KEY = "visiondock_active_project_id";
+
+function AdminDenied() {
+  return (
+    <div className="mx-auto max-w-lg rounded-xl border border-amber-500/30 bg-amber-500/5 p-8 text-center">
+      <p className="text-lg font-semibold text-foreground">Admin access required</p>
+      <p className="mt-2 text-sm text-muted-foreground">
+        This area is only available to accounts listed in{" "}
+        <code className="text-xs">ADMIN_EMAILS</code>.
+      </p>
+    </div>
+  );
+}
 
 /** Keep navigateFn available during login (before RouteSync mounts). */
 function RouterBinder() {
@@ -36,6 +57,7 @@ export default function App() {
     "loading",
   );
   const [username, setUsername] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const enterApp = (user: AuthUser, opts?: { fresh?: boolean }) => {
     const scope = user.user_id ? String(user.user_id) : user.email ?? user.username ?? null;
@@ -45,11 +67,14 @@ export default function App() {
     } catch {
       /* ignore */
     }
+    const admin = Boolean(user.is_admin);
     if (opts?.fresh) {
       clearStoredProjectId();
+      // Only force Home on explicit login/signup — preserve deep links like /skills on refresh.
+      resetToHomeAfterAuth({ isAdmin: admin });
     }
     setUsername(user.name ?? user.email ?? user.username ?? null);
-    resetToHomeAfterAuth();
+    setIsAdmin(admin);
     setAuthState("authenticated");
   };
 
@@ -104,6 +129,7 @@ export default function App() {
       <RouteSync />
       <Shell
         username={username}
+        isAdmin={isAdmin}
         onLogout={() => {
           setProjectStorageScope(null);
           clearStoredProjectId();
@@ -113,6 +139,7 @@ export default function App() {
             /* ignore */
           }
           void authLogout();
+          setIsAdmin(false);
           setAuthState("unauthenticated");
         }}
       >
@@ -122,6 +149,26 @@ export default function App() {
         {currentView === "datasets" && <DatasetsView />}
         {currentView === "inference" && <InferenceView />}
         {currentView === "billing" && <BillingView />}
+        {currentView === "admin" &&
+          (isAdmin ? (
+            <AdminOverviewPage />
+          ) : (
+            <AdminDenied />
+          ))}
+        {currentView === "admin-users" && (isAdmin ? <AdminUsersPage /> : <AdminDenied />)}
+        {currentView === "admin-ledger" && (isAdmin ? <AdminLedgerPage /> : <AdminDenied />)}
+        {currentView === "admin-credits" && (isAdmin ? <AdminCreditsPage /> : <AdminDenied />)}
+        {currentView === "admin-membership" && (isAdmin ? <AdminMembershipPage /> : <AdminDenied />)}
+        {currentView === "admin-projects" && (isAdmin ? <AdminProjectsPage /> : <AdminDenied />)}
+        {currentView === "admin-marketplace" &&
+          (isAdmin ? <AdminMarketplacePage /> : <AdminDenied />)}
+        {currentView === "admin-system" && (isAdmin ? <AdminSystemPage /> : <AdminDenied />)}
+        {currentView === "skills" &&
+          (isAdmin ? (
+            <SkillsView />
+          ) : (
+            <AdminDenied />
+          ))}
       </Shell>
       <Toaster />
     </>

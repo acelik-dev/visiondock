@@ -21,6 +21,7 @@ export type MarketplaceDataset = {
   target_unit?: string;
   year?: number | null;
   tags?: string[];
+  industries?: string[];
   source_url?: string | null;
 };
 
@@ -38,6 +39,7 @@ export type MarketplaceModel = {
   target_name?: string;
   target_unit?: string;
   tags?: string[];
+  industries?: string[];
   trained_on?: string | null;
 };
 
@@ -48,6 +50,24 @@ export const MARKETPLACE_TASK_TYPES: { id: TaskType | "all"; label: string }[] =
   { id: "regression", label: "Regression" },
   { id: "object_localization", label: "Localization" },
   { id: "object_detection", label: "Detection" },
+];
+
+export const MARKETPLACE_INDUSTRIES = [
+  "Manufacturing",
+  "Agriculture",
+  "Construction",
+  "Logistics",
+  "Sports",
+  "Self Driving",
+  "Gaming",
+  "Documents",
+] as const;
+
+export type MarketplaceIndustry = (typeof MARKETPLACE_INDUSTRIES)[number];
+
+export const MARKETPLACE_INDUSTRY_OPTIONS: { id: MarketplaceIndustry | "all"; label: string }[] = [
+  { id: "all", label: "All industries" },
+  ...MARKETPLACE_INDUSTRIES.map((id) => ({ id, label: id })),
 ];
 
 export function taskTypeLabel(task: TaskType | string): string {
@@ -73,16 +93,24 @@ async function api<T>(path: string, init?: RequestInit): Promise<T> {
   return data as T;
 }
 
-export async function fetchMarketplaceDatasets(taskType?: TaskType) {
-  const q = taskType ? `?task_type=${encodeURIComponent(taskType)}` : "";
-  return api<{ datasets: MarketplaceDataset[]; task_types: TaskType[] }>(
-    `/api/marketplace/datasets${q}`,
-  );
+export async function fetchMarketplaceDatasets(taskType?: TaskType, industry?: MarketplaceIndustry) {
+  const params = new URLSearchParams();
+  if (taskType) params.set("task_type", taskType);
+  if (industry) params.set("industry", industry);
+  const q = params.toString() ? `?${params}` : "";
+  return api<{
+    datasets: MarketplaceDataset[];
+    task_types: TaskType[];
+    industries?: string[];
+  }>(`/api/marketplace/datasets${q}`);
 }
 
-export async function fetchMarketplaceModels(taskType?: TaskType) {
-  const q = taskType ? `?task_type=${encodeURIComponent(taskType)}` : "";
-  return api<{ models: MarketplaceModel[]; task_types: TaskType[] }>(
+export async function fetchMarketplaceModels(taskType?: TaskType, industry?: MarketplaceIndustry) {
+  const params = new URLSearchParams();
+  if (taskType) params.set("task_type", taskType);
+  if (industry) params.set("industry", industry);
+  const q = params.toString() ? `?${params}` : "";
+  return api<{ models: MarketplaceModel[]; task_types: TaskType[]; industries?: string[] }>(
     `/api/marketplace/models${q}`,
   );
 }

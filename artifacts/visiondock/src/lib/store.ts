@@ -2,7 +2,22 @@ import { create } from 'zustand';
 import { toast } from 'sonner';
 import { navigateToView, initialWorkflowStepFromUrl, navigateToProjectsStep, pathToView } from '@/lib/navigation';
 
-export type ViewState = 'home' | 'projects' | 'models' | 'datasets' | 'inference' | 'billing';
+export type ViewState =
+  | "home"
+  | "projects"
+  | "models"
+  | "datasets"
+  | "inference"
+  | "billing"
+  | "admin"
+  | "admin-users"
+  | "admin-ledger"
+  | "admin-credits"
+  | "admin-membership"
+  | "admin-projects"
+  | "admin-marketplace"
+  | "admin-system"
+  | "skills";
 export type WorkflowStep = 1 | 2 | 3;
 export type EventTone = 'blue' | 'green' | 'amber' | 'red' | 'slate';
 

@@ -70,6 +70,14 @@ class InsufficientCreditsError(Exception):
 
 
 def cost_for(reason: str) -> int:
+    try:
+        from services.billing_config import effective_action_credits
+
+        override = effective_action_credits(reason)
+        if override is not None:
+            return int(override)
+    except Exception:
+        pass
     if reason in COSTS:
         return COSTS[reason]
     # Recompute dynamic actions (e.g. after env change) without restart gaps.
@@ -77,6 +85,65 @@ def cost_for(reason: str) -> int:
         return action_credits(reason)
     except Exception as exc:
         raise ValueError(f"Unknown credit reason: {reason}") from exc
+
+
+def get_plans() -> dict[str, dict[str, Any]]:
+    try:
+        from services.billing_config import effective_plans
+
+        return effective_plans()
+    except Exception:
+        return PLANS
+
+
+def admin_set_user_plan(
+    db: Session,
+    *,
+    user_id: int,
+    plan_id: str,
+    grant_credits: bool = True,
+    admin_email: str | None = None,
+) -> dict[str, Any]:
+    plans = get_plans()
+    if plan_id not in plans:
+        raise HTTPException(status_code=400, detail=f"Unknown plan '{plan_id}'")
+    user = db.query(User).filter(User.id == int(user_id)).one_or_none()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    plan = plans[plan_id]
+    user.active_plan = plan_id
+    granted = 0
+    if grant_credits:
+        granted = int(plan.get("credits") or 0)
+        if granted:
+            user.credits_balance = int(user.credits_balance or 0) + granted
+            event = record_usage_event(
+                db,
+                user_id=user.id,
+                action="admin_plan_set",
+                status="success",
+                credits_delta=granted,
+                ref=plan_id,
+                note=f"Admin set plan {plan_id} by {admin_email or 'admin'}",
+            )
+            _append_ledger(
+                db,
+                user,
+                delta=granted,
+                reason="admin_plan_set",
+                ref=plan_id,
+                note=f"Admin set plan {plan_id}",
+                usage_event_id=event.id,
+            )
+    db.commit()
+    db.refresh(user)
+    return {
+        "user_id": user.id,
+        "email": user.email,
+        "plan": user.active_plan,
+        "balance": int(user.credits_balance or 0),
+        "granted": granted,
+    }
 
 
 def ensure_user_row(db: Session, session: dict[str, Any]) -> User:
@@ -144,7 +211,7 @@ def get_account(db: Session, session: dict[str, Any]) -> dict[str, Any]:
         "balance": int(user.credits_balance or 0),
         "plan": user.active_plan or "free",
         "session_id": session.get("session_id"),
-        "plans": list(PLANS.values()),
+        "plans": list(get_plans().values()),
         "costs": dict(catalog["costs"]),
         "pricing": {
             "credit_usd": catalog["credit_usd"],
@@ -371,12 +438,65 @@ def refund_credits(
     return {"balance": int(user.credits_balance), "refunded": cost, "reason": reason}
 
 
+def admin_adjust_credits(
+    db: Session,
+    *,
+    user_id: int,
+    delta: int,
+    note: str | None = None,
+    admin_email: str | None = None,
+) -> dict[str, Any]:
+    """Admin grant/revoke credits for any user (positive or negative delta)."""
+    if delta == 0:
+        raise HTTPException(status_code=400, detail="delta must be non-zero")
+    user = db.query(User).filter(User.id == int(user_id)).one_or_none()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    balance = int(user.credits_balance or 0)
+    new_balance = balance + int(delta)
+    if new_balance < 0:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Adjustment would make balance negative (have {balance}, delta {delta})",
+        )
+    user.credits_balance = new_balance
+    reason = "admin_grant" if delta > 0 else "admin_revoke"
+    admin_note = note or f"Admin adjustment by {admin_email or 'admin'}"
+    event = record_usage_event(
+        db,
+        user_id=user.id,
+        action=reason,
+        status="success",
+        credits_delta=int(delta),
+        ref=admin_email,
+        note=admin_note,
+    )
+    _append_ledger(
+        db,
+        user,
+        delta=int(delta),
+        reason=reason,
+        ref=admin_email,
+        note=admin_note,
+        usage_event_id=event.id,
+    )
+    db.commit()
+    db.refresh(user)
+    return {
+        "user_id": user.id,
+        "email": user.email,
+        "balance": int(user.credits_balance),
+        "delta": int(delta),
+        "plan": user.active_plan,
+    }
+
+
 def activate_plan(db: Session, session: dict[str, Any], plan_id: str) -> dict[str, Any]:
     """Activate a plan without payment. Grants package credits once per activation change."""
     plan_id = (plan_id or "").strip().lower()
-    if plan_id not in PLANS:
+    if plan_id not in get_plans():
         raise HTTPException(status_code=400, detail=f"Unknown plan: {plan_id}")
-    plan = PLANS[plan_id]
+    plan = get_plans()[plan_id]
     user = ensure_user_row(db, session)
     current = (user.active_plan or "free").lower()
     if current == plan_id:

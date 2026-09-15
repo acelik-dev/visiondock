@@ -15,6 +15,7 @@ export type AuthUser = {
   email_status?: string;
   message?: string;
   requires_email_verification?: boolean;
+  is_admin?: boolean;
 };
 
 export type AuthConfig = {
