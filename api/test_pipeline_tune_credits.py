@@ -99,7 +99,7 @@ class PipelineTuneCreditsTests(unittest.TestCase):
 
     def test_unchanged_dataset_returns_cached_without_vlm(self) -> None:
         """The stored fingerprint short-circuits before any VLM client is built."""
-        from services.pipeline_tuning import _dataset_fingerprint, tune_pipeline_from_dataset
+        from services.pipeline_tuning import _pipeline_tune_fingerprint, tune_pipeline_from_dataset
 
         project_id = (
             self.client.post("/api/projects", json={"name": "Fingerprint"}).json()["project"]["id"]
@@ -116,13 +116,29 @@ class PipelineTuneCreditsTests(unittest.TestCase):
         self.store.update_meta(project_id, {"dataset": {"file_name": "set.zip", "validated": True}})
         meta = self.store.get_meta(project_id) or {}
         self.store.update_meta(
-            project_id, {"pipeline_tune_fingerprint": _dataset_fingerprint(meta)}
+            project_id, {"pipeline_tune_fingerprint": _pipeline_tune_fingerprint(meta)}
         )
 
         os.environ.pop("VLM_API_KEY", None)
         result = tune_pipeline_from_dataset(project_id)
         self.assertTrue(result["cached"])
 
+    def test_skills_prompt_section_is_a_strict_catalog(self) -> None:
+        from services.pipeline_tuning import _skills_prompt_section
 
-if __name__ == "__main__":
-    unittest.main()
+        section = _skills_prompt_section("classification")
+        self.assertIn("AVAILABLE PIPELINE SKILLS", section)
+        self.assertIn("enabled_skills_enum:", section)
+        self.assertIn("pre.resize", section)
+
+    def test_catalog_stamp_changes_tune_fingerprint(self) -> None:
+        from services.pipeline_tuning import _pipeline_tune_fingerprint
+        from services.skills_store import get_skills_store
+
+        meta = {"dataset": {"file_name": "set.zip", "validated": True}}
+        store = get_skills_store()
+        before = _pipeline_tune_fingerprint(meta)
+        catalog = store.get_catalog(refresh=True)
+        store.save_catalog(catalog)
+        after = _pipeline_tune_fingerprint(meta)
+        self.assertNotEqual(before, after)
