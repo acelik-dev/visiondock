@@ -145,6 +145,39 @@ def _dataset_fingerprint(meta: dict[str, Any]) -> str:
     )
 
 
+def _skills_catalog_stamp() -> str:
+    try:
+        from services.skills_store import get_skills_store
+
+        catalog = get_skills_store().get_catalog()
+        return str(catalog.updated_at or "")
+    except Exception:
+        logger.debug("Skills catalog stamp unavailable", exc_info=True)
+        return ""
+
+
+def _pipeline_tune_fingerprint(meta: dict[str, Any]) -> str:
+    return f"{_dataset_fingerprint(meta)}|{_skills_catalog_stamp()}"
+
+
+def _skills_prompt_section(task_type: str | None) -> str:
+    try:
+        from services.skills_store import get_skills_store
+
+        store = get_skills_store()
+        section = store.format_prompt_section(task_type)
+        skills = store.list_skills(enabled_only=True, task_type=task_type)
+        if not skills:
+            skills = store.list_skills(enabled_only=True)
+        allowed = [s.id for s in skills]
+        if allowed:
+            section += f"enabled_skills_enum: {json.dumps(allowed)}\n"
+        return section
+    except Exception:
+        logger.exception("Failed to load skills prompt section")
+        return ""
+
+
 def sample_dataset_images(project_store: ProjectStore, project_id: str, max_n: int = MAX_IMAGES) -> list[str]:
     meta = project_store.get_meta(project_id)
     if meta is None:
@@ -242,6 +275,7 @@ Given the task type and images, return ONLY JSON with these keys:
     "sahi_overlap_ratio": float,
     "auto_tune_thresholds": bool
   },
+  "enabled_skills": ["pre.resize", "pre.normalize", "..."],
   "rationale": "one short sentence for the user"
 }
 
@@ -256,6 +290,9 @@ Rules:
 - tta: enable for difficult detection scenes; off for simple uniform scenes.
 - ensemble: enable for detection when scale variation is high (same object appears at very different sizes); mutually exclusive with sahi in practice — prefer sahi for tiny objects in large frames, ensemble for mixed scales.
 - auto_tune_thresholds: true for detection tasks.
+- enabled_skills MUST be an array of ids from AVAILABLE PIPELINE SKILLS / enabled_skills_enum only.
+- Do not invent skill ids. If a technique is not in the catalog, omit it.
+- Prefer enabling/disabling catalog skills; pipeline buckets are filled from those skills.
 - Do not change task_type or classes."""
 
 
@@ -281,7 +318,7 @@ def _tune_pipeline_from_dataset(project_id: str, *, force: bool = False) -> dict
     if not spec_dict:
         raise ValueError("Generate project config before tuning pipeline")
 
-    fingerprint = _dataset_fingerprint(meta)
+    fingerprint = _pipeline_tune_fingerprint(meta)
     if not force and meta.get("pipeline_tune_fingerprint") == fingerprint:
         return {
             "success": True,
@@ -302,8 +339,10 @@ def _tune_pipeline_from_dataset(project_id: str, *, force: bool = False) -> dict
 
     task = spec_dict.get("task_type", "classification")
     ds = meta.get("dataset") or {}
+    skills_section = _skills_prompt_section(str(task) if task else None)
     context = (
-        f"{PIPELINE_PROMPT}\n\n"
+        f"{PIPELINE_PROMPT}\n"
+        f"{skills_section}\n"
         f"task_type: {task}\n"
         f"recommended_model: {spec_dict.get('recommended_model')}\n"
         f"classes: {spec_dict.get('classes')}\n"
@@ -350,6 +389,8 @@ def _tune_pipeline_from_dataset(project_id: str, *, force: bool = False) -> dict
             merged["preprocessing"] = {**(merged.get("preprocessing") or {}), **raw["preprocessing"]}
         if isinstance(raw.get("postprocessing"), dict):
             merged["postprocessing"] = {**(merged.get("postprocessing") or {}), **raw["postprocessing"]}
+        if raw.get("enabled_skills") is not None:
+            merged["enabled_skills"] = raw["enabled_skills"]
 
         spec = parse_project_spec(merged)
         store.save_spec(project_id, spec)
