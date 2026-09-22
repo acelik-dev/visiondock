@@ -4,6 +4,7 @@ from __future__ import annotations
 import csv
 import io
 import json
+import math
 import os
 import random
 import shutil
@@ -48,7 +49,10 @@ def _parse_targets_csv(
         if not image or not raw_target:
             continue
         try:
-            pairs[image.split("/")[-1]] = float(raw_target)
+            target = float(raw_target)
+            if not math.isfinite(target):
+                continue
+            pairs[image.split("/")[-1]] = target
         except ValueError:
             continue
     return pairs
