@@ -353,7 +353,11 @@ def validate_regression_targets(
                     if not image or not raw_target:
                         continue
                     try:
-                        pairs[image.split("/")[-1]] = float(raw_target)
+                        target = float(raw_target)
+                        if not math.isfinite(target):
+                            errors.append(f"Target must be finite for {image.split('/')[-1]}")
+                            continue
+                        pairs[image.split("/")[-1]] = target
                     except ValueError:
                         warnings.append(f"Non-numeric target for {image.split('/')[-1]}")
     except Exception as exc:
