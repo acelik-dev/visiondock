@@ -1,4 +1,4 @@
-"""Focused coverage for finite regression target validation."""
+"""Focused coverage for finite targets and matched regression samples."""
 
 from __future__ import annotations
 
@@ -23,6 +23,7 @@ class RegressionTargetValidationTests(unittest.TestCase):
                 self.assertEqual(result["errors"], [])
                 self.assertEqual(result["warnings"], [])
                 self.assertEqual(result["stats"]["target_rows"], MIN_IMAGES)
+                self.assertEqual(result["stats"]["matched_pairs"], MIN_IMAGES)
                 self.assertEqual(result["stats"]["target_min"], float(target))
                 self.assertEqual(result["stats"]["target_max"], float(target))
                 self.assertEqual(result["stats"]["target_mean"], float(target))
@@ -42,6 +43,7 @@ class RegressionTargetValidationTests(unittest.TestCase):
                     [f"Target must be finite for image-{MIN_IMAGES}.jpg"],
                 )
                 self.assertEqual(result["stats"]["target_rows"], MIN_IMAGES)
+                self.assertEqual(result["stats"]["matched_pairs"], MIN_IMAGES)
                 self.assertEqual(result["stats"]["target_min"], 0.0)
                 self.assertEqual(result["stats"]["target_max"], float(MIN_IMAGES - 1))
                 self.assertEqual(result["stats"]["target_mean"], (MIN_IMAGES - 1) / 2)
@@ -54,8 +56,65 @@ class RegressionTargetValidationTests(unittest.TestCase):
             [f"Target must be finite for image-{i}.jpg" for i in range(MIN_IMAGES)],
         )
         self.assertEqual(result["stats"]["target_rows"], 0)
+        self.assertEqual(result["stats"]["matched_pairs"], 0)
         for field in ("target_min", "target_max", "target_mean"):
             self.assertNotIn(field, result["stats"])
+
+
+class RegressionMatchedPairTests(unittest.TestCase):
+    def test_matched_pair_minimum(self) -> None:
+        names = [f"image-{i}.jpg" for i in range(MIN_IMAGES)]
+        rows = [(name, str(i)) for i, name in enumerate(names)]
+        cases = [
+            ("matching", set(names), rows, MIN_IMAGES, True),
+            ("orphans only", {"real.jpg"}, rows, 0, False),
+            ("too few matching images", set(names[:-1]), rows, MIN_IMAGES - 1, False),
+            ("too few targets", set(names), rows[:-1], MIN_IMAGES - 1, False),
+            ("extra orphan", set(names), rows + [("ghost.jpg", "42")], MIN_IMAGES, True),
+            ("extra targetless image", set(names) | {"extra.jpg"}, rows, MIN_IMAGES, True),
+            ("no images", set(), rows, 0, False),
+            ("uuid prefixes", {f"abcdef123456_{name}" for name in names}, rows, MIN_IMAGES, True),
+            (
+                "duplicate upload aliases",
+                {f"abcdef123456_{name}" for name in names[:-1]}
+                | {f"123456abcdef_{names[0]}"},
+                rows, MIN_IMAGES - 1, False,
+            ),
+        ]
+        for label, images, targets, matched, valid in cases:
+            with self.subTest(case=label):
+                data = ("image,target\n" + "\n".join(f"{name},{value}" for name, value in targets)).encode()
+                result = validate_regression_targets(data, images)
+                self.assertEqual(result["valid"], valid, result)
+                self.assertEqual(result["stats"]["image_count"], len(images))
+                self.assertEqual(result["stats"]["target_rows"], len(targets))
+                self.assertEqual(result["stats"]["matched_pairs"], matched)
+                self.assertEqual(
+                    result["errors"],
+                    [] if valid else [f"At least {MIN_IMAGES} matched image,target pairs required."],
+                )
+
+    def test_nonfinite_matching_target_does_not_meet_minimum(self) -> None:
+        for target in ("NaN", "Inf", "-Inf"):
+            with self.subTest(target=target):
+                result = _validate(["1"] * (MIN_IMAGES - 1) + [target])
+                self.assertFalse(result["valid"], result)
+                self.assertEqual(result["stats"]["image_count"], MIN_IMAGES)
+                self.assertEqual(result["stats"]["target_rows"], MIN_IMAGES - 1)
+                self.assertEqual(result["stats"]["matched_pairs"], MIN_IMAGES - 1)
+                self.assertEqual(result["errors"], [f"Target must be finite for image-{MIN_IMAGES - 1}.jpg"])
+
+    def test_duplicate_csv_keys_keep_last_finite_value_without_inflating_count(self) -> None:
+        rows = [f"image-{i}.jpg,1" for i in range(MIN_IMAGES - 1)]
+        rows.extend(["folder/image-0.jpg,7", "image-0.jpg,not-numeric"])
+        result = validate_regression_targets(
+            ("image,target\n" + "\n".join(rows)).encode(),
+            {f"image-{i}.jpg" for i in range(MIN_IMAGES)},
+        )
+        self.assertFalse(result["valid"], result)
+        self.assertEqual(result["stats"]["target_rows"], MIN_IMAGES - 1)
+        self.assertEqual(result["stats"]["matched_pairs"], MIN_IMAGES - 1)
+        self.assertEqual(result["stats"]["target_max"], 7.0)
 
 
 if __name__ == "__main__":

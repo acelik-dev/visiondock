@@ -379,10 +379,12 @@ def validate_regression_targets(
     if orphan:
         warnings.append(f"{len(orphan)} target row(s) reference images not uploaded.")
 
+    matched_count = sum(key in upload_keys for key in pairs)
     values = list(pairs.values())
     stats: dict[str, Any] = {
-        "image_count": len(uploaded_images) if uploaded_images else len(pairs),
+        "image_count": len(uploaded_images),
         "target_rows": len(pairs),
+        "matched_pairs": matched_count,
         "target_name": target_name,
     }
     if values:
@@ -390,9 +392,9 @@ def validate_regression_targets(
         stats["target_max"] = max(values)
         stats["target_mean"] = round(sum(values) / len(values), 4)
 
-    valid = len(errors) == 0 and len(pairs) >= MIN_IMAGES
-    if len(pairs) < MIN_IMAGES and not errors:
-        errors.append(f"At least {MIN_IMAGES} image,target pairs required.")
+    if matched_count < MIN_IMAGES and not errors:
+        errors.append(f"At least {MIN_IMAGES} matched image,target pairs required.")
+    valid = len(errors) == 0 and matched_count >= MIN_IMAGES
 
     return {"valid": valid, "errors": errors, "warnings": warnings, "stats": stats}
 
