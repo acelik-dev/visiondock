@@ -1,6 +1,7 @@
 """VisionDock skills catalog — VLM context + code entrypoint mapping."""
 
 from __future__ import annotations
+import logging
 
 from typing import Any, Literal
 
@@ -12,6 +13,19 @@ SkillStage = Literal["preprocessing", "postprocessing", "augmentation"]
 
 VALID_STAGES: frozenset[str] = frozenset({"preprocessing", "postprocessing", "augmentation"})
 
+_TASK_TYPE_SYNONYMS: dict[str, str] = {
+    "detection": "object_detection",
+    "object_detection": "object_detection",
+    "od": "object_detection",
+    "localization": "object_localization",
+    "localisation": "object_localization",
+    "object_localization": "object_localization",
+    "multilabel": "multi_label",
+    "multi_label": "multi_label",
+    "multilabel_classification": "multi_label",
+    "classification": "classification",
+    "regression": "regression",
+}
 
 class SkillItem(BaseModel):
     id: str
@@ -70,6 +84,14 @@ def normalize_task_types(values: list[str] | None) -> list[str]:
             continue
         if text in ("*", "all", "any"):
             return ["*"]
+        text = _TASK_TYPE_SYNONYMS.get(text, text)
         if text in VALID_TASK_TYPES and text not in out:
             out.append(text)
+        else:
+            # [YENİ EKLENDİ]: Eşleşmeyen bir değer varsa sessizce yutmak yerine log düşüyoruz
+            logger.warning(
+                "normalize_task_types: discarding unrecognized task type %r (raw input %r)",
+                text,
+                raw,
+            )
     return out or ["*"]
