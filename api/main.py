@@ -30,6 +30,7 @@ from schemas.project_spec import (
     parse_project_spec,
 )
 from services.credits import check_from_request, debit_from_request
+from services.project_access import require_project_access, session_user
 from services.project_store import ProjectStore
 from services.vlm_client import (
     ensure_langfuse_client,
@@ -420,6 +421,9 @@ async def analyze_with_vlm(
     request: Request,
     db: Session = Depends(get_db),
 ):
+    if body.project_id:
+        user = session_user(request)
+        require_project_access(_project_store.get_meta(body.project_id), body.project_id, user)
     try:
         client = get_vlm_client()
         if client is None:
@@ -583,6 +587,9 @@ async def generate_config(
     db: Session = Depends(get_db),
 ):
     """Generate structured JSON configuration from chat context"""
+    if body.project_id:
+        user = session_user(request)
+        require_project_access(_project_store.get_meta(body.project_id), body.project_id, user)
     try:
         client = get_vlm_client()
         if client is None:
