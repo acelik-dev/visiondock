@@ -249,7 +249,7 @@ def get_ml():
 
 
 def _resolve_dataset(project_id: str, dataset_url: str, dataset_blob_key: str) -> tuple[str, str]:
-    """Load dataset blob key / URL from project meta when omitted."""
+    """Bind training to the persisted dataset reference, rejecting conflicts."""
     meta = _project_store.get_meta(project_id)
     if not meta:
         raise HTTPException(status_code=404, detail="Project not found")
@@ -259,18 +259,28 @@ def _resolve_dataset(project_id: str, dataset_url: str, dataset_blob_key: str) -
     if not ds.get("validated"):
         raise HTTPException(status_code=400, detail="Dataset is not validated yet")
 
-    blob_key = dataset_blob_key or ds.get("storage_key") or ""
-    if not blob_key and ds.get("file_name"):
-        blob_key = f"projects/{project_id}/datasets/raw/{ds['file_name']}"
-    if ds.get("mode") == "classification" and not blob_key:
-        blob_key = f"projects/{project_id}/datasets/classification/"
-    if ds.get("mode") == "multi_label" and not blob_key:
-        blob_key = f"projects/{project_id}/datasets/multi_label/"
-    if ds.get("mode") == "regression" and not blob_key:
-        blob_key = f"projects/{project_id}/datasets/regression/"
-    if ds.get("mode") in ("object_detection", "object_localization") and not blob_key:
-        blob_key = ds.get("storage_key") or f"projects/{project_id}/datasets/annotated/raw/{ds.get('file_name', '')}"
-    url = dataset_url or ds.get("blob_url") or ds.get("url") or ""
+    blob_key = ds.get("storage_key") or ""
+    if not blob_key and not (ds.get("source") == "marketplace" or ds.get("marketplace_item_id")):
+        # Legacy project layouts only; shared datasets require their stored key.
+        mode = ds.get("mode")
+        filename = ds.get("file_name") or ""
+        is_zip = isinstance(filename, str) and filename.lower().endswith(".zip")
+        if mode in (None, "", "classification") and is_zip:
+            blob_key = f"projects/{project_id}/datasets/raw/{filename}"
+        elif mode == "classification" and not filename:
+            blob_key = f"projects/{project_id}/datasets/classification/"
+        elif mode in ("multi_label", "regression"):
+            blob_key = f"projects/{project_id}/datasets/{mode}/"
+        elif mode in ("object_detection", "object_localization") and is_zip:
+            blob_key = f"projects/{project_id}/datasets/annotated/raw/{filename}"
+    if not blob_key:
+        raise HTTPException(status_code=400, detail="Validated dataset reference is missing. Upload and validate the dataset again.")
+    if dataset_blob_key and dataset_blob_key != blob_key:
+        raise HTTPException(
+            status_code=409,
+            detail="Dataset reference does not match the project's current validated dataset. Refresh and retry.",
+        )
+    url = ds.get("blob_url") or ds.get("url") or ""
     return url, blob_key
 
 
@@ -468,13 +478,6 @@ async def submit_training(
             payload.dataset_url,
             payload.dataset_blob_key,
         )
-
-        if resolved_task in ("object_detection", "object_localization"):
-            if not dataset_blob_key.endswith(".zip") and "/annotated/" not in dataset_blob_key:
-                meta = _project_store.get_meta(payload.project_id) or {}
-                ds = meta.get("dataset") or {}
-                if ds.get("file_name"):
-                    dataset_blob_key = ds.get("storage_key") or dataset_blob_key
 
         if _use_mock():
             logger.warning(
