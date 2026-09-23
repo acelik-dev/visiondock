@@ -77,5 +77,20 @@ class RegressionTrainerTargetTests(unittest.TestCase):
                     _parse_targets_csv(data, "target")
 
 
+class ConfiguredTargetPrecedenceTests(unittest.TestCase):
+    def test_column_precedence_and_fallbacks(self) -> None:
+        cases = [('score', 'target,score', '1,9', 9), ('score', 'value,score', '2,9', 9), ('score', 'target,value,score', '1,2,9', 9), ('score', 'score', '9', 9), ('score', 'target', '1', 1), ('score', 'value', '2', 2), ('target', 'target,value', '1,2', 1), ('target', 'value', '2', 2), ('Score', 'score', '9', 9), ('', 'value', '2', 2)]
+        for target_name, columns, values, expected in cases:
+            with self.subTest(target_name=target_name, columns=columns):
+                data = (f"filename,{columns}\na.jpg,{values}\n").encode()
+                self.assertEqual(_parse_targets_csv(data, target_name), {"a.jpg": float(expected)})
+
+    def test_selected_nonfinite_value_never_uses_fallback(self) -> None:
+        for value in ("NaN", "+Inf", "-Inf"):
+            with self.subTest(value=value):
+                data = f"filename,target,score\na.jpg,1,{value}\nb.jpg,2,9\n".encode()
+                self.assertEqual(_parse_targets_csv(data, "score"), {"b.jpg": 9.0})
+
+
 if __name__ == "__main__":
     unittest.main()

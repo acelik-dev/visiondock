@@ -343,7 +343,7 @@ def validate_regression_targets(
         else:
             keys = {k.lower(): k for k in reader.fieldnames}
             image_key = keys.get("image") or keys.get("filename") or keys.get("file")
-            target_key = keys.get("target") or keys.get(target_name.lower()) or keys.get("value")
+            target_key = keys.get(target_name.lower()) or keys.get("target") or keys.get("value")
             if not image_key or not target_key:
                 errors.append("CSV must have image and target columns (image,target).")
             else:

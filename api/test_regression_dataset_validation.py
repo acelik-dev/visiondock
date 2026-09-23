@@ -117,5 +117,36 @@ class RegressionMatchedPairTests(unittest.TestCase):
         self.assertEqual(result["stats"]["target_max"], 7.0)
 
 
+class ConfiguredTargetPrecedenceTests(unittest.TestCase):
+    def test_column_precedence_and_fallbacks(self) -> None:
+        cases = [('score', 'target,score', '1,9', 9), ('score', 'value,score', '2,9', 9), ('score', 'target,value,score', '1,2,9', 9), ('score', 'score', '9', 9), ('score', 'target', '1', 1), ('score', 'value', '2', 2), ('target', 'target,value', '1,2', 1), ('target', 'value', '2', 2), ('Score', 'score', '9', 9), ('', 'value', '2', 2)]
+        for target_name, columns, values, expected in cases:
+            with self.subTest(target_name=target_name, columns=columns):
+                data = (f"filename,{columns}\n" + "".join(f"image-{i}.jpg,{values}\n" for i in range(MIN_IMAGES))).encode()
+                images = {f"image-{i}.jpg" for i in range(MIN_IMAGES)}
+                result = validate_regression_targets(data, images, target_name)
+                self.assertTrue(result["valid"], result)
+                self.assertEqual(result["errors"], [])
+                self.assertEqual(result["stats"]["matched_pairs"], MIN_IMAGES)
+                for key in ("target_min", "target_max", "target_mean"):
+                    self.assertEqual(result["stats"][key], float(expected))
+                short = validate_regression_targets(data, set(sorted(images)[:-1]), target_name)
+                self.assertFalse(short["valid"], short)
+                self.assertEqual(short["stats"]["matched_pairs"], MIN_IMAGES - 1)
+
+    def test_selected_nonfinite_value_never_uses_fallback(self) -> None:
+        for value in ("NaN", "+Inf", "-Inf"):
+            with self.subTest(value=value):
+                rows = "".join(f"image-{i}.jpg,1,9\n" for i in range(MIN_IMAGES))
+                data = ("filename,target,score\n" + rows + f"bad.jpg,1,{value}\n").encode()
+                images = {f"image-{i}.jpg" for i in range(MIN_IMAGES)} | {"bad.jpg"}
+                result = validate_regression_targets(data, images, "score")
+                self.assertFalse(result["valid"], result)
+                self.assertEqual(result["errors"], ["Target must be finite for bad.jpg"])
+                self.assertEqual(result["stats"]["target_rows"], MIN_IMAGES)
+                self.assertEqual(result["stats"]["matched_pairs"], MIN_IMAGES)
+                self.assertEqual(result["stats"]["target_mean"], 9.0)
+
+
 if __name__ == "__main__":
     unittest.main()
