@@ -460,8 +460,8 @@ async def submit_training(
         payload.config = merge_spec_pipeline_into_config(spec, payload.config)
 
         if resolved_task == "regression" and spec:
-            payload.config.setdefault("target_name", spec.get("target_name") or "target")
-            payload.config.setdefault("target_unit", spec.get("target_unit") or "")
+            payload.config["target_name"] = spec.get("target_name") or "target"
+            payload.config["target_unit"] = spec.get("target_unit") or ""
 
         dataset_url, dataset_blob_key = _resolve_dataset(
             payload.project_id,
